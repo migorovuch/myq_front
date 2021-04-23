@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+  node:
+    build: ./docker/node
+    volumes:
+      - './app:/app'
+      - './logs/npm:/root/.npm/_logs/'
+    ports:
+      - '8085:8080'
+    stdin_open: true
+    tty: true
