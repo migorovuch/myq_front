@@ -8,7 +8,24 @@
                 :label="input.label"
                 :label-for="'input-'+inputName"
         >
+            <b-form-textarea
+                    v-if="input.type=='textarea'"
+                    :id="'input-'+inputName"
+                    v-model="appFormModel.model[inputName]"
+                    :type="input.type"
+                    :class="(inputName in formModel.errors?'is-invalid':'')"
+                    :placeholder="((input.placeholder !== '')?input.placeholder:input.label)"
+            ></b-form-textarea>
+            <b-form-file
+                    v-else-if="input.type=='file'"
+                    :id="'input-'+inputName"
+                    v-model="appFormModel.model[inputName]"
+                    :type="input.type"
+                    :class="(inputName in formModel.errors?'is-invalid':'')"
+                    :placeholder="((input.placeholder !== '')?input.placeholder:input.label)"
+            ></b-form-file>
             <b-form-input
+                    v-else
                     :id="'input-'+inputName"
                     v-model="appFormModel.model[inputName]"
                     :type="input.type"
@@ -49,10 +66,7 @@
                 this.appFormModel.errors = {formError: '', invalid: vmodel.$invalid};
                 if (this.appFormModel.errors.invalid) {
                     for (let inputName in this.formModel.form) {
-                        if (
-                            inputName in vmodel
-                            && vmodel[inputName].$invalid
-                        ) {
+                        if (inputName in vmodel && vmodel[inputName].$invalid) {
                             let input = this.formModel.form[inputName];
                             if ('errorLabels' in input) {
                                 for (let errorKey in input.errorLabels) {

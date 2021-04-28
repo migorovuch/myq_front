@@ -8,7 +8,9 @@ const routes = [
   {
     path: '/', redirect: '/home', name: 'root', component: BaseLayout, children: [
       {path: '/home', name: 'home', component: () => import('../../views/views/Home.vue')},
-      {path: '/about', name: 'about', component: () => import('../../views/views/About.vue')}
+      {path: '/about', name: 'about', component: () => import('../../views/views/About.vue')},
+      {path: '/company', name: 'company', component: () => import('../../views/views/company/CompanySettings')},
+      {path: '/company/bookings', name: 'company_bookings', component: () => import('../../views/views/company/Bookings')}
     ]
   }
 ]
