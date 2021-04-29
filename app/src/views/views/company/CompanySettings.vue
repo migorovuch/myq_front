@@ -4,7 +4,7 @@
       <div class="col">
         <b-button v-b-modal.company-settings>{{$t("Company settings")}}</b-button>
         <b-button :to="{name:'company_bookings'}">{{$t("Bookings")}}</b-button>
-        <b-button>{{$t("Schedule")}}</b-button>
+        <b-button :to="{name:'company_schedule'}">{{$t("Schedule")}}</b-button>
       </div>
     </div>
     <b-modal id="company-settings" hide-footer :title="$t('Company settings')">

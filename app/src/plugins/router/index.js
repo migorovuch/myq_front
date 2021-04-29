@@ -10,7 +10,9 @@ const routes = [
       {path: '/home', name: 'home', component: () => import('../../views/views/Home.vue')},
       {path: '/about', name: 'about', component: () => import('../../views/views/About.vue')},
       {path: '/company', name: 'company', component: () => import('../../views/views/company/CompanySettings')},
-      {path: '/company/bookings', name: 'company_bookings', component: () => import('../../views/views/company/Bookings')}
+      {path: '/company/bookings', name: 'company_bookings', component: () => import('../../views/views/company/BookingsList')},
+      {path: '/company/schedule', name: 'company_schedule', component: () => import('../../views/views/company/ScheduleList')},
+      {path: '/company/schedule/:id', name: 'company_schedule_item', component: () => import('../../views/views/company/Schedule')},
     ]
   }
 ]

@@ -49,5 +49,10 @@
     "Status": "Status",
     "New": "New",
     "Approved": "Approved",
-    "Cancelled": "Cancelled"
+    "Cancelled": "Cancelled",
+    "Available for booking:": "Available for booking:",
+    "Always availabl:": "Always availabl:",
+    "Booking duration:": "Booking duration:",
+    "Min Booking time:": "Min Booking time:",
+    "Max Booking time:": "Max Booking time:"
 }

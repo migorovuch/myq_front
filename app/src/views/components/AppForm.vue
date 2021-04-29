@@ -4,7 +4,7 @@
         <b-form-group
                 v-for="(input, inputName) in appFormModel.form"
                 :key="inputName"
-                id="input-group-1"
+                :id="inputName + '-input-group'"
                 :label="input.label"
                 :label-for="'input-'+inputName"
         >
@@ -12,7 +12,6 @@
                     v-if="input.type=='textarea'"
                     :id="'input-'+inputName"
                     v-model="appFormModel.model[inputName]"
-                    :type="input.type"
                     :class="(inputName in formModel.errors?'is-invalid':'')"
                     :placeholder="((input.placeholder !== '')?input.placeholder:input.label)"
             ></b-form-textarea>
@@ -20,10 +19,18 @@
                     v-else-if="input.type=='file'"
                     :id="'input-'+inputName"
                     v-model="appFormModel.model[inputName]"
-                    :type="input.type"
                     :class="(inputName in formModel.errors?'is-invalid':'')"
                     :placeholder="((input.placeholder !== '')?input.placeholder:input.label)"
             ></b-form-file>
+            <b-form-checkbox
+                    v-else-if="input.type=='checkbox'"
+                    :id="'input-'+inputName"
+                    v-model="appFormModel.model[inputName]"
+                    value="true"
+                    unchecked-value="false"
+                    :class="(inputName in formModel.errors?'is-invalid':'')"
+                    :placeholder="((input.placeholder !== '')?input.placeholder:input.label)"
+            ></b-form-checkbox>
             <b-form-input
                     v-else
                     :id="'input-'+inputName"

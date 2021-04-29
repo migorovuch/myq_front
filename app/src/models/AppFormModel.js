@@ -8,6 +8,9 @@ export default class AppFormModel {
         this.model = model;
         this.form = form;
         this.errors = errors;
+        if(!errors) {
+            this.resetErrors();
+        }
         this.validations = validations;
     }
 

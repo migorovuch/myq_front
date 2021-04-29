@@ -49,5 +49,10 @@
     "Status": "__STRING_NOT_TRANSLATED__",
     "New": "__STRING_NOT_TRANSLATED__",
     "Approved": "__STRING_NOT_TRANSLATED__",
-    "Cancelled": "__STRING_NOT_TRANSLATED__"
+    "Cancelled": "__STRING_NOT_TRANSLATED__",
+    "Available for booking:": "__STRING_NOT_TRANSLATED__",
+    "Always availabl:": "__STRING_NOT_TRANSLATED__",
+    "Booking duration:": "__STRING_NOT_TRANSLATED__",
+    "Min Booking time:": "__STRING_NOT_TRANSLATED__",
+    "Max Booking time:": "__STRING_NOT_TRANSLATED__"
 }
