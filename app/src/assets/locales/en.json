@@ -54,5 +54,19 @@
     "Always availabl:": "Always availabl:",
     "Booking duration:": "Booking duration:",
     "Min Booking time:": "Min Booking time:",
-    "Max Booking time:": "Max Booking time:"
+    "Max Booking time:": "Max Booking time:",
+    "Monday": "Monday",
+    "Tuesday": "Tuesday",
+    "Wednesday": "Wednesday",
+    "Thursday": "Thursday",
+    "Friday": "Friday",
+    "Saturday": "Saturday",
+    "Sunday": "Sunday",
+    "Select availability": "Select availability",
+    "Availability": "Availability",
+    "Extended": "Extended",
+    "Every day": "Every day",
+    "Once a week": "Once a week",
+    "Once a month": "Once a month",
+    "Once a year": "Once a year"
 }

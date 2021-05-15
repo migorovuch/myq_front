@@ -1,46 +1,52 @@
 <template>
-    <b-form @submit.prevent="onFormSubmit" @reset="onFormReset" novalidate>
+    <b-form @submit.prevent="onFormSubmit" @reset="onFormReset" novalidate class="text-left">
         <div class="invalid-feedback d-block" v-if="formModel.errors.formError!=''">{{appFormModel.errors.formError}}</div>
-        <b-form-group
-                v-for="(input, inputName) in appFormModel.form"
-                :key="inputName"
-                :id="inputName + '-input-group'"
-                :label="input.label"
-                :label-for="'input-'+inputName"
-        >
-            <b-form-textarea
-                    v-if="input.type=='textarea'"
-                    :id="'input-'+inputName"
-                    v-model="appFormModel.model[inputName]"
-                    :class="(inputName in formModel.errors?'is-invalid':'')"
-                    :placeholder="((input.placeholder !== '')?input.placeholder:input.label)"
-            ></b-form-textarea>
-            <b-form-file
-                    v-else-if="input.type=='file'"
-                    :id="'input-'+inputName"
-                    v-model="appFormModel.model[inputName]"
-                    :class="(inputName in formModel.errors?'is-invalid':'')"
-                    :placeholder="((input.placeholder !== '')?input.placeholder:input.label)"
-            ></b-form-file>
-            <b-form-checkbox
-                    v-else-if="input.type=='checkbox'"
-                    :id="'input-'+inputName"
-                    v-model="appFormModel.model[inputName]"
-                    value="true"
-                    unchecked-value="false"
-                    :class="(inputName in formModel.errors?'is-invalid':'')"
-                    :placeholder="((input.placeholder !== '')?input.placeholder:input.label)"
-            ></b-form-checkbox>
-            <b-form-input
-                    v-else
-                    :id="'input-'+inputName"
-                    v-model="appFormModel.model[inputName]"
-                    :type="input.type"
-                    :class="(inputName in formModel.errors?'is-invalid':'')"
-                    :placeholder="((input.placeholder !== '')?input.placeholder:input.label)"
-            ></b-form-input>
-            <div class="invalid-feedback" v-if="(inputName in appFormModel.errors)">{{appFormModel.errors[inputName]}}</div>
-        </b-form-group>
+        <slot name="formBody">
+          <template v-for="(input, inputName) in appFormModel.form">
+            <slot :name="inputName">
+              <b-form-checkbox
+                  v-if="input.type==='checkbox'"
+                  :id="'input-'+inputName"
+                  :key="'form-checkbox-' + inputName"
+                  v-model="appFormModel.model[inputName]"
+                  value="true"
+                  unchecked-value="false"
+                  :class="(inputName in formModel.errors?'is-invalid':'') + ' mb-3'"
+              >{{input.label}}</b-form-checkbox>
+              <b-form-group
+                      v-else
+                      :id="inputName + '-input-group'"
+                      :label="input.label"
+                      :label-for="'input-'+inputName"
+                      :key="'form-group-' + inputName"
+              >
+                  <b-form-textarea
+                          v-if="input.type==='textarea'"
+                          :id="'input-'+inputName"
+                          v-model="appFormModel.model[inputName]"
+                          :class="(inputName in formModel.errors?'is-invalid':'')"
+                          :placeholder="((input.placeholder !== '')?input.placeholder:input.label)"
+                  ></b-form-textarea>
+                  <b-form-file
+                          v-else-if="input.type==='file'"
+                          :id="'input-'+inputName"
+                          v-model="appFormModel.model[inputName]"
+                          :class="(inputName in formModel.errors?'is-invalid':'')"
+                          :placeholder="((input.placeholder !== '')?input.placeholder:input.label)"
+                  ></b-form-file>
+                  <b-form-input
+                          v-else
+                          :id="'input-'+inputName"
+                          v-model="appFormModel.model[inputName]"
+                          :type="input.type"
+                          :class="(inputName in formModel.errors?'is-invalid':'')"
+                          :placeholder="((input.placeholder !== '')?input.placeholder:input.label)"
+                  ></b-form-input>
+                  <div class="invalid-feedback" v-if="(inputName in appFormModel.errors)">{{appFormModel.errors[inputName]}}</div>
+              </b-form-group>
+            </slot>
+          </template>
+        </slot>
         <slot name="formFooter"></slot>
     </b-form>
 </template>

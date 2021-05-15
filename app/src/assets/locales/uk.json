@@ -54,5 +54,19 @@
     "Always availabl:": "__STRING_NOT_TRANSLATED__",
     "Booking duration:": "__STRING_NOT_TRANSLATED__",
     "Min Booking time:": "__STRING_NOT_TRANSLATED__",
-    "Max Booking time:": "__STRING_NOT_TRANSLATED__"
+    "Max Booking time:": "__STRING_NOT_TRANSLATED__",
+    "Monday": "__STRING_NOT_TRANSLATED__",
+    "Tuesday": "__STRING_NOT_TRANSLATED__",
+    "Wednesday": "__STRING_NOT_TRANSLATED__",
+    "Thursday": "__STRING_NOT_TRANSLATED__",
+    "Friday": "__STRING_NOT_TRANSLATED__",
+    "Saturday": "__STRING_NOT_TRANSLATED__",
+    "Sunday": "__STRING_NOT_TRANSLATED__",
+    "Select availability": "__STRING_NOT_TRANSLATED__",
+    "Availability": "__STRING_NOT_TRANSLATED__",
+    "Extended": "__STRING_NOT_TRANSLATED__",
+    "Every day": "__STRING_NOT_TRANSLATED__",
+    "Once a week": "__STRING_NOT_TRANSLATED__",
+    "Once a month": "__STRING_NOT_TRANSLATED__",
+    "Once a year": "__STRING_NOT_TRANSLATED__"
 }
