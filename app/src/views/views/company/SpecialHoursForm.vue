@@ -17,7 +17,7 @@
               v-model="item.endDate"
               size="sm"
               class="date-picker-min-width"
-              :max="item.endDate"
+              :min="item.endDate"
               :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
           ></b-form-datepicker>
         </div>
@@ -291,8 +291,15 @@ export default {
       this.$emit('form:save', this.specialHours);
     },
     saveSpecialHours() {
-      let firstSpecialHours = this.specialHours[Object.keys(this.specialHours)[0]];
-      this.selectedPeriodKey = this.periodKeyFromSpecialHours(firstSpecialHours);
+      // datepicker return string value, so before save need to convert it to Date
+      for (let specialHoursItem of this.specialHours) {
+        if (typeof specialHoursItem.startDate !== Date) {
+          specialHoursItem.startDate = new Date(specialHoursItem.startDate);
+        }
+        if (typeof specialHoursItem.endDate !== Date) {
+          specialHoursItem.endDate = new Date(specialHoursItem.endDate);
+        }
+      }
       this.specialHoursForCurrentView = this.specialHoursToPeriods(this.specialHours);
       this.$emit('form:save', this.specialHours);
     },

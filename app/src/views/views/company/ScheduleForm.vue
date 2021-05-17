@@ -27,7 +27,7 @@
             :special-hours="specialHoursForCurrentView"
             :time-from="calendarTimeFrom"
             :time-to="calendarTimeTo"
-            locale="en"
+            locale="uk"
             @view-change="calendarViewChange"
             @ready="calendarViewChange"
         />
@@ -50,7 +50,7 @@
   import {mapActions, mapGetters} from "vuex";
 
   export default {
-    name: "Schedule",
+    name: "ScheduleForm",
     components: {AppForm, VueCal, SpecialHoursForm},
     data() {
       return {
@@ -169,13 +169,6 @@
             return addRanges(result, dayOfWeek, period.ranges);
           };
           for (let period of specialHours) {
-            // TODO: after deep copy using JSON.parse/stringify Date will get stringified
-            if (!(period.startDate instanceof Date)) {
-              period.startDate = new Date(period.startDate);
-            }
-            if (!(period.endDate instanceof Date)) {
-              period.endDate = new Date(period.endDate);
-            }
             if (period.startDate <= currentCalendarView.endDate && period.endDate >= currentCalendarView.startDate) {
               switch (period.repeat) {
                 case 0://every day
@@ -271,9 +264,5 @@
 </script>
 
 <style>
-.business-hours {
-  background-color: rgba(255, 255, 0, 0.2);
-  border: solid rgba(255, 210, 0, 0.6);
-  border-width: 2px 0;
-}
+
 </style>

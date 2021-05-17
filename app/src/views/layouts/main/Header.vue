@@ -7,10 +7,12 @@
                     <b-navbar-nav  class="ml-auto">
                         <b-nav-item :to="{name: 'home'}">{{$t("Home")}}</b-nav-item>
                         <b-nav-item :to="{name: 'about'}">{{$t("About")}}</b-nav-item>
+                        <b-nav-item :to="{name: 'schedule_vue', params:{id: 1}}">{{$t("Q")}}</b-nav-item>
                         <b-nav-item-dropdown :text="$t('Company')">
                           <b-dropdown-item :to="{name: 'company'}">{{$t('Company')}}</b-dropdown-item>
                           <b-dropdown-item :to="{name: 'company_bookings'}">{{$t('Bookings')}}</b-dropdown-item>
                           <b-dropdown-item :to="{name: 'company_schedule'}">{{$t('Schedule')}}</b-dropdown-item>
+                          <b-dropdown-item :to="{name: 'company_schedule_item', params: {id: 1}}">{{$t('Schedule Item')}}</b-dropdown-item>
                         </b-nav-item-dropdown>
                         <b-nav-item v-b-modal.modal-login>{{$t("Sign in")}}</b-nav-item>
                         <b-nav-item v-b-modal.modal-registration>{{$t("Sign up")}}</b-nav-item>
