@@ -23,14 +23,7 @@
         </AppForm>
       </div>
       <div class="col-8">
-        <VueCal
-            :special-hours="specialHoursForCurrentView"
-            :time-from="calendarTimeFrom"
-            :time-to="calendarTimeTo"
-            locale="uk"
-            @view-change="calendarViewChange"
-            @ready="calendarViewChange"
-        />
+        <CompanyCalendar />
       </div>
     </div>
     <b-modal id="modal-specal-hours" hide-footer :title="$t('Availability')">
@@ -44,14 +37,12 @@
   import AppFormInput from "../../../models/AppFormInput";
   import AppForm from "../../components/AppForm";
   import SpecialHoursForm from "./SpecialHoursForm";
-  import VueCal from 'vue-cal'
-  import 'vue-cal/dist/vuecal.css'
-  import 'vue-cal/dist/i18n/uk.js';
+  import CompanyCalendar from "../../components/CompanyCalendar";
   import {mapActions, mapGetters} from "vuex";
 
   export default {
     name: "ScheduleForm",
-    components: {AppForm, VueCal, SpecialHoursForm},
+    components: {AppForm, CompanyCalendar, SpecialHoursForm},
     data() {
       return {
         formModel: new AppFormModel(
@@ -105,10 +96,6 @@
             null,
             null
         ),
-        calendarTimeFrom: 0,
-        calendarTimeTo: 24 * 60,
-        specialHoursForCurrentView: {},
-        calendarCurrentView: {},
         idSchedule: parseInt(this.$route.params.id)
       };
     },
@@ -130,129 +117,6 @@
       ...mapActions('schedule', {
         loadSchedule: 'loadOne'
       }),
-
-      timeStringToMinutes(timeString) {
-        let [h, m] = timeString.split(':');
-
-        return h * 60 + parseInt(m);
-      },
-      minutesToTimeString(minutes) {
-        if (Number.isInteger(minutes)) {
-          let h = parseInt(minutes / 60);
-          let m = parseInt(minutes % 60);
-
-          return h + ':' + m;
-        }
-
-        return minutes;
-      },
-      calculateSpecialHoursForCalendarCurrentView(specialHours, currentCalendarView) {
-        let result = {};
-        if (currentCalendarView.view === 'week' || currentCalendarView.view === 'day') {
-          let addRanges = (result, dayOfWeek, ranges) => {
-            if (!(dayOfWeek in result)) {
-              result[dayOfWeek] = [];
-            }
-            for (let range of ranges) {
-              result[dayOfWeek].push({
-                from: this.timeStringToMinutes(range.from),
-                to: this.timeStringToMinutes(range.to)
-              });
-            }
-
-            return result;
-          };
-          let addRepeatDateRanges = (result, period) => {
-            let dayOfWeek = period.repeatDate.getDay();
-            dayOfWeek = dayOfWeek ? dayOfWeek : 7;
-
-            return addRanges(result, dayOfWeek, period.ranges);
-          };
-          for (let period of specialHours) {
-            if (period.startDate <= currentCalendarView.endDate && period.endDate >= currentCalendarView.startDate) {
-              switch (period.repeat) {
-                case 0://every day
-                  for (let i = 1; i <= 7; i++) {
-                    result = addRanges(result, i, period.ranges);
-                  }
-                  break;
-                case 1://once a week
-                  // result = addRepeatDateRanges(result, period);
-                  result = addRanges(result, (parseInt(period.repeatDay) + 1), period.ranges);
-                  break;
-                case 2://every month
-                  period.repeatDate.setMonth(currentCalendarView.startDate.getMonth());
-                  period.repeatDate.setFullYear(currentCalendarView.startDate.getFullYear());
-                  if (
-                      period.repeatDate >= currentCalendarView.startDate &&
-                      period.repeatDate <= currentCalendarView.endDate
-                  ) {
-                    result = addRepeatDateRanges(result, period);
-                  }
-                  break;
-                case 3://every year
-                  period.repeatDate.setFullYear(currentCalendarView.getFullYear());
-                  if (
-                      period.repeatDate >= currentCalendarView.startDate
-                      && period.repeatDate <= currentCalendarView.endDate
-                  ) {
-                    result = addRepeatDateRanges(result, period);
-                  }
-                  break;
-              }
-            }
-          }
-        }
-        Object.keys(result).forEach(specialHoursKey => {
-          Object.keys(result[specialHoursKey]).forEach(timeKey => {
-            result[specialHoursKey][timeKey].class = 'business-hours';
-          });
-        });
-
-        return result;
-      },
-      /**
-       * @param specialHoursForCurrentView - already formatted/prepared for calendar
-       */
-      calculateCalendarFromTo(specialHoursForCurrentView, currentCalendarView) {
-        if (
-            specialHoursForCurrentView &&
-            Object.keys(specialHoursForCurrentView).length !== 0 &&
-            specialHoursForCurrentView.constructor === Object &&
-            (currentCalendarView.view === 'week' || currentCalendarView.view === 'day')
-        ) {
-          let firstSpecialHours = specialHoursForCurrentView[Object.keys(specialHoursForCurrentView)[0]];
-          if (Array.isArray(firstSpecialHours)) {
-            firstSpecialHours = firstSpecialHours[0];
-          }
-          this.calendarTimeFrom = this.calendarTimeTo = firstSpecialHours.from;
-          Object.keys(specialHoursForCurrentView).forEach(specialHoursKey => {
-            let dailyHours = specialHoursForCurrentView[specialHoursKey];
-            if (Array.isArray(dailyHours)) {
-              Array.from(dailyHours).forEach(time => {
-                if (time.from < this.calendarTimeFrom) {
-                  this.calendarTimeFrom = time.from;
-                }
-                if (time.to > this.calendarTimeTo) {
-                  this.calendarTimeTo = time.to;
-                }
-              });
-            } else {
-              if (dailyHours.from < this.calendarTimeFrom) {
-                this.calendarTimeFrom = dailyHours.from;
-              }
-              if (dailyHours.to > this.calendarTimeTo) {
-                this.calendarTimeTo = dailyHours.to;
-              }
-            }
-          });
-        }
-      },
-      calendarViewChange(event) {
-        this.calendarCurrentView = event;
-        this.specialHoursForCurrentView = this.calculateSpecialHoursForCalendarCurrentView(this.getSpecialHours(), event);
-        this.calculateCalendarFromTo(this.specialHoursForCurrentView, event);
-      },
       onSubmit(formModel) {
         console.log(formModel);
       },
