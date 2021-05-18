@@ -2,6 +2,7 @@
   <div>
     <VueCal
         :special-hours="specialHoursForCurrentView"
+        :events="getEvents()"
         :time-from="calendarTimeFrom"
         :time-to="calendarTimeTo"
         locale="uk"
