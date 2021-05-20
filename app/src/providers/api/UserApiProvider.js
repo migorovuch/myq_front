@@ -5,7 +5,7 @@ export default class UserApiProvider extends ApiProvider {
     login(formModel, successCallback) {
         if(!formModel.errors.invalid) {
             this.post(
-                'login',
+                'login_check',
                 formModel.model,
                 data => {
                     this.setToken(data.token);
