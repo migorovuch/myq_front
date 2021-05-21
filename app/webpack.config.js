@@ -3,10 +3,10 @@ const path = require("path");
 const { VueLoaderPlugin } = require("vue-loader");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const htmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
-    target: "web",
     entry: {
         polyfill: '@babel/polyfill',
         main: "./src/main.js",
@@ -90,6 +90,12 @@ module.exports = {
             favicon: "./public/favicon.ico",
         }),
         new CleanWebpackPlugin(),
+        new webpack.EnvironmentPlugin([
+            'NODE_ENV',
+            'VUE_APP_I18N_LOCALE',
+            'VUE_APP_I18N_FALLBACK_LOCALE',
+            'VUE_APP_API_URL'
+        ])
     ],
     resolve: {
         alias: {
