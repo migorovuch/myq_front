@@ -1,5 +1,26 @@
 export default class ApiProvider {
 
+    isUserLogged() {
+        let userToken = localStorage.getItem("userToken");
+        if (userToken && userToken !== 'null') {
+            //check is token expired
+            let currentTime = Math.floor(Date.now() / 1000);
+            let decodedUserToken = this.parseJwt(userToken);
+            return currentTime < decodedUserToken.exp;
+        }
+        return false;
+    }
+
+    parseJwt (token) {
+        let base64Url = token.split('.')[1];
+        let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+
+        return JSON.parse(jsonPayload);
+    }
+
     setToken(userToken) {
         localStorage.userToken = userToken;
     }
@@ -37,7 +58,7 @@ export default class ApiProvider {
             method: 'GET'
         };
         let token = this.getToken();
-        if (token) {
+        if (this.isUserLogged()) {
             requestOptions.headers.Authorization = 'Bearer ' + token;
         }
         Object.assign(requestOptions, options);

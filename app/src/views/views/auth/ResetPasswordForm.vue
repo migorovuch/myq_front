@@ -17,7 +17,7 @@
     import AppForm from "../../components/AppForm";
     import AppFormInput from "../../../models/AppFormInput";
     import AppFormModel from "../../../models/AppFormModel";
-    import UserApiProvider from "../../../providers/api/UserApiProvider";
+    import {mapActions} from "vuex";
 
     let minPasswordLength = 6;
 
@@ -29,7 +29,6 @@
         },
         data: function() {
             return {
-                userApiProvider: new UserApiProvider(),
                 formModel: new AppFormModel({
                         password: '',
                         passwordRepeat: '',
@@ -73,22 +72,32 @@
             };
         },
         methods: {
-            onSubmitReset(formModel) {
-                let body = new Object();
-                body.token = this.queryToken;
-                Object.assign(formModel.model, body);
-                this.userApiProvider.resetPassword(formModel, () => {
-                    this.$router.push({ name: 'home' });
+          ...mapActions('account', {
+            resetPassword: 'resetPassword',
+          }),
+          onSubmitReset(formModel) {
+            let body = new Object();
+            body.token = this.queryToken;
+            Object.assign(formModel.model, body);
+            if (!formModel.errors.invalid) {
+              this.resetPassword(formModel.model,
+                  () => {
+                    this.$router.push({name: 'home'});
                     this.$bvToast.toast(this.$t('Password successfully changed'), {
-                        toaster: 'b-toaster-top-left',
-                        appendToast: true,
-                        autoHideDelay: 10000
+                      toaster: 'b-toaster-top-left',
+                      appendToast: true,
+                      autoHideDelay: 10000
                     });
-                });
-            },
-            onResetFormReset(formModel){
-                console.log(formModel);
+                  },
+                  data => {
+                    formModel.handleResponseErrors(data);
+                  }
+              );
             }
+          },
+          onResetFormReset(formModel) {
+            console.log(formModel);
+          }
         }
     }
 </script>

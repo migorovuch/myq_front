@@ -31,108 +31,124 @@
     import AppFormInput from "@/models/AppFormInput";
     import {minLength, required, email} from "vuelidate/lib/validators";
     import AppForm from "@/views/components/AppForm";
-    import UserApiProvider from "@/providers/api/UserApiProvider";
+    import {mapActions} from "vuex";
 
     const minPasswordLength = 6;
     export default {
-        name: "LoginForm",
-        components: {AppForm},
-        data: function(){
-            return {
-                showLoginForm: true,
-                userApiProvider: new UserApiProvider(),
-                formModel: new AppFormModel({
-                        username: '',
-                        password: ''
-                    }, {
-                        username: new AppFormInput(
-                                "email",
-                                this.$t('Email:'),
-                                this.$t('Enter email'),
-                                {
-                                    required: this.$t('This value should not be blank'),
-                                }
-                            ),
-                        password: new AppFormInput(
-                            "password",
-                            this.$t('Password:'),
-                            this.$t('Enter password'),
-                            {
-                                required: this.$t('This value should not be blank'),
-                                minLength: this.$t('This field must be at least {limit} characters long', {limit: minPasswordLength})
-                            }
-                        ),
-                    }, {
-                        formError: '',
-                        invalid: false
-                    }, {
-                        model: {
-                            username: {
-                                required,
-                            },
-                            password: {
-                                required,
-                                minLength: minLength(minPasswordLength)
-                            },
-                        }
+      name: "LoginForm",
+      components: {AppForm},
+      data: function () {
+        return {
+          showLoginForm: true,
+          formModel: new AppFormModel({
+                username: '',
+                password: ''
+              }, {
+                username: new AppFormInput(
+                    "email",
+                    this.$t('Email:'),
+                    this.$t('Enter email'),
+                    {
+                      required: this.$t('This value should not be blank'),
                     }
                 ),
-                resetFormModel: new AppFormModel({
-                        email: '',
-                    }, {
-                    email: new AppFormInput(
-                                "email",
-                                this.$t('Email:'),
-                                this.$t('Enter email'),
-                                {
-                                    email: this.$t('Incorrect email format'),
-                                    required: this.$t('This value should not be blank'),
-                                }
-                            ),
-                    }, {
-                        formError: '',
-                        invalid: false
-                    }, {
-                        model: {
-                            email: {
-                                required,
-                                email
-                            },
-                        }
+                password: new AppFormInput(
+                    "password",
+                    this.$t('Password:'),
+                    this.$t('Enter password'),
+                    {
+                      required: this.$t('This value should not be blank'),
+                      minLength: this.$t('This field must be at least {limit} characters long', {limit: minPasswordLength})
                     }
-                )
-            };
-        },
-        methods: {
-            onSubmitLogin(formModel) {
-                this.userApiProvider.login(formModel, () => {
+                ),
+              }, {
+                formError: '',
+                invalid: false
+              }, {
+                model: {
+                  username: {
+                    required,
+                  },
+                  password: {
+                    required,
+                    minLength: minLength(minPasswordLength)
+                  },
+                }
+              }
+          ),
+          resetFormModel: new AppFormModel({
+                email: '',
+              }, {
+                email: new AppFormInput(
+                    "email",
+                    this.$t('Email:'),
+                    this.$t('Enter email'),
+                    {
+                      email: this.$t('Incorrect email format'),
+                      required: this.$t('This value should not be blank'),
+                    }
+                ),
+              }, {
+                formError: '',
+                invalid: false
+              }, {
+                model: {
+                  email: {
+                    required,
+                    email
+                  },
+                }
+              }
+          )
+        };
+      },
+      methods: {
+        ...mapActions('account', {
+          login: 'login',
+          requestPassword: 'requestPassword',
+        }),
+        onSubmitLogin(formModel) {
+          if (!formModel.errors.invalid) {
+            this.login(
+                {
+                  data: formModel.model,
+                  successCallback: () => {
                     this.$bvToast.toast(this.$t('Successfully authenticated'), {
-                        toaster: 'b-toaster-top-left',
-                        appendToast: true,
-                        autoHideDelay: 10000
+                      toaster: 'b-toaster-top-left',
+                      appendToast: true,
+                      autoHideDelay: 10000
                     });
                     this.$root.$emit('bv::hide::modal', 'modal-login');
+                  },
+                  failCallback: formModel.handleResponseErrors
                 });
-            },
-            onResetLogin() {
+          }
+        },
+        onResetLogin() {
 
-            },
-            onSubmitRequest(formModel) {
-                this.userApiProvider.requestPassword(formModel, result => {
-                    formModel.model.email = '';
-                    if ('message' in result) {
-                        this.$bvToast.toast(result.message, {
-                            toaster: 'b-toaster-top-left',
-                            appendToast: true,
-                            autoHideDelay: 10000
-                        });
-                    }
-                });
-            },
-            onResetRequest() {
+        },
+        onSubmitRequest(formModel) {
+          if (!formModel.errors.invalid) {
+            this.requestPassword(formModel.model, result => {
+                  formModel.model.email = '';
+                  if ('message' in result) {
+                    this.$bvToast.toast(result.message, {
+                      toaster: 'b-toaster-top-left',
+                      appendToast: true,
+                      autoHideDelay: 10000
+                    });
+                  }
+                },
+                (data) => {
+                  formModel.handleResponseErrors(data);
+                }
+            );
+          }
+        },
+        onResetRequest() {
 
-            },
-        }
+        },
+      }
     }
 </script>
 

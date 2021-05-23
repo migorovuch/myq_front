@@ -14,8 +14,13 @@
                           <b-dropdown-item :to="{name: 'company_schedule'}">{{$t('Schedule')}}</b-dropdown-item>
                           <b-dropdown-item :to="{name: 'company_schedule_item', params: {id: 1}}">{{$t('Schedule Item')}}</b-dropdown-item>
                         </b-nav-item-dropdown>
-                        <b-nav-item v-b-modal.modal-login>{{$t("Sign in")}}</b-nav-item>
-                        <b-nav-item v-b-modal.modal-registration>{{$t("Sign up")}}</b-nav-item>
+                        <template v-if="!isUserLogged()">
+                          <b-nav-item v-b-modal.modal-login>{{$t("Sign in")}}</b-nav-item>
+                          <b-nav-item v-b-modal.modal-registration>{{$t("Sign up")}}</b-nav-item>
+                        </template>
+                        <template v-else>
+                          <b-nav-item @click="logout">{{$t("Logout")}}</b-nav-item>
+                        </template>
                     </b-navbar-nav>
                 </b-collapse>
             </b-navbar>
@@ -36,26 +41,35 @@
     import ResetPasswordForm from "../../views/auth/ResetPasswordForm";
     import RegistrationForm from "../../views/auth/RegistrationForm";
     import LoginForm from "../../views/auth/LoginForm";
+    import {mapActions, mapGetters} from "vuex";
 
     export default {
-        name: "Header",
-        components: {
-            ResetPasswordForm,
-            RegistrationForm,
-            LoginForm
-        },
-        data: function(){
-            return {
-                queryToken: '',
-                showResetPassword: false
-            };
-        },
-        mounted() {
-            if (this.$route.name === 'reset-password') {
-                this.queryToken = this.$route.params.token;
-                this.showResetPassword = this.queryToken !== '';
-            }
+      name: "Header",
+      components: {
+        ResetPasswordForm,
+        RegistrationForm,
+        LoginForm
+      },
+      data: function () {
+        return {
+          queryToken: '',
+          showResetPassword: false,
+        };
+      },
+      methods: {
+        ...mapActions('account', {
+          logout: 'logout'
+        }),
+        ...mapGetters('account', {
+          isUserLogged: 'isUserLogged'
+        }),
+      },
+      mounted() {
+        if (this.$route.name === 'reset-password') {
+          this.queryToken = this.$route.params.token;
+          this.showResetPassword = this.queryToken !== '';
         }
+      }
     }
 </script>
 
