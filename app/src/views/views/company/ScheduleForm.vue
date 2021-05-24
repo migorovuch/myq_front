@@ -3,6 +3,7 @@
     <div class="row">
       <div class="col-4">
         <AppForm
+            v-if="formModel.model"
             :formModel="formModel"
             @onFormSubmit="onSubmit"
             @onFormReset="onReset"
@@ -86,6 +87,30 @@
                   'seconds',
                   {}
               ),
+              bookingCondition: new AppFormInput(
+                  "select",
+                  this.$t('Booking condition:'),
+                  '',
+                  {},
+                  null,
+                  [
+                    {value: 0, text: this.$t('All users')},
+                    {value: 1, text: this.$t('Authorized only')},
+                  ]
+              ),
+              acceptBookingCondition: new AppFormInput(
+                  "select",
+                  this.$t('Accept booking condition:'),
+                  '',
+                  {},
+                  null,
+                  [
+                    {value: 0, text: this.$t('Accept all bookings')},
+                    {value: 1, text: this.$t('Decline all bookings')},
+                    {value: 2, text: this.$t('Accept only from approved users')},
+                    {value: 3, text: this.$t('Accept only after pay advance')},
+                  ]
+              ),
               description: new AppFormInput(
                   "textarea",
                   this.$t('Description:'),
@@ -100,9 +125,13 @@
       };
     },
     created() {
-      this.loadSchedule(this.$route.params.id);
-      this.loadSpecialHours(this.$route.params.id);
-      this.formModel.model = this.getSchedule();
+      this.loadSchedule({
+        id: this.$route.params.id,
+        successCallback: (data) => {
+          this.loadSpecialHours(this.$route.params.id);
+          this.formModel.model = this.getSchedule();
+        }
+      });
     },
     methods: {
       ...mapGetters('specialHours', {

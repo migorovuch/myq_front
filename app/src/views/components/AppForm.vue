@@ -34,6 +34,11 @@
                           :class="(inputName in formModel.errors?'is-invalid':'')"
                           :placeholder="((input.placeholder !== '')?input.placeholder:input.label)"
                   ></b-form-file>
+                  <b-form-select
+                      v-else-if="input.type==='select'"
+                      v-model="appFormModel.model[inputName]"
+                      :options="input.options"
+                  ></b-form-select>
                   <b-form-input
                           v-else
                           :id="'input-'+inputName"

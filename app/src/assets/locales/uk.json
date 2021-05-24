@@ -70,5 +70,19 @@
     "Once a month": "__STRING_NOT_TRANSLATED__",
     "Once a year": "__STRING_NOT_TRANSLATED__",
     "Q": "__STRING_NOT_TRANSLATED__",
-    "Schedule Item": "__STRING_NOT_TRANSLATED__"
+    "Schedule Item": "__STRING_NOT_TRANSLATED__",
+    "Logout": "__STRING_NOT_TRANSLATED__",
+    "Schedule title": "__STRING_NOT_TRANSLATED__",
+    "Enabled/Disabled": "__STRING_NOT_TRANSLATED__",
+    "Up to customer/Predefined": "__STRING_NOT_TRANSLATED__",
+    "Min. booking duration": "__STRING_NOT_TRANSLATED__",
+    "Max. booking duration": "__STRING_NOT_TRANSLATED__",
+    "Booking condition:": "__STRING_NOT_TRANSLATED__",
+    "All users": "__STRING_NOT_TRANSLATED__",
+    "Authorized only": "__STRING_NOT_TRANSLATED__",
+    "Accept booking condition:": "__STRING_NOT_TRANSLATED__",
+    "Accept all bookings": "__STRING_NOT_TRANSLATED__",
+    "Decline all bookings": "__STRING_NOT_TRANSLATED__",
+    "Accept only from approved users": "__STRING_NOT_TRANSLATED__",
+    "Accept only after pay advance": "__STRING_NOT_TRANSLATED__"
 }

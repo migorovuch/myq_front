@@ -5,7 +5,8 @@ export default {
     namespaced: true,
     state: {
         isUserLogged: accountApiProvider.isUserLogged(),
-        userData: null
+        userData: null,
+        companyData: null
     },
     getters: {
         isUserLogged: state => state.isUserLogged,

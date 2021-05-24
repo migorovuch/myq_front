@@ -19,7 +19,11 @@ export default class AppFormModel {
     }
 
     handleResponseErrors(responseData) {
-        this.errors.formError = responseData.title;
+        if ('title' in responseData) {
+            this.errors.formError = responseData.title;
+        } else if ('message' in responseData) {
+            this.errors.formError = responseData.message;
+        }
         if ('errors' in responseData) {
             for (let error of responseData.errors) {
                 if (error.source in this.form) {

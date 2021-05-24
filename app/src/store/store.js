@@ -4,6 +4,7 @@ import specialHours from "./modules/specialHours";
 import schedule from "./modules/schedule";
 import events from "./modules/events";
 import account from "./modules/account";
+import company from "./modules/company";
 
 Vue.use(Vuex);
 
@@ -17,7 +18,8 @@ export default new Vuex.Store({
         specialHours,
         schedule,
         events,
-        account
+        account,
+        company
     },
     mutations: {
         setUserToken(state, userToken) {

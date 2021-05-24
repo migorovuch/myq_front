@@ -17,6 +17,7 @@
   import AppFormInput from "@/models/AppFormInput";
   import {required, email} from "vuelidate/lib/validators";
   import AppForm from "@/views/components/AppForm";
+  import {mapGetters} from "vuex";
 
   export default {
     name: "CompanyForm",
@@ -24,15 +25,7 @@
     data: function() {
       return {
         formModel: new AppFormModel(
-            {
-              name: '',
-              email: '',
-              phone: '',
-              logo: [],
-              address: '',
-              description: '',
-              photos: [],
-            },
+            null,
             {
               name: new AppFormInput(
                   "text",
@@ -88,6 +81,9 @@
       };
     },
     methods: {
+      ...mapGetters('company', {
+        getCompany: 'getModel'
+      }),
       onSubmit(formModel) {
         console.log(formModel);
         this.$bvToast.toast(this.$t('Successfully saved'), {
@@ -100,7 +96,10 @@
       onReset() {
 
       }
-    }
+    },
+    created() {
+      this.formModel.model = this.getCompany();
+    },
   }
 </script>
 

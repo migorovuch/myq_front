@@ -120,7 +120,7 @@
                     });
                     this.$root.$emit('bv::hide::modal', 'modal-login');
                   },
-                  failCallback: formModel.handleResponseErrors
+                  failCallback: (data) => {formModel.handleResponseErrors(data);}
                 });
           }
         },

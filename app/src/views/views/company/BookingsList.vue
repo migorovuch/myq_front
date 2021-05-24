@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-table striped hover :items="items">
+    <b-table striped hover :items="items" :fields="fields">
       <template #cell(status)="data">
         <span>{{getStatusLabel(data.value)}}</span>
       </template>

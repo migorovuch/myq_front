@@ -1,5 +1,5 @@
-import ScheduleApiProvider from "../../providers/api/ScheduleApiProvider";
-let scheduleApiProvider = new ScheduleApiProvider();
+import CompanyApiProvider from "../../providers/api/CompanyApiProvider";
+let companyApiProvider = new CompanyApiProvider();
 
 export default {
     namespaced: true,
@@ -12,26 +12,17 @@ export default {
         getModel: state => state.model,
     },
     actions: {
-        load(context, {idCompany, successCallback, failCallback}) {
-            scheduleApiProvider.getScheduleList(
-                idCompany,
-                (data) => {
-                    context.commit('load', data);
-                    if (successCallback) {
-                        successCallback(data);
-                    }
-                },
-                failCallback
-            );
+        load(context, idCompany) {
+            context.commit('load', [idCompany]);
         },
         loadOne(context, {id, successCallback, failCallback}) {
-            scheduleApiProvider.getSchedule(
+            companyApiProvider.getCompany(
                 id,
                 (data) => {
-                    context.commit('loadOne', data);
                     if (successCallback) {
                         successCallback(data);
                     }
+                    context.commit('loadOne', data);
                 },
                 failCallback
             );

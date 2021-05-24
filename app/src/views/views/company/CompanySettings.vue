@@ -1,24 +1,48 @@
 <template>
   <div>
     <div class="row">
-      <div class="col">
-        <b-button v-b-modal.company-settings>{{$t("Company settings")}}</b-button>
-        <b-button :to="{name:'company_bookings'}">{{$t("Bookings")}}</b-button>
-        <b-button :to="{name:'company_schedule'}">{{$t("Schedule")}}</b-button>
+      <div class="col-4">
+        <CompanyForm/>
+      </div>
+      <div class="col-8">
+        <ScheduleList />
       </div>
     </div>
-    <b-modal id="company-settings" hide-footer :title="$t('Company settings')">
-      <CompanyForm/>
-    </b-modal>
   </div>
 </template>
 
 <script>
   import CompanyForm from "./CompanyForm";
+  import ScheduleList from "./ScheduleList";
+  import {mapActions, mapGetters} from 'vuex';
 
   export default {
     name: "CompanySettings",
-    components: {CompanyForm}
+    components: {ScheduleList, CompanyForm},
+    data: function () {
+      return {
+        company: null,
+      };
+    },
+    methods: {
+      ...mapActions('company', {
+        loadMyCompany: 'loadOne'
+      }),
+      ...mapActions('schedule', {
+        loadScheduleList: 'load'
+      }),
+      ...mapGetters('company', {
+        getCompany: 'getModel'
+      }),
+    },
+    created() {
+      this.loadMyCompany({
+        id: 1,
+        successCallback: (data) => {
+          this.loadScheduleList({idCompany: data.id});
+        }
+      });
+    }
   }
 </script>
 

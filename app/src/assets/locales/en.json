@@ -70,5 +70,19 @@
     "Once a month": "Once a month",
     "Once a year": "Once a year",
     "Q": "Q",
-    "Schedule Item": "Schedule Item"
+    "Schedule Item": "Schedule Item",
+    "Logout": "Logout",
+    "Schedule title": "Schedule title",
+    "Enabled/Disabled": "Enabled/Disabled",
+    "Up to customer/Predefined": "Up to customer/Predefined",
+    "Min. booking duration": "Min. booking duration",
+    "Max. booking duration": "Max. booking duration",
+    "Booking condition:": "Booking condition:",
+    "All users": "All users",
+    "Authorized only": "Authorized only",
+    "Accept booking condition:": "Accept booking condition:",
+    "Accept all bookings": "Accept all bookings",
+    "Decline all bookings": "Decline all bookings",
+    "Accept only from approved users": "Accept only from approved users",
+    "Accept only after pay advance": "Accept only after pay advance"
 }
