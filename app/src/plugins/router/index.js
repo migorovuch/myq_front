@@ -14,6 +14,7 @@ const routes = [
       {path: '/company/schedule', name: 'company_schedule', component: () => import('../../views/views/company/ScheduleList')},
       {path: '/company/schedule/:id', name: 'company_schedule_item', component: () => import('../../views/views/company/ScheduleForm')},
       {path: '/q/:id', name: 'schedule_vue', component: () => import('../../views/views/company/ScheduleView')},
+      {path: '/company/:id', name: 'company_vue', component: () => import('../../views/views/company/CompanyView')},
     ]
   }
 ]

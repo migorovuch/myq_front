@@ -21,6 +21,9 @@ import 'vue-cal/dist/i18n/uk.js';
 export default {
   name: "CompanyCalendar",
   components: {VueCal},
+  props: {
+    withEvents: true
+  },
   data() {
     return {
       calendarTimeFrom: 0,
@@ -30,16 +33,32 @@ export default {
       idSchedule: parseInt(this.$route.params.id)
     };
   },
+  computed: {
+    computedSpecialHours () {
+      return this.getSpecialHours()
+    }
+  },
+  watch: {
+    computedSpecialHours (newValue) {
+      this.calendarViewChange(this.calendarCurrentView);
+    }
+  },
   methods: {
     ...mapGetters('specialHours', {
       getSpecialHours: 'getList',
     }),
     ...mapGetters('events', {
-      getEvents: 'getList',
+      getEventsList: 'getList',
     }),
     ...mapGetters('schedule', {
       getSchedule: 'getModel',
     }),
+    getEvents() {
+      if (this.withEvents) {
+        return this.getEventsList();
+      }
+      return [];
+    },
     timeStringToMinutes(timeString) {
       let [h, m] = timeString.split(':');
 
