@@ -13,10 +13,11 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import VueCal from 'vue-cal'
 import 'vue-cal/dist/vuecal.css'
 import 'vue-cal/dist/i18n/uk.js';
+import SpecialHoursHelper from '../../helpers/SpecialHoursHelper';
 
 export default {
   name: "CompanyCalendar",
@@ -47,6 +48,9 @@ export default {
     ...mapGetters('specialHours', {
       getSpecialHours: 'getList',
     }),
+    ...mapActions('events', {
+      loadEvents: 'load'
+    }),
     ...mapGetters('events', {
       getEventsList: 'getList',
     }),
@@ -59,21 +63,6 @@ export default {
       }
       return [];
     },
-    timeStringToMinutes(timeString) {
-      let [h, m] = timeString.split(':');
-
-      return h * 60 + parseInt(m);
-    },
-    minutesToTimeString(minutes) {
-      if (Number.isInteger(minutes)) {
-        let h = parseInt(minutes / 60);
-        let m = parseInt(minutes % 60);
-
-        return h + ':' + m;
-      }
-
-      return minutes;
-    },
     calculateSpecialHoursForCalendarCurrentView(specialHours, events, currentCalendarView) {
       let result = {};
       if (currentCalendarView.view === 'week' || currentCalendarView.view === 'day') {
@@ -83,8 +72,8 @@ export default {
           }
           for (let range of ranges) {
             result[dayOfWeek].push({
-              from: this.timeStringToMinutes(range.from),
-              to: this.timeStringToMinutes(range.to)
+              from: SpecialHoursHelper.timeStringToMinutes(range.from),
+              to: SpecialHoursHelper.timeStringToMinutes(range.to)
             });
           }
 
@@ -206,9 +195,14 @@ export default {
       }
     },
     calendarViewChange(event) {
-      this.calendarCurrentView = event;
-      this.specialHoursForCurrentView = this.calculateSpecialHoursForCalendarCurrentView(this.getSpecialHours(), this.getEvents(), event);
-      this.calculateCalendarFromTo(this.specialHoursForCurrentView, event);
+      this.loadEvents({
+        filters: {filterFrom: event.startDate, filterTo: event.endDate},
+        successCallback: (data) => {
+          this.calendarCurrentView = event;
+          this.specialHoursForCurrentView = this.calculateSpecialHoursForCalendarCurrentView(this.getSpecialHours(), data, event);
+          this.calculateCalendarFromTo(this.specialHoursForCurrentView, event);
+        }
+      })
     },
   }
 }

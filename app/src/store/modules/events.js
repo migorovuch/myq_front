@@ -1,54 +1,50 @@
+import EventsApiProvider from "../../providers/api/EventsApiProvider";
+
+let eventsApiProvider = new EventsApiProvider();
 
 export default {
     namespaced: true,
     state: {
         list: [],
-        model: null
+        model: null,
+        selectedSchedule: null,
+        selectedSpecialHours: [],
     },
     getters: {
         getList: state => state.list,
         getModel: state => state.model,
+        getSelectedSchedule: state => state.selectedSchedule,
+        getSelectedSpecialHours: state => state.selectedSpecialHours,
     },
     actions: {
-        load(context, idSchedule) {
-            context.commit('load', [
-                {
-                    id: 1,
-                    idSchedule: idSchedule,
-                    start: new Date('2021-05-18 16:00'),
-                    end: new Date('2021-05-18 17:30'),
-                    title: 'Need to go shopping',
-                    icon: 'shopping_cart', // Custom attribute.
-                    content: 'Click to see my shopping list',
-                    contentFull: 'My shopping list is rather long:<br><ul><li>Avocados</li><li>Tomatoes</li><li>Potatoes</li><li>Mangoes</li></ul>', // Custom attribute.
-                    class: 'leisure'
+        load(context, {filters, successCallback, failCallback}) {
+            eventsApiProvider.getEventsList(
+                filters,
+                (data) => {
+                    context.commit('load', data);
+                    if (successCallback) {
+                        successCallback(data);
+                    }
                 },
-                {
-                    id: 2,
-                    idSchedule: idSchedule,
-                    start: new Date('2021-05-17 14:00'),
-                    end: new Date('2021-05-17 14:30'),
-                    title: 'Need to go shopping 2',
-                    icon: 'shopping_cart', // Custom attribute.
-                    content: 'Click to see my shopping list',
-                    contentFull: 'My shopping list is rather long:<br><ul><li>Avocados</li><li>Tomatoes</li><li>Potatoes</li><li>Mangoes</li></ul>', // Custom attribute.
-                    class: 'leisure'
+                failCallback
+            );
+        },
+        loadOne(context, {filters, successCallback, failCallback}) {
+            eventsApiProvider.getEventsList(
+                filters,
+                (data) => {
+                    context.commit('loadOne', data[0]);
+                    if (successCallback) {
+                        successCallback(data);
+                    }
                 },
-            ]);
+                failCallback
+            );
         },
-        loadOne(context, id) {
-            context.commit('loadOne',  {
-                id: id,
-                idSchedule: 1,
-                start: new Date('2021-05-14 14:00'),
-                end: new Date('2021-05-14 14:30'),
-                title: 'Need to go shopping 2',
-                icon: 'shopping_cart', // Custom attribute.
-                content: 'Click to see my shopping list',
-                contentFull: 'My shopping list is rather long:<br><ul><li>Avocados</li><li>Tomatoes</li><li>Potatoes</li><li>Mangoes</li></ul>', // Custom attribute.
-                class: 'leisure'
-            })
-        },
+        create(context, {data, successCallback, failCallback}) {
+            console.log(data);
+            successCallback(data);
+        }
     },
     mutations: {
         load(state, payload) {
@@ -56,6 +52,12 @@ export default {
         },
         loadOne(state, payload) {
             state.model = payload;
-        }
+        },
+        loadSelectedSchedule(state, payload) {
+            state.selectedSchedule = payload;
+        },
+        loadSelectedSpecialHours(state, payload) {
+            state.selectedSpecialHours = payload;
+        },
     }
 };

@@ -21,16 +21,21 @@
         <CompanyCalendar :with-events="false"/>
       </div>
     </div>
+    <b-button v-b-modal.modal-booking>{{ $t('Time booking') }}</b-button>
+    <b-modal id="modal-booking" hide-footer :title="$t('Time booking')">
+      <BookingForm />
+    </b-modal>
   </div>
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import {mapActions, mapGetters, mapMutations} from "vuex";
 import CompanyCalendar from "../../components/CompanyCalendar";
+import BookingForm from "./BookingForm";
 
 export default {
   name: "CompanyView",
-  components: {CompanyCalendar},
+  components: {BookingForm, CompanyCalendar},
   data () {
     return {
       selectedSchedule: null,
@@ -45,7 +50,13 @@ export default {
           successCallback: (data) => {
             if (data.length) {
               this.selectedSchedule = data[0].id;
-              this.loadSpecialHours({idSchedule: this.selectedSchedule});
+              this.loadSelectedSchedule(data[0]);
+              this.loadSpecialHours({
+                idSchedule: this.selectedSchedule,
+                successCallback: (data) => {
+                  this.loadSelectedSpecialHours(data);
+                }
+              });
             }
           }
         });
@@ -58,7 +69,6 @@ export default {
       for (let schedule of this.getScheduleList()) {
         options.push({value: schedule.id, text: schedule.name});
       }
-      console.log(options);
 
       return options;
     }
@@ -84,8 +94,25 @@ export default {
     ...mapActions('company', {
       loadCompany: 'loadOne'
     }),
+    ...mapMutations('events', {
+      loadSelectedSchedule: 'loadSelectedSchedule',
+      loadSelectedSpecialHours: 'loadSelectedSpecialHours'
+    }),
     changeSelectedSchedule(value) {
-      this.loadSpecialHours({idSchedule: value});
+      let eventSchedule = null;
+      for (let schedule of this.getScheduleList()) {
+        if (schedule.id === value) {
+          eventSchedule = schedule;
+          break;
+        }
+      }
+      this.loadSelectedSchedule(eventSchedule);
+      this.loadSpecialHours({
+        idSchedule: value,
+        successCallback: (data) => {
+          this.loadSelectedSpecialHours(data);
+        }
+      });
     }
   }
 }

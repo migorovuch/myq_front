@@ -24,7 +24,7 @@
         </AppForm>
       </div>
       <div class="col-8">
-        <CompanyCalendar />
+        <CompanyCalendar :with-events="true"/>
       </div>
     </div>
     <b-modal id="modal-specal-hours" hide-footer :title="$t('Availability')">

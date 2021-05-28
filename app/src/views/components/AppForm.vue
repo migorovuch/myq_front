@@ -20,8 +20,25 @@
                       :label-for="'input-'+inputName"
                       :key="'form-group-' + inputName"
               >
+                  <b-form-datepicker
+                      v-if="input.type==='datepicker'"
+                      :id="'input-'+inputName"
+                      v-model="appFormModel.model[inputName]"
+                      :class="(inputName in formModel.errors?'is-invalid':'')"
+                      :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                      :placeholder="((input.placeholder !== '')?input.placeholder:input.label)"
+                  ></b-form-datepicker>
+                  <b-form-timepicker
+                      v-else-if="input.type==='timepicker'"
+                      :id="'input-'+inputName"
+                      v-model="appFormModel.model[inputName]"
+                      :class="(inputName in formModel.errors?'is-invalid':'')"
+                      label-no-time-selected="-:-"
+                      size="sm"
+                      minutes-step="5"
+                  ></b-form-timepicker>
                   <b-form-textarea
-                          v-if="input.type==='textarea'"
+                          v-else-if="input.type==='textarea'"
                           :id="'input-'+inputName"
                           v-model="appFormModel.model[inputName]"
                           :class="(inputName in formModel.errors?'is-invalid':'')"
@@ -37,6 +54,7 @@
                   <b-form-select
                       v-else-if="input.type==='select'"
                       v-model="appFormModel.model[inputName]"
+                      :class="(inputName in formModel.errors?'is-invalid':'')"
                       :options="input.options"
                   ></b-form-select>
                   <b-form-input
@@ -78,29 +96,30 @@
             };
         },
         methods: {
-            onFormSubmit() {
-                this.$v.appFormModel.model.$touch();
-                let vmodel = this.$v.appFormModel.model;
-                this.appFormModel.errors = {formError: '', invalid: vmodel.$invalid};
-                if (this.appFormModel.errors.invalid) {
-                    for (let inputName in this.formModel.form) {
-                        if (inputName in vmodel && vmodel[inputName].$invalid) {
-                            let input = this.formModel.form[inputName];
-                            if ('errorLabels' in input) {
-                                for (let errorKey in input.errorLabels) {
-                                    if (!vmodel[inputName][errorKey]) {
-                                        this.appFormModel.errors[inputName] = input.errorLabels[errorKey];
-                                    }
-                                }
-                            }
-                        }
+          onFormSubmit() {
+            this.$emit('beforeFormValidation', this.appFormModel);
+            this.$v.appFormModel.model.$touch();
+            let vmodel = this.$v.appFormModel.model;
+            this.appFormModel.errors = {formError: '', invalid: vmodel.$invalid};
+            if (this.appFormModel.errors.invalid) {
+              for (let inputName in this.formModel.form) {
+                if (inputName in vmodel && vmodel[inputName].$invalid) {
+                  let input = this.formModel.form[inputName];
+                  if ('errorLabels' in input) {
+                    for (let errorKey in input.errorLabels) {
+                      if (!vmodel[inputName][errorKey]) {
+                        this.appFormModel.errors[inputName] = input.errorLabels[errorKey];
+                      }
                     }
+                  }
                 }
-                this.$emit('onFormSubmit', this.appFormModel);
-            },
-            onFormReset() {
-                this.$emit('onFormReset', this.appFormModel);
+              }
             }
+            this.$emit('onFormSubmit', this.appFormModel);
+          },
+          onFormReset() {
+            this.$emit('onFormReset', this.appFormModel);
+          }
         }
     }
 </script>

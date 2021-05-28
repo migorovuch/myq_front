@@ -68,10 +68,7 @@
                   this.$t('Enter description'),
                   {}
               ),
-            }, {
-              formError: '',
-              invalid: false
-            }, {
+            }, null, {
               model: {
                 name: {required,},
                 email: {required, email},

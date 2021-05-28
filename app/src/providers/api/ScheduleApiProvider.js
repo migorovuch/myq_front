@@ -7,10 +7,10 @@ export default class ScheduleApiProvider extends ApiProvider {
             idCompany: idCompany,
             name: 'First Schedule',
             enabled: false, // available for booking
-            available: true, // Always available for booking or only in specialHours
-            bookingDuration: 0,// seconds, 0 - manual setting for each booking
-            minBookingTime: 0,// available only in case bookingDuration==0
-            maxBookingTime: 0,// available only in case bookingDuration==0, 0 - no limit
+            available: false, // Always available for booking or only in specialHours
+            bookingDuration: 20,// seconds, 0 - manual setting for each booking
+            minBookingTime: 2,// available only in case bookingDuration==0
+            maxBookingTime: 70,// available only in case bookingDuration==0, 0 - no limit
             description: '',
             bookingCondition: 0, // All users or authenticated only
             acceptBookingCondition: 0, // Automaticly accept
@@ -19,10 +19,10 @@ export default class ScheduleApiProvider extends ApiProvider {
             idCompany: idCompany,
             name: 'Second Schedule',
             enabled: false, // available for booking
-            available: true, // Always available for booking or only in specialHours
+            available: false, // Always available for booking or only in specialHours
             bookingDuration: 0,// seconds, 0 - manual setting for each booking
-            minBookingTime: 0,// available only in case bookingDuration==0
-            maxBookingTime: 0,// available only in case bookingDuration==0, 0 - no limit
+            minBookingTime: 13,// available only in case bookingDuration==0
+            maxBookingTime: 320,// available only in case bookingDuration==0, 0 - no limit
             description: '',
             bookingCondition: 0, // All users or authenticated only
             acceptBookingCondition: 0, // Automaticly accept

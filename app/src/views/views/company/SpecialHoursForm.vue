@@ -120,6 +120,7 @@
 
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
+import SpecialHoursHelper from '@/helpers/SpecialHoursHelper';
 
 export default {
   name: "SpecialHoursForm",
@@ -172,21 +173,6 @@ export default {
     ...mapMutations('specialHours', {
       setSpecialHours: 'load'
     }),
-    timeStringToMinutes(timeString) {
-      let [h, m] = timeString.split(':');
-
-      return h * 60 + parseInt(m);
-    },
-    minutesToTimeString(minutes) {
-      if (Number.isInteger(minutes)) {
-        let h = parseInt(minutes / 60);
-        let m = parseInt(minutes % 60);
-
-        return h + ':' + m;
-      }
-
-      return minutes;
-    },
     periodKeyFromSpecialHours(specialHours) {
       return specialHours.startDate.getTime() + "_" + specialHours.endDate.getTime();
     },
@@ -230,10 +216,10 @@ export default {
           let dayOfWeek = specialHoursItem.repeatDay;
           periods[periodKey].specialHours[dayOfWeek].id = specialHoursItem.id;
           for (let range of specialHoursItem.ranges) {
-            if (this.timeStringToMinutes(range.from) < this.timeStringToMinutes(periods[periodKey].specialHours[dayOfWeek].from)) {
+            if (SpecialHoursHelper.timeStringToMinutes(range.from) < SpecialHoursHelper.timeStringToMinutes(periods[periodKey].specialHours[dayOfWeek].from)) {
               periods[periodKey].specialHours[dayOfWeek].from = range.from;
             }
-            if (this.timeStringToMinutes(range.to) > this.timeStringToMinutes(periods[periodKey].specialHours[dayOfWeek].to)) {
+            if (SpecialHoursHelper.timeStringToMinutes(range.to) > SpecialHoursHelper.timeStringToMinutes(periods[periodKey].specialHours[dayOfWeek].to)) {
               periods[periodKey].specialHours[dayOfWeek].to = range.to;
             }
           }
