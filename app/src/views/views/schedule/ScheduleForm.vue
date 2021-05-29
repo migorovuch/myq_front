@@ -37,7 +37,7 @@
   import AppFormModel from "../../../models/AppFormModel";
   import AppFormInput from "../../../models/AppFormInput";
   import AppForm from "../../components/AppForm";
-  import SpecialHoursForm from "./SpecialHoursForm";
+  import SpecialHoursForm from "../specialHours/SpecialHoursForm";
   import CompanyCalendar from "../../components/CompanyCalendar";
   import {mapActions, mapGetters} from "vuex";
 
@@ -128,7 +128,7 @@
       this.loadSchedule({
         id: this.$route.params.id,
         successCallback: (data) => {
-          this.loadSpecialHours(this.$route.params.id);
+          this.loadSpecialHours({idSchedule:this.$route.params.id});
           this.formModel.model = this.getSchedule();
         }
       });

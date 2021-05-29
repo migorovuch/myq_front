@@ -13,7 +13,7 @@
 
 <script>
   import CompanyForm from "./CompanyForm";
-  import ScheduleList from "./ScheduleList";
+  import ScheduleList from "../schedule/ScheduleList";
   import {mapActions, mapGetters} from 'vuex';
 
   export default {

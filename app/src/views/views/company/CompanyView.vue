@@ -31,7 +31,7 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import CompanyCalendar from "../../components/CompanyCalendar";
-import BookingForm from "./BookingForm";
+import BookingForm from "../booking/BookingForm";
 
 export default {
   name: "CompanyView",
