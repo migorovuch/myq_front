@@ -46,13 +46,13 @@ export default {
       id: this.$route.params.id,
       successCallback: (data) => {
         this.loadScheduleList({
-          idCompany: data.id,
+          filter: {company:data.id},
           successCallback: (data) => {
             if (data.length) {
               this.selectedSchedule = data[0].id;
               this.loadSelectedSchedule(data[0]);
               this.loadSpecialHours({
-                idSchedule: this.selectedSchedule,
+                filter: {schedule:this.selectedSchedule},
                 successCallback: (data) => {
                   this.loadSelectedSpecialHours(data);
                 }
@@ -108,6 +108,7 @@ export default {
       }
       this.loadSelectedSchedule(eventSchedule);
       this.loadSpecialHours({
+        filter: {schedule:value},
         idSchedule: value,
         successCallback: (data) => {
           this.loadSelectedSpecialHours(data);

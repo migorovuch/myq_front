@@ -98,17 +98,20 @@
         methods: {
           onFormSubmit() {
             this.$emit('beforeFormValidation', this.appFormModel);
-            this.$v.appFormModel.model.$touch();
-            let vmodel = this.$v.appFormModel.model;
-            this.appFormModel.errors = {formError: '', invalid: vmodel.$invalid};
-            if (this.appFormModel.errors.invalid) {
-              for (let inputName in this.formModel.form) {
-                if (inputName in vmodel && vmodel[inputName].$invalid) {
-                  let input = this.formModel.form[inputName];
-                  if ('errorLabels' in input) {
-                    for (let errorKey in input.errorLabels) {
-                      if (!vmodel[inputName][errorKey]) {
-                        this.appFormModel.errors[inputName] = input.errorLabels[errorKey];
+            this.appFormModel.resetErrors();
+            if (this.appFormModel.validations) {
+              this.$v.appFormModel.model.$touch();
+              let vmodel = this.$v.appFormModel.model;
+              this.appFormModel.errors.invalid = vmodel.$invalid;
+              if (this.appFormModel.errors.invalid) {
+                for (let inputName in this.formModel.form) {
+                  if (inputName in vmodel && vmodel[inputName].$invalid) {
+                    let input = this.formModel.form[inputName];
+                    if ('errorLabels' in input) {
+                      for (let errorKey in input.errorLabels) {
+                        if (!vmodel[inputName][errorKey]) {
+                          this.appFormModel.errors[inputName] = input.errorLabels[errorKey];
+                        }
                       }
                     }
                   }

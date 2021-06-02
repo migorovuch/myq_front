@@ -2,7 +2,7 @@
   <div>
     <b-table striped hover :items="getScheduleList()" :fields="fields">
       <template #cell(buttons)="data">
-        <router-link :to="{name: 'company_schedule_item', params: {id: data.id}}">Edit</router-link>
+        <router-link :to="{name: 'company_schedule_item', params: {id: data.item.id}}">Edit</router-link>
       </template>
     </b-table>
   </div>

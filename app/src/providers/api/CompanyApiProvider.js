@@ -1,6 +1,18 @@
 import ApiProvider from "./ApiProvider";
 
 export default class CompanyApiProvider extends ApiProvider {
+    create(data,successCallback, failCallback) {
+        this.post('companies/', data, successCallback, failCallback);
+    }
+
+    update(id, data, successCallback, failCallback) {
+        this.put('companies/' + id, data, successCallback, failCallback);
+    }
+
+    getMyCompany(successCallback, failCallback) {
+        this.get('companies/my', null, successCallback, failCallback);
+    }
+
     getCompany(id, successCallback, failCallback) {
         let company = {
             id: id,
@@ -16,14 +28,5 @@ export default class CompanyApiProvider extends ApiProvider {
         if(failCallback) {
             failCallback(company);
         }
-        // this.get(
-        //     'companies/my-company',
-        //     null,
-        //     data => {
-        //         this.setToken(data.token);
-        //         successCallback(data)
-        //     },
-        //     failCallback
-        // );
     }
 }

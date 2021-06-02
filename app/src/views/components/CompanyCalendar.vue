@@ -31,7 +31,7 @@ export default {
       calendarTimeTo: 24 * 60,
       specialHoursForCurrentView: {},
       calendarCurrentView: {},
-      idSchedule: parseInt(this.$route.params.id)
+      idSchedule: this.$route.params.id
     };
   },
   computed: {
@@ -71,10 +71,12 @@ export default {
             result[dayOfWeek] = [];
           }
           for (let range of ranges) {
-            result[dayOfWeek].push({
-              from: SpecialHoursHelper.timeStringToMinutes(range.from),
-              to: SpecialHoursHelper.timeStringToMinutes(range.to)
-            });
+            if (Object.keys(range).length) {
+              result[dayOfWeek].push({
+                from: SpecialHoursHelper.timeStringToMinutes(range.from),
+                to: SpecialHoursHelper.timeStringToMinutes(range.to)
+              });
+            }
           }
 
           return result;
@@ -86,8 +88,14 @@ export default {
           return addRanges(result, dayOfWeek, period.ranges);
         };
         for (let period of specialHours) {
+          if (typeof period.startDate === 'string') {
+            period.startDate = new Date(period.startDate);
+          }
+          if (typeof period.endDate === 'string') {
+            period.endDate = new Date(period.endDate);
+          }
           if (period.startDate <= currentCalendarView.endDate && period.endDate >= currentCalendarView.startDate) {
-            switch (period.repeat) {
+            switch (period.repeatCondition) {
               case 0://every day
                 for (let i = 1; i <= 7; i++) {
                   result = addRanges(result, i, period.ranges);
@@ -170,6 +178,9 @@ export default {
         let firstSpecialHours = specialHoursForCurrentView[Object.keys(specialHoursForCurrentView)[0]];
         if (Array.isArray(firstSpecialHours)) {
           firstSpecialHours = firstSpecialHours[0];
+        }
+        if (!firstSpecialHours) {
+          return;
         }
         this.calendarTimeFrom = this.calendarTimeTo = firstSpecialHours.from;
         Object.keys(specialHoursForCurrentView).forEach(specialHoursKey => {

@@ -154,10 +154,10 @@ export default {
         if (
             bookingDate >= specialHours.startDate && bookingDate <= specialHours.endDate &&
             (
-                specialHours.repeat === 0 ||
-                (specialHours.repeat === 1 && (bookingDate.getDay() - 1) === specialHours.repeatDay) ||
-                (specialHours.repeat === 2 && specialHours.repeatDate.getDate() === bookingDate.getDate()) ||
-                (specialHours.repeat === 3 && specialHours.repeatDate.getMonth() === bookingDate.getMonth() && specialHours.repeatDate.getDate() === bookingDate.getDate())
+                specialHours.repeatCondition === 0 ||
+                (specialHours.repeatCondition === 1 && (bookingDate.getDay() - 1) === specialHours.repeatDay) ||
+                (specialHours.repeatCondition === 2 && specialHours.repeatDate.getDate() === bookingDate.getDate()) ||
+                (specialHours.repeatCondition === 3 && specialHours.repeatDate.getMonth() === bookingDate.getMonth() && specialHours.repeatDate.getDate() === bookingDate.getDate())
             )
         ) {
           validationResult = 1;

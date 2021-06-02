@@ -28,7 +28,7 @@
       </div>
     </div>
     <b-modal id="modal-specal-hours" hide-footer :title="$t('Availability')">
-      <SpecialHoursForm :id-schedule="idSchedule"  v-on:form:save="calendarViewChange(calendarCurrentView)"></SpecialHoursForm>
+      <SpecialHoursForm :id-schedule="idSchedule"></SpecialHoursForm>
     </b-modal>
   </div>
 </template>
@@ -40,6 +40,7 @@
   import SpecialHoursForm from "../specialHours/SpecialHoursForm";
   import CompanyCalendar from "../../components/CompanyCalendar";
   import {mapActions, mapGetters} from "vuex";
+  import {required} from "vuelidate/lib/validators";
 
   export default {
     name: "ScheduleForm",
@@ -47,7 +48,17 @@
     data() {
       return {
         formModel: new AppFormModel(
-            null,
+            {
+              acceptBookingCondition: 0,
+              available: false,
+              bookingCondition: 0,
+              bookingDuration: 30,
+              description: "",
+              enabled: true,
+              maxBookingTime: 0,
+              minBookingTime: 0,
+              name: ""
+            },
             {
               name: new AppFormInput(
                   "text",
@@ -121,15 +132,15 @@
             null,
             null
         ),
-        idSchedule: parseInt(this.$route.params.id)
+        idSchedule: this.$route.params.id
       };
     },
     created() {
       this.loadSchedule({
         id: this.$route.params.id,
         successCallback: (data) => {
-          this.loadSpecialHours({idSchedule:this.$route.params.id});
-          this.formModel.model = this.getSchedule();
+          this.formModel.model = data;
+          this.loadSpecialHours({filter:{schedule:this.$route.params.id}});
         }
       });
     },
@@ -144,10 +155,26 @@
         getSchedule: 'getModel',
       }),
       ...mapActions('schedule', {
-        loadSchedule: 'loadOne'
+        loadSchedule: 'loadOne',
+        updateSchedule: 'update',
       }),
       onSubmit(formModel) {
-        console.log(formModel);
+        let idSchedule = this.idSchedule;
+        console.log(idSchedule, formModel.model);
+        this.updateSchedule({
+          id: idSchedule,
+          data: formModel.model,
+          successCallback: (data) => {
+            this.$bvToast.toast(this.$t('Successfully saved'), {
+              toaster: 'b-toaster-top-left',
+              appendToast: true,
+              autoHideDelay: 10000
+            });
+          },
+          failCallback: (data) => {
+            formModel.handleResponseErrors(data);
+          },
+        })
       },
       onReset() {
       },

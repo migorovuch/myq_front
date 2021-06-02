@@ -19,30 +19,6 @@
   export default {
     name: "CompanySettings",
     components: {ScheduleList, CompanyForm},
-    data: function () {
-      return {
-        company: null,
-      };
-    },
-    methods: {
-      ...mapActions('company', {
-        loadMyCompany: 'loadOne'
-      }),
-      ...mapActions('schedule', {
-        loadScheduleList: 'load'
-      }),
-      ...mapGetters('company', {
-        getCompany: 'getModel'
-      }),
-    },
-    created() {
-      this.loadMyCompany({
-        id: 1,
-        successCallback: (data) => {
-          this.loadScheduleList({idCompany: data.id});
-        }
-      });
-    }
   }
 </script>
 

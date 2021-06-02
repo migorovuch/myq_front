@@ -19,10 +19,52 @@ export default {
             companyApiProvider.getCompany(
                 id,
                 (data) => {
+                    context.commit('loadOne', data);
                     if (successCallback) {
                         successCallback(data);
                     }
-                    context.commit('loadOne', data);
+                },
+                failCallback
+            );
+        },
+        loadMyCompany(context, {successCallback, failCallback}) {
+            companyApiProvider.getMyCompany(
+                (data) => {
+                    if (data.length) {
+                        context.commit('loadOne', data);
+                    }
+                    if (successCallback) {
+                        successCallback(data);
+                    }
+                },
+                failCallback
+            );
+        },
+        create(context, {data, successCallback, failCallback}) {
+            companyApiProvider.create(
+                data,
+                (companyData) => {
+                    if (Object.keys(companyData).length === 0) {
+                        context.commit('loadOne', companyData);
+                    }
+                    if (successCallback) {
+                        successCallback(companyData);
+                    }
+                },
+                failCallback
+            );
+        },
+        update(context, {id, data, successCallback, failCallback}) {
+            companyApiProvider.update(
+                id,
+                data,
+                (companyData) => {
+                    if (Object.keys(companyData).length === 0) {
+                        context.commit('loadOne', companyData);
+                    }
+                    if (successCallback) {
+                        successCallback(companyData);
+                    }
                 },
                 failCallback
             );

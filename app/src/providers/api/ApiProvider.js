@@ -45,7 +45,7 @@ export default class ApiProvider {
 
     request(url, options = {}, successCallback = null, failCallback = null, errorCallback = function () {}) {
         url = process.env.VUE_APP_API_URL + url;
-        if ('body' in options && typeof options.body !== 'string') {
+        if ('body' in options && options.body && typeof options.body !== 'string') {
             options.body = JSON.stringify(this.underscoreObjectKeys(options.body));
         }
         if('queryParams' in options) {
@@ -57,9 +57,8 @@ export default class ApiProvider {
             },
             method: 'GET'
         };
-        let token = this.getToken();
         if (this.isUserLogged()) {
-            requestOptions.headers.Authorization = 'Bearer ' + token;
+            requestOptions.headers.Authorization = 'Bearer ' + this.getToken();
         }
         Object.assign(requestOptions, options);
         (async () => {
@@ -71,7 +70,7 @@ export default class ApiProvider {
                         response.json().then(data => {successCallback(this.camelObjectKeys(data))});
                     }
                 } else {
-                    if (typeof errorCallback === "function") {
+                    if (typeof failCallback === "function") {
                         response.json().then(data => {failCallback(this.camelObjectKeys(data))});
                     }
                 }
@@ -126,7 +125,7 @@ export default class ApiProvider {
             .map(
                 key => {
                     let val = obj[key];
-                    if (typeof val === 'object') {
+                    if (typeof val === 'object' && val) {
                         val = this.underscoreObjectKeys(val);
                     }
                     newObj[this.toUnderscore(key)] = val;

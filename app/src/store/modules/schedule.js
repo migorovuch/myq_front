@@ -12,9 +12,9 @@ export default {
         getModel: state => state.model,
     },
     actions: {
-        load(context, {idCompany, successCallback, failCallback}) {
+        load(context, {filter, successCallback, failCallback}) {
             scheduleApiProvider.getScheduleList(
-                idCompany,
+                filter,
                 (data) => {
                     context.commit('load', data);
                     if (successCallback) {
@@ -25,12 +25,30 @@ export default {
             );
         },
         loadOne(context, {id, successCallback, failCallback}) {
-            scheduleApiProvider.getSchedule(
-                id,
+            let filter = {id: id};
+            scheduleApiProvider.getScheduleList(
+                filter,
                 (data) => {
-                    context.commit('loadOne', data);
+                    if (data.length) {
+                        context.commit('loadOne', data[0]);
+                        if (successCallback) {
+                            successCallback(data[0]);
+                        }
+                    }
+                },
+                failCallback
+            );
+        },
+        update(context, {id, data, successCallback, failCallback}) {
+            scheduleApiProvider.update(
+                id,
+                data,
+                (callbackData) => {
+                    if (Object.keys(callbackData).length === 0) {
+                        context.commit('loadOne', callbackData);
+                    }
                     if (successCallback) {
-                        successCallback(data);
+                        successCallback(callbackData);
                     }
                 },
                 failCallback

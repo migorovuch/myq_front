@@ -17,7 +17,7 @@
   import AppFormInput from "@/models/AppFormInput";
   import {required, email} from "vuelidate/lib/validators";
   import AppForm from "@/views/components/AppForm";
-  import {mapGetters} from "vuex";
+  import {mapActions, mapGetters} from "vuex";
 
   export default {
     name: "CompanyForm",
@@ -25,7 +25,15 @@
     data: function() {
       return {
         formModel: new AppFormModel(
-            null,
+            {
+              name: '',
+              email: '',
+              phone: '',
+              logo: [],
+              address: '',
+              description: '',
+              photos: [],
+            },
             {
               name: new AppFormInput(
                   "text",
@@ -81,21 +89,57 @@
       ...mapGetters('company', {
         getCompany: 'getModel'
       }),
+      ...mapActions('company', {
+        createCompany: 'create',
+        updateCompany: 'update',
+        loadMyCompany: 'loadMyCompany'
+      }),
+      ...mapActions('schedule', {
+        loadScheduleList: 'load'
+      }),
       onSubmit(formModel) {
-        console.log(formModel);
-        this.$bvToast.toast(this.$t('Successfully saved'), {
-          toaster: 'b-toaster-top-left',
-          appendToast: true,
-          autoHideDelay: 10000
-        });
-        // this.$root.$emit('bv::hide::modal', 'company-settings');
+        if (!formModel.errors.invalid) {
+          let successCallback = (data) => {
+            this.$bvToast.toast(this.$t('Successfully saved'), {
+              toaster: 'b-toaster-top-left',
+              appendToast: true,
+              autoHideDelay: 10000
+            });
+          };
+          console.log('company', this.getCompany());
+          if (!this.getCompany()) {
+            console.log('save');
+            this.createCompany({
+              data: formModel.model,
+              successCallback: successCallback
+            });
+          } else {
+            console.log('update');
+            this.updateCompany({
+              id: this.getCompany().id,
+              data: formModel.model,
+              successCallback: successCallback
+            });
+          }
+
+        }
       },
       onReset() {
 
       }
     },
-    created() {
-      this.formModel.model = this.getCompany();
+    mounted() {
+      this.loadMyCompany({
+        successCallback: (data) => {
+          if (Object.keys(data).length !== 0) {
+            this.formModel.model = Object.assign(this.formModel.model, data);
+            this.loadScheduleList({filter:{company: data.id}});
+          }
+        },
+        failCallback: (data) => {
+          // this.$router.push({ name: 'home' });
+        }
+      });
     },
   }
 </script>

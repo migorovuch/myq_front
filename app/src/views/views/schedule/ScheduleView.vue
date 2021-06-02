@@ -13,7 +13,7 @@ export default {
   components: {CompanyCalendar},
   data() {
     return {
-      idSchedule: parseInt(this.$route.params.id)
+      idSchedule: this.$route.params.id
     };
   },
   created() {

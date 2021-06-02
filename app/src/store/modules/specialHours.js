@@ -11,9 +11,9 @@ export default {
         getList: state => state.list,
     },
     actions: {
-        load(context, {idSchedule, successCallback, failCallback}) {
+        load(context, {filter, successCallback, failCallback}) {
             specialHoursApiProvider.getSpecialHours(
-                idSchedule,
+                filter,
                 (data) => {
                     context.commit('load', data);
                     if (successCallback) {
@@ -22,7 +22,19 @@ export default {
                 },
                 failCallback
             );
-        }
+        },
+        saveList(context, {data, successCallback, failCallback}) {
+            specialHoursApiProvider.saveList(
+                data,
+                (data) => {
+                    context.commit('load', data);
+                    if (successCallback) {
+                        successCallback(data);
+                    }
+                },
+                failCallback
+            );
+        },
     },
     mutations: {
         load(state, payload) {
