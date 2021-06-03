@@ -6,10 +6,7 @@ export default class AccountApiProvider extends ApiProvider {
         this.post(
             'login_check',
             data,
-            data => {
-                this.setToken(data.token);
-                successCallback(data)
-            },
+            successCallback,
             failCallback
         );
     }
@@ -24,9 +21,5 @@ export default class AccountApiProvider extends ApiProvider {
 
     resetPassword(formModel, successCallback, failCallback) {
         this.post('reset-password/reset', formModel.model, successCallback, failCallback);
-    }
-
-    logout() {
-        localStorage.removeItem('userToken');
     }
 }

@@ -1,33 +1,6 @@
+import store from "../../store/store";
+
 export default class ApiProvider {
-
-    isUserLogged() {
-        let userToken = localStorage.getItem("userToken");
-        if (userToken && userToken !== 'null') {
-            //check is token expired
-            let currentTime = Math.floor(Date.now() / 1000);
-            let decodedUserToken = this.parseJwt(userToken);
-            return currentTime < decodedUserToken.exp;
-        }
-        return false;
-    }
-
-    parseJwt (token) {
-        let base64Url = token.split('.')[1];
-        let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(''));
-
-        return JSON.parse(jsonPayload);
-    }
-
-    setToken(userToken) {
-        localStorage.userToken = userToken;
-    }
-
-    getToken() {
-        return localStorage.userToken;
-    }
 
     buildUrlParams(params, parentStr = '') {
         return Object.keys(params)
@@ -57,8 +30,8 @@ export default class ApiProvider {
             },
             method: 'GET'
         };
-        if (this.isUserLogged()) {
-            requestOptions.headers.Authorization = 'Bearer ' + this.getToken();
+        if (store.getters['account/isUserLogged']) {
+            requestOptions.headers.Authorization = 'Bearer ' + store.getters['account/getUserToken'];
         }
         Object.assign(requestOptions, options);
         (async () => {
@@ -70,6 +43,9 @@ export default class ApiProvider {
                         response.json().then(data => {successCallback(this.camelObjectKeys(data))});
                     }
                 } else {
+                    if (response.status === 401) {
+                        store.dispatch('account/logout');
+                    }
                     if (typeof failCallback === "function") {
                         response.json().then(data => {failCallback(this.camelObjectKeys(data))});
                     }

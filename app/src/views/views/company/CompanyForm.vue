@@ -106,7 +106,6 @@
               autoHideDelay: 10000
             });
           };
-          console.log('company', this.getCompany());
           if (!this.getCompany()) {
             console.log('save');
             this.createCompany({

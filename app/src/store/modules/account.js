@@ -3,29 +3,27 @@ let accountApiProvider = new AccountApiProvider();
 
 export default {
     namespaced: true,
-    state: {
-        isUserLogged: accountApiProvider.isUserLogged(),
-        userData: null,
-        companyData: null
-    },
     getters: {
-        isUserLogged: state => state.isUserLogged,
-        getUserData: state => state.userData,
+        isUserLogged(state, getters, rootState, rootGetters) {
+            return rootGetters.isUserLogged;
+        },
+        getUserToken(state, getters, rootState, rootGetters) {
+            return rootGetters.getUserToken;
+        },
     },
     actions: {
         login(context, {data, successCallback, failCallback}) {
             accountApiProvider.login(
                 data,
                 (response) => {
+                    context.commit('setUserToken', response.token, { root: true })
                     successCallback(response);
-                    context.commit('login');
                 },
                 failCallback
             );
         },
         logout(context) {
-            accountApiProvider.logout();
-            context.commit('logout');
+            context.commit('setUserToken', null, { root: true })
         },
         requestPassword(context, data, successCallback, failCallback) {
             accountApiProvider.requestPassword(data, successCallback, failCallback);
@@ -37,12 +35,4 @@ export default {
             accountApiProvider.resetPassword(data, successCallback, failCallback);
         },
     },
-    mutations: {
-        login(state) {
-            state.isUserLogged = true;
-        },
-        logout(state) {
-            state.isUserLogged = false;
-        },
-    }
 };
