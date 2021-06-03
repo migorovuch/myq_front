@@ -218,7 +218,10 @@ export default {
             periods[periodKey].endDate = specialHoursItem.endDate;
           }
           let dayOfWeek = specialHoursItem.repeatDay;
-          periods[periodKey].specialHours[dayOfWeek].id = specialHoursItem.id;
+          Object.assign(periods[periodKey].specialHours[dayOfWeek], specialHoursItem);
+          let firstRange = specialHoursItem.ranges[0];
+          periods[periodKey].specialHours[dayOfWeek].from = firstRange.from;
+          periods[periodKey].specialHours[dayOfWeek].to = firstRange.to;
           for (let range of specialHoursItem.ranges) {
             if (SpecialHoursHelper.timeStringToMinutes(range.from) < SpecialHoursHelper.timeStringToMinutes(periods[periodKey].specialHours[dayOfWeek].from)) {
               periods[periodKey].specialHours[dayOfWeek].from = range.from;

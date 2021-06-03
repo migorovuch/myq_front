@@ -44,7 +44,7 @@ export default {
                 id,
                 data,
                 (callbackData) => {
-                    if (Object.keys(callbackData).length === 0) {
+                    if (Object.keys(callbackData).length) {
                         context.commit('loadOne', callbackData);
                     }
                     if (successCallback) {

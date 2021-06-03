@@ -30,7 +30,7 @@ export default {
         loadMyCompany(context, {successCallback, failCallback}) {
             companyApiProvider.getMyCompany(
                 (data) => {
-                    if (data.length) {
+                    if (Object.keys(data).length) {
                         context.commit('loadOne', data);
                     }
                     if (successCallback) {
@@ -44,7 +44,7 @@ export default {
             companyApiProvider.create(
                 data,
                 (companyData) => {
-                    if (Object.keys(companyData).length === 0) {
+                    if (Object.keys(companyData).length) {
                         context.commit('loadOne', companyData);
                     }
                     if (successCallback) {
@@ -59,7 +59,7 @@ export default {
                 id,
                 data,
                 (companyData) => {
-                    if (Object.keys(companyData).length === 0) {
+                    if (Object.keys(companyData).length) {
                         context.commit('loadOne', companyData);
                     }
                     if (successCallback) {
