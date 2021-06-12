@@ -1,4 +1,5 @@
 import ApiProvider from "./ApiProvider";
+import store from "../../store/store";
 
 export default class CompanyApiProvider extends ApiProvider {
     create(data,successCallback, failCallback) {
@@ -28,5 +29,19 @@ export default class CompanyApiProvider extends ApiProvider {
         if(failCallback) {
             failCallback(company);
         }
+    }
+
+    uploadLogo(id, logo, successCallback, failCallback) {
+        let formData = new FormData();
+        formData.append(`logo`, logo, logo.name);
+        this.request(
+            'companies/logo/' + id,
+            {
+                method: 'POST',
+                body: formData,
+            },
+            successCallback,
+            failCallback
+        );
     }
 }

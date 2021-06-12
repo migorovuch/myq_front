@@ -92,14 +92,21 @@
       ...mapActions('company', {
         createCompany: 'create',
         updateCompany: 'update',
-        loadMyCompany: 'loadMyCompany'
+        loadMyCompany: 'loadMyCompany',
+        uploadCompanyLogo: 'uploadLogo'
       }),
       ...mapActions('schedule', {
         loadScheduleList: 'load'
       }),
       onSubmit(formModel) {
         if (!formModel.errors.invalid) {
+          let logo = formModel.model.logo;
+          formModel.model.logo = null;
           let successCallback = (data) => {
+            this.uploadCompanyLogo({
+              id: data.id,
+              data: logo
+            });
             this.$bvToast.toast(this.$t('Successfully saved'), {
               toaster: 'b-toaster-top-left',
               appendToast: true,

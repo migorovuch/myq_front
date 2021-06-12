@@ -69,6 +69,20 @@ export default {
                 failCallback
             );
         },
+
+        uploadLogo(context, {id, data, successCallback, failCallback}) {
+            companyApiProvider.uploadLogo(
+                id,
+                data,
+                (response) => {
+                    context.commit('loadLogo', response.fileName);
+                    if (successCallback) {
+                        successCallback(response);
+                    }
+                },
+                failCallback
+            );
+        }
     },
     mutations: {
         load(state, payload) {
@@ -76,6 +90,9 @@ export default {
         },
         loadOne(state, payload) {
             state.model = payload;
+        },
+        loadLogo(state, payload) {
+            state.model.logo = payload;
         }
     }
 };

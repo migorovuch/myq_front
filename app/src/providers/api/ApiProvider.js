@@ -18,22 +18,26 @@ export default class ApiProvider {
 
     request(url, options = {}, successCallback = null, failCallback = null, errorCallback = function () {}) {
         url = process.env.VUE_APP_API_URL + url;
-        if ('body' in options && options.body && typeof options.body !== 'string') {
+        if ('body' in options && options.body && typeof options.body !== 'string' && !(options.body instanceof FormData)) {
+            console.log('stringfy', url, typeof options.body);
             options.body = JSON.stringify(this.underscoreObjectKeys(options.body));
         }
         if('queryParams' in options) {
             url += '?' + this.buildUrlParams(options.queryParams);
         }
         let requestOptions = {
+            method: 'GET',
             headers: {
-                'Content-Type': 'application/json;charset=utf-8',
-            },
-            method: 'GET'
+                Accept: 'application/json'
+            }
         };
+        if (!(options.body instanceof FormData)) {
+            requestOptions.headers['Content-Type'] = 'application/json;charset=utf-8';
+        }
+        Object.assign(requestOptions, options);
         if (store.getters['account/isUserLogged']) {
             requestOptions.headers.Authorization = 'Bearer ' + store.getters['account/getUserToken'];
         }
-        Object.assign(requestOptions, options);
         (async () => {
             return await fetch(url, requestOptions);
         })()
@@ -79,6 +83,21 @@ export default class ApiProvider {
 
     patch(url, body, successCallback = null, failCallback = null, errorCallback = function () {}) {
         this.request(url, {body: body, method: 'PATCH'}, successCallback, failCallback, errorCallback);
+    }
+
+    uploadFiles(url, files, successCallback = null, failCallback = null, errorCallback = function () {}) {
+        let formData = new FormData();
+        for (let fileKey in files) {
+            formData.append(`files`, files[fileKey], files[fileKey].name);
+        }
+        console.log('formData', formData.getAll('files'));
+        this.request(
+            url,
+            {body: formData, method: 'PATCH', headers:{'Content-Type': 'multipart/form-data'}},
+            successCallback,
+            failCallback,
+            errorCallback
+        );
     }
 
     toCamel(s) {
