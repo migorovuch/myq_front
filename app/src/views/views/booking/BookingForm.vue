@@ -206,6 +206,16 @@ export default {
           data: bookingFormModel.model,
           successCallback: (data) => {
             this.$emit('onFormSubmit', data);
+          },
+          failCallback: (data) => {
+            //{"title":"Validation failed with 1 error(s).","errors":[{"source":"start","title":"These dates are not allowed for booking"}]}
+            for (let error of data.errors) {
+              if (error.source === 'start') {
+                data.errors.push({source:'startDate',title:error.title});
+                data.errors.push({source:'startTime',title:error.title});
+              }
+            }
+            bookingFormModel.handleResponseErrors(data);
           }
         });
       }

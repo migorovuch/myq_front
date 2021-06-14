@@ -103,10 +103,12 @@
           let logo = formModel.model.logo;
           formModel.model.logo = null;
           let successCallback = (data) => {
-            this.uploadCompanyLogo({
-              id: data.id,
-              data: logo
-            });
+            if (Object.keys(logo).length !== 0) {
+              this.uploadCompanyLogo({
+                id: data.id,
+                data: logo
+              });
+            }
             this.$bvToast.toast(this.$t('Successfully saved'), {
               toaster: 'b-toaster-top-left',
               appendToast: true,
