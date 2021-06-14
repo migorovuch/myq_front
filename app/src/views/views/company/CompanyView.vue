@@ -46,7 +46,7 @@ export default {
       id: this.$route.params.id,
       successCallback: (data) => {
         this.loadScheduleList({
-          filter: {company:data.id},
+          filter: {company:data[0].id},
           successCallback: (data) => {
             if (data.length) {
               this.selectedSchedule = data[0].id;

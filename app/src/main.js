@@ -14,6 +14,9 @@ Vue.config.productionTip = false
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
 
+Date.prototype.timestamp = function() {
+  return this.valueOf() / 1000;
+};
 Date.prototype.toFormatString = function() {
   var
       month = '' + (this.getMonth() + 1),

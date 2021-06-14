@@ -12,16 +12,27 @@ export default {
         getModel: state => state.model,
     },
     actions: {
-        load(context, idCompany) {
-            context.commit('load', [idCompany]);
-        },
-        loadOne(context, {id, successCallback, failCallback}) {
-            companyApiProvider.getCompany(
-                id,
+        load(context, {filter, successCallback, failCallback}) {
+            companyApiProvider.getCompanyList(
+                filter,
                 (data) => {
-                    context.commit('loadOne', data);
+                    context.commit('load', data);
                     if (successCallback) {
                         successCallback(data);
+                    }
+                },
+                failCallback
+            );
+        },
+        loadOne(context, {id, successCallback, failCallback}) {
+            companyApiProvider.getCompanyList(
+                {id: id},
+                (data) => {
+                    if (data.length) {
+                        context.commit('loadOne', data[0]);
+                        if (successCallback) {
+                            successCallback(data);
+                        }
                     }
                 },
                 failCallback

@@ -78,6 +78,7 @@ export default {
     } else {
       this.formModel.model.duration = this.getSelectedSchedule().bookingDuration;
     }
+    this.formModel.model.schedule = this.getSelectedSchedule().id;
 
   },
   data: function () {
@@ -86,7 +87,7 @@ export default {
           {
             startDate: '',
             startTime: '',
-            details: '',
+            customerComment: '',
             userName: '',
             userPhone: '',
             duration: 0
@@ -108,7 +109,7 @@ export default {
                   required: this.$t('This value should not be blank'),
                 }
             ),
-            details: new AppFormInput(
+            customerComment: new AppFormInput(
                 "textarea",
                 this.$t('Additional details:'),
                 this.$t('Enter additional details'),
@@ -192,6 +193,15 @@ export default {
         }
       }
       if (!bookingFormModel.errors.invalid) {
+        let start = new Date(bookingFormModel.model.startDate);
+        let startTimeMinutes = SpecialHoursHelper.timeStringToMinutes(bookingFormModel.model.startTime);
+        let hours = parseInt(startTimeMinutes / 60);
+        start.setHours(hours);
+        start.setMinutes(startTimeMinutes - (hours * 60));
+        let end = new Date(start.getTime() + bookingFormModel.model.duration * 60000);
+        bookingFormModel.model.start = start.timestamp();
+        bookingFormModel.model.end = end.timestamp();
+
         this.createEvent({
           data: bookingFormModel.model,
           successCallback: (data) => {

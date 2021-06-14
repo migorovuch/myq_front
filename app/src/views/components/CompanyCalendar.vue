@@ -94,6 +94,9 @@ export default {
           if (typeof period.endDate === 'string') {
             period.endDate = new Date(period.endDate);
           }
+          if (typeof period.repeatDate === 'string') {
+            period.repeatDate = new Date(period.repeatDate);
+          }
           if (period.startDate <= currentCalendarView.endDate && period.endDate >= currentCalendarView.startDate) {
             switch (period.repeatCondition) {
               case 0://every day
@@ -130,6 +133,12 @@ export default {
       }
       //take away the time of events
       for (let event of events) {
+        if (typeof event.start === 'string') {
+          event.start = new Date(event.start);
+        }
+        if (typeof event.end === 'string') {
+          event.end = new Date(event.end);
+        }
         if (event.start <= currentCalendarView.endDate && event.end >= currentCalendarView.startDate) {
           let eventDay = event.start.getDay();
           if (eventDay in result) {
@@ -206,14 +215,16 @@ export default {
       }
     },
     calendarViewChange(event) {
-      this.loadEvents({
-        filters: {filterFrom: event.startDate, filterTo: event.endDate},
-        successCallback: (data) => {
-          this.calendarCurrentView = event;
-          this.specialHoursForCurrentView = this.calculateSpecialHoursForCalendarCurrentView(this.getSpecialHours(), data, event);
-          this.calculateCalendarFromTo(this.specialHoursForCurrentView, event);
-        }
-      })
+      this.calendarCurrentView = event;
+      if (Object.keys(event).length && Object.keys(this.getSpecialHours()).length > 0) {
+        this.loadEvents({
+          filter: {filterFrom: event.startDate.timestamp(), filterTo: event.endDate.timestamp()},
+          successCallback: (data) => {
+            this.specialHoursForCurrentView = this.calculateSpecialHoursForCalendarCurrentView(this.getSpecialHours(), data, event);
+            this.calculateCalendarFromTo(this.specialHoursForCurrentView, event);
+          }
+        })
+      }
     },
   }
 }

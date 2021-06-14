@@ -7,19 +7,19 @@ export default {
     state: {
         list: [],
         model: null,
-        selectedSchedule: null,
-        selectedSpecialHours: [],
+        selectedSchedule: null,// for booking form
+        selectedSpecialHours: [],// for booking form
     },
     getters: {
         getList: state => state.list,
         getModel: state => state.model,
-        getSelectedSchedule: state => state.selectedSchedule,
-        getSelectedSpecialHours: state => state.selectedSpecialHours,
+        getSelectedSchedule: state => state.selectedSchedule,// for booking form
+        getSelectedSpecialHours: state => state.selectedSpecialHours,// for booking form
     },
     actions: {
-        load(context, {filters, successCallback, failCallback}) {
+        load(context, {filter, successCallback, failCallback}) {
             eventsApiProvider.getEventsList(
-                filters,
+                filter,
                 (data) => {
                     context.commit('load', data);
                     if (successCallback) {
@@ -42,8 +42,7 @@ export default {
             );
         },
         create(context, {data, successCallback, failCallback}) {
-            console.log(data);
-            successCallback(data);
+            eventsApiProvider.create(data, successCallback, failCallback);
         }
     },
     mutations: {
