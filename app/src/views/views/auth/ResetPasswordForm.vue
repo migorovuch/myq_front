@@ -83,10 +83,10 @@
               this.resetPassword(formModel.model,
                   () => {
                     this.$router.push({name: 'home'});
-                    this.$bvToast.toast(this.$t('Password successfully changed'), {
+                    this.$root.$bvToast.toast(this.$t('Password successfully changed'), {
                       toaster: 'b-toaster-top-left',
                       appendToast: true,
-                      autoHideDelay: 10000
+                      autoHideDelay: 4000
                     });
                   },
                   data => {

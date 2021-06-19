@@ -113,10 +113,10 @@
                 {
                   data: formModel.model,
                   successCallback: () => {
-                    this.$bvToast.toast(this.$t('Successfully authenticated'), {
+                    this.$root.$bvToast.toast(this.$t('Successfully authenticated'), {
                       toaster: 'b-toaster-top-left',
                       appendToast: true,
-                      autoHideDelay: 10000
+                      autoHideDelay: 4000
                     });
                     this.$root.$emit('bv::hide::modal', 'modal-login');
                   },
@@ -132,10 +132,10 @@
             this.requestPassword(formModel.model, result => {
                   formModel.model.email = '';
                   if ('message' in result) {
-                    this.$bvToast.toast(result.message, {
+                    this.$root.$bvToast.toast(result.message, {
                       toaster: 'b-toaster-top-left',
                       appendToast: true,
-                      autoHideDelay: 10000
+                      autoHideDelay: 4000
                     });
                   }
                 },

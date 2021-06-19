@@ -109,10 +109,10 @@
                 data: logo
               });
             }
-            this.$bvToast.toast(this.$t('Successfully saved'), {
+            this.$root.$bvToast.toast(this.$t('Successfully saved'), {
               toaster: 'b-toaster-top-left',
               appendToast: true,
-              autoHideDelay: 10000
+              autoHideDelay: 4000
             });
           };
           if (!this.getCompany()) {

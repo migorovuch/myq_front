@@ -95,10 +95,10 @@
                       password: "",
                       roles: ["ROLE_USER"]
                     }
-                    this.$bvToast.toast(this.$t('Account successfully registered'), {
+                    this.$root.$bvToast.toast(this.$t('Account successfully registered'), {
                       toaster: 'b-toaster-top-left',
                       appendToast: true,
-                      autoHideDelay: 10000
+                      autoHideDelay: 4000
                     });
                   },
                   data => {
