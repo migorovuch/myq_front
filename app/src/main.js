@@ -17,7 +17,7 @@ Vue.use(BootstrapVueIcons);
 Date.prototype.timestamp = function() {
   return this.valueOf() / 1000;
 };
-Date.prototype.toFormatString = function() {
+Date.prototype.toFormatString = function(time = true) {
   var
       month = '' + (this.getMonth() + 1),
       day = '' + this.getDate(),
@@ -42,7 +42,10 @@ Date.prototype.toFormatString = function() {
     seconds = '0' + seconds;
   }
 
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  if (time) {
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }
+  return `${year}-${month}-${day}`;
 };
 
 new Vue({

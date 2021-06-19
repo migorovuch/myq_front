@@ -30,8 +30,8 @@ export default {
       calendarTimeFrom: 0,
       calendarTimeTo: 24 * 60,
       specialHoursForCurrentView: {},
+      specialHours: [],
       calendarCurrentView: {},
-      idSchedule: this.$route.params.id
     };
   },
   computed: {
@@ -57,111 +57,34 @@ export default {
     ...mapGetters('schedule', {
       getSchedule: 'getModel',
     }),
+    ...mapActions('availability', {
+      loadAvailability: 'load'
+    }),
+    ...mapGetters('availability', {
+      getAvailability: 'getList',
+    }),
     getEvents() {
       if (this.withEvents) {
         return this.getEventsList();
       }
       return [];
     },
-    calculateSpecialHoursForCalendarCurrentView(specialHours, events, currentCalendarView) {
+    calculateSpecialHoursForCalendarCurrentView(availability, currentCalendarView) {
       let result = {};
-      if (currentCalendarView.view === 'week' || currentCalendarView.view === 'day') {
-        let addRanges = (result, dayOfWeek, ranges) => {
-          if (!(dayOfWeek in result)) {
+      for (let d = new Date(currentCalendarView.startDate); d <= currentCalendarView.endDate; d.setDate(d.getDate() + 1)) {
+        let key = d.toFormatString(false);
+        if (availability.hasOwnProperty(key)) {
+          let dayOfWeek = d.getDay();
+          if(!result.hasOwnProperty(dayOfWeek)) {
             result[dayOfWeek] = [];
           }
-          for (let range of ranges) {
-            if (Object.keys(range).length) {
-              result[dayOfWeek].push({
-                from: SpecialHoursHelper.timeStringToMinutes(range.from),
-                to: SpecialHoursHelper.timeStringToMinutes(range.to)
-              });
-            }
-          }
-
-          return result;
-        };
-        let addRepeatDateRanges = (result, period) => {
-          let dayOfWeek = period.repeatDate.getDay();
-          dayOfWeek = dayOfWeek ? dayOfWeek : 7;
-
-          return addRanges(result, dayOfWeek, period.ranges);
-        };
-        for (let period of specialHours) {
-          if (typeof period.startDate === 'string') {
-            period.startDate = new Date(period.startDate);
-          }
-          if (typeof period.endDate === 'string') {
-            period.endDate = new Date(period.endDate);
-          }
-          if (typeof period.repeatDate === 'string') {
-            period.repeatDate = new Date(period.repeatDate);
-          }
-          if (period.startDate <= currentCalendarView.endDate && period.endDate >= currentCalendarView.startDate) {
-            switch (period.repeatCondition) {
-              case 0://every day
-                for (let i = 1; i <= 7; i++) {
-                  result = addRanges(result, i, period.ranges);
+          for (let range of availability[key]) {
+            result[dayOfWeek].push(
+                {
+                  from: SpecialHoursHelper.timeStringToMinutes(range.from),
+                  to: SpecialHoursHelper.timeStringToMinutes(range.to)
                 }
-                break;
-              case 1://once a week
-                // result = addRepeatDateRanges(result, period);
-                result = addRanges(result, (parseInt(period.repeatDay) + 1), period.ranges);
-                break;
-              case 2://every month
-                period.repeatDate.setMonth(currentCalendarView.startDate.getMonth());
-                period.repeatDate.setFullYear(currentCalendarView.startDate.getFullYear());
-                if (
-                    period.repeatDate >= currentCalendarView.startDate &&
-                    period.repeatDate <= currentCalendarView.endDate
-                ) {
-                  result = addRepeatDateRanges(result, period);
-                }
-                break;
-              case 3://every year
-                period.repeatDate.setFullYear(currentCalendarView.getFullYear());
-                if (
-                    period.repeatDate >= currentCalendarView.startDate
-                    && period.repeatDate <= currentCalendarView.endDate
-                ) {
-                  result = addRepeatDateRanges(result, period);
-                }
-                break;
-            }
-          }
-        }
-      }
-      //take away the time of events
-      for (let event of events) {
-        if (typeof event.start === 'string') {
-          event.start = new Date(event.start);
-        }
-        if (typeof event.end === 'string') {
-          event.end = new Date(event.end);
-        }
-        if (event.start <= currentCalendarView.endDate && event.end >= currentCalendarView.startDate) {
-          let eventDay = event.start.getDay();
-          if (eventDay in result) {
-            let remove = [];
-            for (let timeKey in result[eventDay]) {
-              let time = result[eventDay][timeKey];
-              let eventStart = (event.start.getHours() * 60 + event.start.getMinutes());
-              let eventEnd = (event.end.getHours() * 60 + event.end.getMinutes());
-              if (time.from >= eventStart && time.from <= eventEnd) {
-                time.from = eventEnd;
-              } else if (time.to <= eventEnd && time.to > eventStart) {
-                time.to = eventStart;
-              } else if (time.from < eventStart && time.to > eventEnd) {
-                result[eventDay].push({from: eventEnd, to: time.to});
-                time.to = eventStart;
-              }
-              if (time.from >= time.to) {
-                remove.push(timeKey);
-              }
-            }
-            for (let key of remove) {
-              result[eventDay].splice(key, 1);
-            }
+            );
           }
         }
       }
@@ -184,48 +107,62 @@ export default {
           specialHoursForCurrentView.constructor === Object &&
           (currentCalendarView.view === 'week' || currentCalendarView.view === 'day')
       ) {
-        let firstSpecialHours = specialHoursForCurrentView[Object.keys(specialHoursForCurrentView)[0]];
-        if (Array.isArray(firstSpecialHours)) {
-          firstSpecialHours = firstSpecialHours[0];
-        }
-        if (!firstSpecialHours) {
-          return;
-        }
-        this.calendarTimeFrom = this.calendarTimeTo = firstSpecialHours.from;
-        Object.keys(specialHoursForCurrentView).forEach(specialHoursKey => {
-          let dailyHours = specialHoursForCurrentView[specialHoursKey];
-          if (Array.isArray(dailyHours)) {
-            Array.from(dailyHours).forEach(time => {
-              if (time.from < this.calendarTimeFrom) {
-                this.calendarTimeFrom = time.from;
-              }
-              if (time.to > this.calendarTimeTo) {
-                this.calendarTimeTo = time.to;
-              }
-            });
-          } else {
-            if (dailyHours.from < this.calendarTimeFrom) {
-              this.calendarTimeFrom = dailyHours.from;
+        this.calendarTimeFrom = null;
+        this.calendarTimeTo = null;
+        Object.keys(specialHoursForCurrentView).forEach(dayOfWeek => {
+          let dailyHours = specialHoursForCurrentView[dayOfWeek];
+          Array.from(dailyHours).forEach(time => {
+            if (time.from < this.calendarTimeFrom || this.calendarTimeFrom === null) {
+              this.calendarTimeFrom = time.from;
             }
-            if (dailyHours.to > this.calendarTimeTo) {
-              this.calendarTimeTo = dailyHours.to;
+            if (time.to > this.calendarTimeTo || this.calendarTimeTo === null) {
+              this.calendarTimeTo = time.to;
             }
-          }
+          });
         });
+
+        if (this.calendarTimeFrom === null) {
+          this.calendarTimeFrom = 9 * 60;
+        }
+        if (this.calendarTimeTo === null) {
+          this.calendarTimeTo = 18 * 60;
+        }
       }
     },
     calendarViewChange(event) {
       this.calendarCurrentView = event;
-      if (Object.keys(event).length && Object.keys(this.getSpecialHours()).length > 0) {
-        this.loadEvents({
-          filter: {filterFrom: event.startDate.timestamp(), filterTo: event.endDate.timestamp()},
-          successCallback: (data) => {
-            this.specialHoursForCurrentView = this.calculateSpecialHoursForCalendarCurrentView(this.getSpecialHours(), data, event);
-            this.calculateCalendarFromTo(this.specialHoursForCurrentView, event);
-          }
-        })
+      if (
+          Object.keys(event).length &&
+          this.getSchedule() !== null &&
+          (event.view === 'week' || event.view === 'day')
+      ) {
+        this.loadAvailabilityFromCache(event)
       }
     },
+    loadAvailabilityFromCache(event) {
+      let successCallback = (data) => {
+        this.specialHoursForCurrentView = this.calculateSpecialHoursForCalendarCurrentView(data, event);
+        this.calculateCalendarFromTo(this.specialHoursForCurrentView, event);
+      };
+      if (
+          this.specialHours.hasOwnProperty(event.startDate.toFormatString(false)) &&
+          this.specialHours.hasOwnProperty(event.endDate.toFormatString(false))
+      ) {
+        successCallback(this.specialHours);
+      } else {
+        this.loadAvailability({
+          filter: {
+            schedule: this.getSchedule().id,
+            filterFrom: event.startDate.timestamp(),
+            filterTo: event.endDate.timestamp(),
+          },
+          successCallback: (data) => {
+            successCallback(data);
+            Object.assign(this.specialHours, data);
+          }
+        });
+      }
+    }
   }
 }
 </script>

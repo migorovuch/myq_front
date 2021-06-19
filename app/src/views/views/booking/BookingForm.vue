@@ -142,8 +142,10 @@ export default {
     ...mapActions('events', {
       createEvent: 'create'
     }),
+    ...mapGetters('schedule', {
+      getSelectedSchedule: 'getModel',
+    }),
     ...mapGetters('events', {
-      getSelectedSchedule: 'getSelectedSchedule',
       getSelectedSpecialHours: 'getSelectedSpecialHours',
     }),
     bookingTimeValidation(bookingFormModel) {

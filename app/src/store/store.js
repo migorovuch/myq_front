@@ -5,6 +5,7 @@ import schedule from "./modules/schedule";
 import events from "./modules/events";
 import account from "./modules/account";
 import company from "./modules/company";
+import availability from "./modules/availability";
 import AccountLocalStorageProvider from "../providers/localStorage/AccountLocalStorageProvider";
 
 let accountLocalStorageProvider = new AccountLocalStorageProvider();
@@ -21,7 +22,8 @@ export default new Vuex.Store({
         schedule,
         events,
         account,
-        company
+        company,
+        availability
     },
     getters: {
         isUserLogged: state => state.isUserLogged,

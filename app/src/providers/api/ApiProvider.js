@@ -19,10 +19,11 @@ export default class ApiProvider {
     request(url, options = {}, successCallback = null, failCallback = null, errorCallback = function () {}) {
         url = process.env.VUE_APP_API_URL + url;
         if ('body' in options && options.body && typeof options.body !== 'string' && !(options.body instanceof FormData)) {
-            console.log('stringfy', url, typeof options.body);
+            options.body.timezoneOffset = new Date().getTimezoneOffset();
             options.body = JSON.stringify(this.underscoreObjectKeys(options.body));
         }
         if('queryParams' in options) {
+            options.queryParams.timezoneOffset = new Date().getTimezoneOffset();
             url += '?' + this.buildUrlParams(options.queryParams);
         }
         let requestOptions = {
@@ -90,7 +91,6 @@ export default class ApiProvider {
         for (let fileKey in files) {
             formData.append(`files`, files[fileKey], files[fileKey].name);
         }
-        console.log('formData', formData.getAll('files'));
         this.request(
             url,
             {body: formData, method: 'PATCH', headers:{'Content-Type': 'multipart/form-data'}},

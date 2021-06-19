@@ -50,7 +50,7 @@ export default {
           successCallback: (data) => {
             if (data.length) {
               this.selectedSchedule = data[0].id;
-              this.loadSelectedSchedule(data[0]);
+              this.selectSchedule(data[0]);
               this.loadSpecialHours({
                 filter: {schedule:this.selectedSchedule},
                 successCallback: (data) => {
@@ -88,6 +88,9 @@ export default {
       loadSchedule: 'loadOne',
       loadScheduleList: 'load'
     }),
+    ...mapMutations('schedule', {
+      selectSchedule: 'loadOne',
+    }),
     ...mapGetters('company', {
       getCompany: 'getModel',
     }),
@@ -106,7 +109,7 @@ export default {
           break;
         }
       }
-      this.loadSelectedSchedule(eventSchedule);
+      this.selectSchedule(eventSchedule);
       this.loadSpecialHours({
         filter: {schedule:value},
         idSchedule: value,
