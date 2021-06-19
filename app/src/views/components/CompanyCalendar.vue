@@ -79,20 +79,18 @@ export default {
             result[dayOfWeek] = [];
           }
           for (let range of availability[key]) {
+            let from = SpecialHoursHelper.timeStringToDate(range.from);
+            let to = SpecialHoursHelper.timeStringToDate(range.to);
             result[dayOfWeek].push(
                 {
-                  from: SpecialHoursHelper.timeStringToMinutes(range.from),
-                  to: SpecialHoursHelper.timeStringToMinutes(range.to)
+                  from: from.getHours() * 60 + from.getMinutes(),
+                  to: to.getHours() * 60 + to.getMinutes(),
+                  class: 'business-hours'
                 }
             );
           }
         }
       }
-      Object.keys(result).forEach(specialHoursKey => {
-        Object.keys(result[specialHoursKey]).forEach(timeKey => {
-          result[specialHoursKey][timeKey].class = 'business-hours';
-        });
-      });
 
       return result;
     },
@@ -145,10 +143,11 @@ export default {
         this.calculateCalendarFromTo(this.specialHoursForCurrentView, event);
       };
       if (
-          this.specialHours.hasOwnProperty(event.startDate.toFormatString(false)) &&
-          this.specialHours.hasOwnProperty(event.endDate.toFormatString(false))
+          this.specialHours.hasOwnProperty(this.getSchedule().id) &&
+          this.specialHours[this.getSchedule().id].hasOwnProperty(event.startDate.toFormatString(false)) &&
+          this.specialHours[this.getSchedule().id].hasOwnProperty(event.endDate.toFormatString(false))
       ) {
-        successCallback(this.specialHours);
+        successCallback(this.specialHours[this.getSchedule().id]);
       } else {
         this.loadAvailability({
           filter: {
@@ -158,7 +157,10 @@ export default {
           },
           successCallback: (data) => {
             successCallback(data);
-            Object.assign(this.specialHours, data);
+            if (!this.specialHours.hasOwnProperty(this.getSchedule().id)) {
+              this.specialHours[this.getSchedule().id] = {}
+            }
+            Object.assign(this.specialHours[this.getSchedule().id], data);
           }
         });
       }
