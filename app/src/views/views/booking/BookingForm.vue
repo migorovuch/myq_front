@@ -183,17 +183,6 @@ export default {
       return validationResult;
     },
     onSubmit(bookingFormModel) {
-      let validationResult = this.bookingTimeValidation(bookingFormModel);
-      if (validationResult < 3 && !this.getSelectedSchedule().available) {
-        bookingFormModel.errors.invalid = true;
-        if (validationResult < 1) {
-          bookingFormModel.errors.startDate = this.$t('This date is not available for booking');
-        } else if (validationResult < 2 || (validationResult < 3 && !('duration' in bookingFormModel.form))) {
-          bookingFormModel.errors.startTime = this.$t('This time is not available for booking');
-        } else if (validationResult < 3) {
-          bookingFormModel.errors.duration = this.$t('This duration is not available for booking');
-        }
-      }
       if (!bookingFormModel.errors.invalid) {
         let start = new Date(bookingFormModel.model.startDate);
         let startTimeMinutes = SpecialHoursHelper.timeStringToMinutes(bookingFormModel.model.startTime);
@@ -208,6 +197,12 @@ export default {
           data: bookingFormModel.model,
           successCallback: (data) => {
             this.$emit('onFormSubmit', data);
+            this.$root.$bvToast.toast(this.$t('Booking successfully created'), {
+              toaster: 'b-toaster-top-left',
+              appendToast: true,
+              autoHideDelay: 4000
+            });
+            this.$root.$emit('bv::hide::modal', 'modal-booking');
           },
           failCallback: (data) => {
             //{"title":"Validation failed with 1 error(s).","errors":[{"source":"start","title":"These dates are not allowed for booking"}]}
