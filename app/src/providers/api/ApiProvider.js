@@ -19,11 +19,9 @@ export default class ApiProvider {
     request(url, options = {}, successCallback = null, failCallback = null, errorCallback = function () {}) {
         url = process.env.VUE_APP_API_URL + url;
         if ('body' in options && options.body && typeof options.body !== 'string' && !(options.body instanceof FormData)) {
-            options.body.timezoneOffset = new Date().getTimezoneOffset();
             options.body = JSON.stringify(this.underscoreObjectKeys(options.body));
         }
-        if('queryParams' in options) {
-            options.queryParams.timezoneOffset = new Date().getTimezoneOffset();
+        if('queryParams' in options && Object.keys(options.queryParams).length) {
             url += '?' + this.buildUrlParams(options.queryParams);
         }
         let requestOptions = {

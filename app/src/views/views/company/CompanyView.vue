@@ -52,10 +52,7 @@ export default {
               this.selectedSchedule = data[0].id;
               this.selectSchedule(data[0]);
               this.loadSpecialHours({
-                filter: {schedule:this.selectedSchedule},
-                successCallback: (data) => {
-                  this.loadSelectedSpecialHours(data);
-                }
+                filter: {schedule:this.selectedSchedule}
               });
             }
           }
@@ -97,10 +94,6 @@ export default {
     ...mapActions('company', {
       loadCompany: 'loadOne'
     }),
-    ...mapMutations('events', {
-      loadSelectedSchedule: 'loadSelectedSchedule',
-      loadSelectedSpecialHours: 'loadSelectedSpecialHours'
-    }),
     changeSelectedSchedule(value) {
       let eventSchedule = null;
       for (let schedule of this.getScheduleList()) {
@@ -113,9 +106,6 @@ export default {
       this.loadSpecialHours({
         filter: {schedule:value},
         idSchedule: value,
-        successCallback: (data) => {
-          this.loadSelectedSpecialHours(data);
-        }
       });
     }
   }

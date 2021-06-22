@@ -13,6 +13,9 @@ import AppFormInput from "@/models/AppFormInput";
 import AppForm from "../../components/AppForm";
 import {required, email, minLength} from "vuelidate/lib/validators";
 import SpecialHoursHelper from '@/helpers/SpecialHoursHelper';
+import EventsLocalStorageProvider from "../../../providers/localStorage/EventsLocalStorageProvider";
+
+let eventsLocalStorageProvider = new EventsLocalStorageProvider();
 
 export default {
   name: "BookingForm",
@@ -145,9 +148,6 @@ export default {
     ...mapGetters('schedule', {
       getSelectedSchedule: 'getModel',
     }),
-    ...mapGetters('events', {
-      getSelectedSpecialHours: 'getSelectedSpecialHours',
-    }),
     bookingTimeValidation(bookingFormModel) {
       let validationResult = 0;
       let bookingDate = new Date(bookingFormModel.model.startDate);
@@ -196,6 +196,7 @@ export default {
         this.createEvent({
           data: bookingFormModel.model,
           successCallback: (data) => {
+            eventsLocalStorageProvider.addMyEvent(data);
             this.$emit('onFormSubmit', data);
             this.$root.$bvToast.toast(this.$t('Booking successfully created'), {
               toaster: 'b-toaster-top-left',

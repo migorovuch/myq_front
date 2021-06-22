@@ -7,18 +7,26 @@ export default {
     state: {
         list: [],
         model: null,
-        selectedSchedule: null,// for booking form
-        selectedSpecialHours: [],// for booking form
     },
     getters: {
         getList: state => state.list,
         getModel: state => state.model,
-        getSelectedSchedule: state => state.selectedSchedule,// for booking form
-        getSelectedSpecialHours: state => state.selectedSpecialHours,// for booking form
     },
     actions: {
         load(context, {filter, successCallback, failCallback}) {
             eventsApiProvider.getEventsList(
+                filter,
+                (data) => {
+                    context.commit('load', data);
+                    if (successCallback) {
+                        successCallback(data);
+                    }
+                },
+                failCallback
+            );
+        },
+        loadMy(context, {filter, successCallback, failCallback}) {
+            eventsApiProvider.getMyEventsList(
                 filter,
                 (data) => {
                     context.commit('load', data);
@@ -51,12 +59,6 @@ export default {
         },
         loadOne(state, payload) {
             state.model = payload;
-        },
-        loadSelectedSchedule(state, payload) {
-            state.selectedSchedule = payload;
-        },
-        loadSelectedSpecialHours(state, payload) {
-            state.selectedSpecialHours = payload;
         },
     }
 };
