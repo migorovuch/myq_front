@@ -23,7 +23,7 @@
     </div>
     <b-button v-b-modal.modal-booking>{{ $t('Time booking') }}</b-button>
     <b-modal id="modal-booking" hide-footer :title="$t('Time booking')">
-      <BookingForm />
+      <CreateBooking />
     </b-modal>
   </div>
 </template>
@@ -31,11 +31,11 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import CompanyCalendar from "../../components/CompanyCalendar";
-import BookingForm from "../booking/BookingForm";
+import CreateBooking from "../booking/CreateBooking";
 
 export default {
   name: "CompanyView",
-  components: {BookingForm, CompanyCalendar},
+  components: {CreateBooking, CompanyCalendar},
   data () {
     return {
       selectedSchedule: null,

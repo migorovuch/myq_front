@@ -6,10 +6,12 @@ export default {
     namespaced: true,
     state: {
         list: [],
+        listTotal: 0,
         model: null,
     },
     getters: {
         getList: state => state.list,
+        getListTotal: state => state.listTotal,
         getModel: state => state.model,
     },
     actions: {
@@ -17,7 +19,8 @@ export default {
             eventsApiProvider.getEventsList(
                 filter,
                 (data) => {
-                    context.commit('load', data);
+                    context.commit('load', data.data);
+                    context.commit('setListTotal', data.total);
                     if (successCallback) {
                         successCallback(data);
                     }
@@ -29,7 +32,8 @@ export default {
             eventsApiProvider.getMyEventsList(
                 filter,
                 (data) => {
-                    context.commit('load', data);
+                    context.commit('load', data.data);
+                    context.commit('setListTotal', data.total);
                     if (successCallback) {
                         successCallback(data);
                     }
@@ -41,7 +45,7 @@ export default {
             eventsApiProvider.getEventsList(
                 filters,
                 (data) => {
-                    context.commit('loadOne', data[0]);
+                    context.commit('loadOne', data.data[0]);
                     if (successCallback) {
                         successCallback(data);
                     }
@@ -60,5 +64,8 @@ export default {
         loadOne(state, payload) {
             state.model = payload;
         },
+        setListTotal(state, payload) {
+            state.listTotal = payload;
+        }
     }
 };

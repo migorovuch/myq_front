@@ -107,14 +107,14 @@ dateFormat.i18n = {
 };
 
 // For convenience...
-Date.prototype.format = function (mask, utc) {
+Date.prototype.sformat = function (mask, utc) {
     return dateFormat(this, mask, utc);
 };
 
 Date.prototype.timestamp = function() {
     return this.valueOf() / 1000;
 };
-Date.prototype.toFormatString = function(time = true) {
+Date.prototype.toFormatString = function(format = 0) {
     var
         month = '' + (this.getMonth() + 1),
         day = '' + this.getDate(),
@@ -139,8 +139,10 @@ Date.prototype.toFormatString = function(time = true) {
         seconds = '0' + seconds;
     }
 
-    if (time) {
-        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    if (format === 1) {
+        return `${year}-${month}-${day}`;
+    } else if (format === 2) {
+        return `${hours}:${minutes}:${seconds}`;
     }
-    return `${year}-${month}-${day}`;
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 };

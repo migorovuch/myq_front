@@ -22,7 +22,12 @@ const routes = [
           ]
         }
       },
-      {path: '/company/bookings', name: 'company_bookings', component: () => import('../../views/views/booking/BookingsList')},
+      {path: '/company/bookings', name: 'company_bookings', component: () => import('../../views/views/booking/CompanyBookings'),
+        meta: {
+          middleware: [
+            authMiddleware
+          ]
+        }},
       {path: '/bookings', name: 'my_bookings', component: () => import('../../views/views/booking/MyBookings')},
       {path: '/company/schedule', name: 'company_schedule', component: () => import('../../views/views/schedule/ScheduleList')},
       {path: '/company/schedule/:id', name: 'company_schedule_item', component: () => import('../../views/views/schedule/ScheduleForm')},

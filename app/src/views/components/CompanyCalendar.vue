@@ -6,9 +6,21 @@
         :time-from="calendarTimeFrom"
         :time-to="calendarTimeTo"
         locale="uk"
+        events-on-month-view="short"
+        :disable-views="['years', 'year']"
         @view-change="calendarViewChange"
         @ready="calendarViewChange"
-    />
+    >
+      <template v-slot:event="{ event, view }">
+        <div @click="$emit('event-click', event)">
+          <div class="vuecal__event-title" v-html="event.title" />
+          <small class="vuecal__event-time">
+            <span>{{ event.start.sformat("HH:MM") }}</span>-<span>{{ event.end.sformat("HH:MM") }}</span>
+          </small>
+          <div class="vuecal__event-content" v-if="event.content" v-html="event.content" />
+        </div>
+      </template>
+    </VueCal>
   </div>
 </template>
 
@@ -35,19 +47,16 @@ export default {
     };
   },
   computed: {
-    computedSpecialHours () {
-      return this.getSpecialHours()
+    computedSchedule () {
+      return this.getSchedule();
     }
   },
   watch: {
-    computedSpecialHours (newValue) {
+    computedSchedule (newValue) {
       this.calendarViewChange(this.calendarCurrentView);
     }
   },
   methods: {
-    ...mapGetters('specialHours', {
-      getSpecialHours: 'getList',
-    }),
     ...mapActions('events', {
       loadEvents: 'load'
     }),
@@ -65,14 +74,26 @@ export default {
     }),
     getEvents() {
       if (this.withEvents) {
-        return this.getEventsList();
+        let events = [];
+        Object.keys(this.getEventsList()).forEach(itemKey => {
+          let item = this.getEventsList()[itemKey];
+          let event = {
+            title: item.title,
+            start: new Date(item.start).toFormatString(),
+            end: new Date(item.end).toFormatString(),
+            bookingData: item
+          };
+          events.push(event);
+        });
+
+        return events;
       }
       return [];
     },
     calculateSpecialHoursForCalendarCurrentView(availability, currentCalendarView) {
       let result = {};
       for (let d = new Date(currentCalendarView.startDate); d <= currentCalendarView.endDate; d.setDate(d.getDate() + 1)) {
-        let key = d.toFormatString(false);
+        let key = d.toFormatString(1);
         if (availability.hasOwnProperty(key)) {
           let dayOfWeek = d.getDay();
           if(!result.hasOwnProperty(dayOfWeek)) {
@@ -134,8 +155,12 @@ export default {
           this.getSchedule() !== null &&
           (event.view === 'week' || event.view === 'day')
       ) {
-        this.loadAvailabilityFromCache(event)
+        this.loadAvailabilityFromCache(event);
       }
+      this.$emit('calendar-view-change', event);
+    },
+    logEvents(eventName, event) {
+      this.$emit(eventName, event);
     },
     loadAvailabilityFromCache(event) {
       let successCallback = (data) => {
@@ -144,8 +169,8 @@ export default {
       };
       if (
           this.specialHours.hasOwnProperty(this.getSchedule().id) &&
-          this.specialHours[this.getSchedule().id].hasOwnProperty(event.startDate.toFormatString(false)) &&
-          this.specialHours[this.getSchedule().id].hasOwnProperty(event.endDate.toFormatString(false))
+          this.specialHours[this.getSchedule().id].hasOwnProperty(event.startDate.toFormatString(1)) &&
+          this.specialHours[this.getSchedule().id].hasOwnProperty(event.endDate.toFormatString(1))
       ) {
         successCallback(this.specialHours[this.getSchedule().id]);
       } else {

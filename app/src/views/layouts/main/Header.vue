@@ -11,8 +11,6 @@
                         <b-nav-item-dropdown :text="$t('Company')" v-if="isUserLogged()">
                           <b-dropdown-item :to="{name: 'company'}">{{$t('Company')}}</b-dropdown-item>
                           <b-dropdown-item :to="{name: 'company_bookings'}">{{$t('Bookings')}}</b-dropdown-item>
-                          <b-dropdown-item :to="{name: 'company_schedule'}">{{$t('Schedule')}}</b-dropdown-item>
-                          <b-dropdown-item :to="{name: 'company_schedule_item', params: {id: 1}}">{{$t('Schedule Item')}}</b-dropdown-item>
                         </b-nav-item-dropdown>
                         <b-nav-item v-else v-b-modal.modal-login>{{$t('Company')}}</b-nav-item>
                         <template v-if="!isUserLogged()">

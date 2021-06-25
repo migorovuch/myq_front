@@ -41,6 +41,7 @@
   import CompanyCalendar from "../../components/CompanyCalendar";
   import {mapActions, mapGetters} from "vuex";
   import {required} from "vuelidate/lib/validators";
+  import AppFormSelect from "../../../models/AppFormSelect";
 
   export default {
     name: "ScheduleForm",
@@ -98,7 +99,7 @@
                   'seconds',
                   {}
               ),
-              bookingCondition: new AppFormInput(
+              bookingCondition: new AppFormSelect(
                   "select",
                   this.$t('Booking condition:'),
                   '',
@@ -109,7 +110,7 @@
                     {value: 1, text: this.$t('Authorized only')},
                   ]
               ),
-              acceptBookingCondition: new AppFormInput(
+              acceptBookingCondition: new AppFormSelect(
                   "select",
                   this.$t('Accept booking condition:'),
                   '',

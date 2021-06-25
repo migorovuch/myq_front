@@ -1,6 +1,13 @@
 <template>
   <div>
-    <b-table striped hover :items="tableItems" :fields="tableFields"></b-table>
+    <b-table
+        striped
+        hover
+        :items="tableItems"
+        :fields="tableFields"
+        @row-clicked="rowClicked">
+
+    </b-table>
   </div>
 </template>
 
@@ -16,10 +23,10 @@ export default {
   data() {
     let defaultFields = [
       {key: 'user', label: this.$t('Client')},
-      {key: 'schedule_name', label: ''},
+      {key: 'scheduleName', label: ''},
       {key: 'date', label: this.$t('Booking date')},
-      {key: 'time_from', label: this.$t('Booking time')},
-      {key: 'time_to', label: this.$t('Booking time to')},
+      {key: 'timeFrom', label: this.$t('Booking time')},
+      {key: 'timeTo', label: this.$t('Booking time to')},
       {key: 'customerComment', label: this.$t('Details')},
       {key: 'statusLabel', label: this.$t('Status')}
     ];
@@ -51,14 +58,15 @@ export default {
         let item = {
           id: booking.id,
           user: booking.userName,
-          date: start.format('d/m'),
-          time_from: start.format('HH:MM'),
-          time_to: end.format('HH:MM'),
+          date: start.sformat('d/m'),
+          timeFrom: start.sformat('HH:MM'),
+          timeTo: end.sformat('HH:MM'),
           statusLabel: this.getStatusLabel(booking.status),
-          customerComment: booking.customerComment
+          customerComment: booking.customerComment,
+          bookingData: booking
         };
         if (booking.hasOwnProperty('schedule')) {
-          booking.schedule_name = booking.schedule.name;
+          item.scheduleName = booking.schedule.name;
         }
         let color = this.getStatusColor(booking.status);
         if(color) {
@@ -86,6 +94,9 @@ export default {
       };
 
       return labels[status];
+    },
+    rowClicked(item, index, event) {
+      this.$emit('row-clicked',item, index, event);
     }
   }
 }
