@@ -114,7 +114,7 @@
       <CompanyCalendar with-events="true" v-on:event-click="eventSelect" v-on:calendar-view-change="calendarViewChange"/>
     </template>
     <b-modal id="modal-booking" hide-footer :title="$t('Booking form')">
-      <BookingForm :v-on:onFormSubmit="onBookingFormSubmit" :selected-booking="selectedBooking"/>
+      <BookingForm v-on:onFormSubmit="onBookingFormSubmit" :selected-booking="selectedBooking"/>
     </b-modal>
   </div>
 </template>
@@ -203,7 +203,8 @@ export default {
       getEventsList: 'getList',
     }),
     ...mapActions('events', {
-      loadEvents: 'load'
+      loadEvents: 'load',
+      updateEvent: 'update',
     }),
     ...mapGetters('schedule', {
       getSchedule: 'getModel',
@@ -287,11 +288,11 @@ export default {
     },
     eventSelect(event) {
       this.selectedBooking = event.bookingData;
-      let dateStart = new Date(this.selectedBooking.start);
+      let startDate = new Date(this.selectedBooking.start);
       let dateEnd = new Date(this.selectedBooking.end);
-      this.selectedBooking.dateStart = dateStart.sformat('yyyy-mm-dd');
-      this.selectedBooking.timeStart = dateStart.sformat('HH:MM');
-      this.selectedBooking.timeEnd = dateEnd.sformat('HH:MM');
+      this.selectedBooking.startDate = startDate.sformat('yyyy-mm-dd');
+      this.selectedBooking.startTime = startDate.sformat('HH:MM');
+      this.selectedBooking.endTime = dateEnd.sformat('HH:MM');
       this.selectedBooking.scheduleId = this.selectedBooking.schedule.id;
       this.selectedBooking.scheduleList = this.scheduleOptions;
       this.$bvModal.show('modal-booking');
@@ -300,7 +301,37 @@ export default {
       this.eventSelect(item);
     },
     onBookingFormSubmit(formModel) {
-
+      let start = new Date(formModel.model.startDate + ' ' + formModel.model.startTime);
+      let end = new Date(formModel.model.startDate + ' ' + formModel.model.endTime);
+      let model = {
+        start: start.timestamp(),
+        end: end.timestamp(),
+        id: formModel.model.id,
+        schedule: formModel.model.scheduleId,
+        status: formModel.model.status,
+        title: formModel.model.title
+      };
+      this.updateEvent({
+        id: model.id,
+        data: model,
+        successCallback: (data) => {
+          this.applyBookingsFilter();
+          this.$root.$bvToast.toast(this.$t('Successfully saved'), {
+            toaster: 'b-toaster-top-left',
+            appendToast: true,
+            autoHideDelay: 4000
+          });
+        },
+        failCallback: (data) => {
+          for (let error of data.errors) {
+            if (error.source === 'start') {
+              data.errors.push({source:'startDate',title:error.title});
+              data.errors.push({source:'startTime',title:error.title});
+            }
+          }
+          formModel.handleResponseErrors(data);
+        }
+      });
     }
   }
 }

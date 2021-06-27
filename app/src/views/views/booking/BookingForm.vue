@@ -14,7 +14,11 @@
     <AppForm
         :formModel="formModel"
         @onFormSubmit="$emit('onFormSubmit', formModel)"
-    />
+    >
+      <template v-slot:formFooter>
+        <b-button type="submit" variant="primary">{{$t("Save changes")}}</b-button>
+      </template>
+    </AppForm>
   </div>
 </template>
 
@@ -23,6 +27,7 @@ import AppFormModel from "../../../models/AppFormModel";
 import AppFormInput from "../../../models/AppFormInput";
 import AppFormSelect from "../../../models/AppFormSelect";
 import AppForm from "../../components/AppForm";
+import {minLength, required, email} from "vuelidate/lib/validators";
 
 export default {
   name: "BookingForm",
@@ -44,15 +49,24 @@ export default {
       formModel: new AppFormModel(
           this.selectedBooking,
           {
-            title: new AppFormInput('text', this.$t('Title'), this.$t('Title')),
-            scheduleId: new AppFormSelect('select', this.$t('Schedule'), this.$t('Schedule'), null, null, scheduleList),
-            status: new AppFormSelect('select', this.$t('Status'), this.$t('Status'), null, null, statusList),
-            dateStart: new AppFormInput('datepicker', this.$t('Date start'), this.$t('Date start')),
-            timeStart: new AppFormInput('timepicker', this.$t('Time start'), this.$t('Time start')),
-            timeEnd: new AppFormInput('timepicker', this.$t('Time end'), this.$t('Time end')),
+            title: new AppFormInput('text', this.$t('Title'), this.$t('Title'), {required: this.$t('This value should not be blank'),}),
+            scheduleId: new AppFormSelect('select', this.$t('Schedule'), this.$t('Schedule'), {required: this.$t('This value should not be blank'),}, null, scheduleList),
+            status: new AppFormSelect('select', this.$t('Status'), this.$t('Status'), {required: this.$t('This value should not be blank'),}, null, statusList),
+            startDate: new AppFormInput('datepicker', this.$t('Date start'), this.$t('Date start'), {required: this.$t('This value should not be blank'),}),
+            startTime: new AppFormInput('timepicker', this.$t('Time start'), this.$t('Time start'), {required: this.$t('This value should not be blank'),}),
+            endTime: new AppFormInput('timepicker', this.$t('Time end'), this.$t('Time end'), {required: this.$t('This value should not be blank'),}),
           },
           null,
-          null
+          {
+            model: {
+              title: {required,},
+              scheduleId: {required,},
+              status: {required,},
+              startDate: {required,},
+              startTime: {required,},
+              endTime: {required,},
+            }
+          }
       )
     };
   },

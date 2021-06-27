@@ -22,12 +22,11 @@ export default {
       this.loadEvents({
         filter: {sort: {start: 'DESC'}},
         successCallback: (data) => {
-          this.items = data;
+          this.items = data.data;
         }
       });
     } else {
       this.items = eventsLocalStorageProvider.getMyEvents();
-      console.log(this.items);
     }
   },
   methods: {

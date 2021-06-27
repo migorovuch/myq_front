@@ -4,7 +4,7 @@ export default class EventsApiProvider extends ApiProvider {
     getEventsList(filter, successCallback, failCallback) {
         this.get(
             'bookings/search',
-            {filter:filter},
+            {filter: filter},
             successCallback,
             failCallback
         );
@@ -13,13 +13,17 @@ export default class EventsApiProvider extends ApiProvider {
     getMyEventsList(filter, successCallback, failCallback) {
         this.get(
             'bookings/my',
-            {filter:filter},
+            {filter: filter},
             successCallback,
             failCallback
         );
     }
 
-    create(data,successCallback, failCallback) {
+    create(data, successCallback, failCallback) {
         this.post('bookings/', data, successCallback, failCallback);
+    }
+
+    update(id, data, successCallback, failCallback) {
+        this.patch('bookings/' + id, data, successCallback, failCallback);
     }
 }

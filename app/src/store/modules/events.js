@@ -55,6 +55,9 @@ export default {
         },
         create(context, {data, successCallback, failCallback}) {
             eventsApiProvider.create(data, successCallback, failCallback);
+        },
+        update(context, {id, data, successCallback, failCallback}) {
+            eventsApiProvider.update(id, data, successCallback, failCallback);
         }
     },
     mutations: {

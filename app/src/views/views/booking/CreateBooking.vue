@@ -207,7 +207,6 @@ export default {
             this.$root.$emit('bv::hide::modal', 'modal-booking');
           },
           failCallback: (data) => {
-            //{"title":"Validation failed with 1 error(s).","errors":[{"source":"start","title":"These dates are not allowed for booking"}]}
             for (let error of data.errors) {
               if (error.source === 'start') {
                 data.errors.push({source:'startDate',title:error.title});

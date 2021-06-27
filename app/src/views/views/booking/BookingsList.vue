@@ -6,7 +6,9 @@
         :items="tableItems"
         :fields="tableFields"
         @row-clicked="rowClicked">
-
+      <template #cell(status)="data">
+        <span>{{getStatusLabel(data.value)}}</span>
+      </template>
     </b-table>
   </div>
 </template>
@@ -28,7 +30,7 @@ export default {
       {key: 'timeFrom', label: this.$t('Booking time')},
       {key: 'timeTo', label: this.$t('Booking time to')},
       {key: 'customerComment', label: this.$t('Details')},
-      {key: 'statusLabel', label: this.$t('Status')}
+      {key: 'status', label: this.$t('Status')}
     ];
     return {
       tableFields: this.fields.length ? this.fields : defaultFields,
@@ -61,7 +63,7 @@ export default {
           date: start.sformat('d/m'),
           timeFrom: start.sformat('HH:MM'),
           timeTo: end.sformat('HH:MM'),
-          statusLabel: this.getStatusLabel(booking.status),
+          status: booking.status,
           customerComment: booking.customerComment,
           bookingData: booking
         };
