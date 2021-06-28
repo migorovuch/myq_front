@@ -1,7 +1,7 @@
 <template>
   <div>
     <VueCal
-        :special-hours="specialHoursForCurrentView"
+        :special-hours="getSpecialHoursForCurrentView()"
         :events="getEvents()"
         :time-from="calendarTimeFrom"
         :time-to="calendarTimeTo"
@@ -25,11 +25,10 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import {mapActions, mapGetters, mapMutations} from "vuex";
 import VueCal from 'vue-cal'
 import 'vue-cal/dist/vuecal.css'
 import 'vue-cal/dist/i18n/uk.js';
-import SpecialHoursHelper from '../../helpers/SpecialHoursHelper';
 
 export default {
   name: "CompanyCalendar",
@@ -41,9 +40,8 @@ export default {
     return {
       calendarTimeFrom: 0,
       calendarTimeTo: 24 * 60,
-      specialHoursForCurrentView: {},
+      // TODO: move it to store
       specialHours: [],
-      calendarCurrentView: {},
     };
   },
   computed: {
@@ -53,7 +51,7 @@ export default {
   },
   watch: {
     computedSchedule (newValue) {
-      this.calendarViewChange(this.calendarCurrentView);
+      this.calendarViewChange(this.getCalendarCurrentView());
     }
   },
   methods: {
@@ -71,6 +69,11 @@ export default {
     }),
     ...mapGetters('availability', {
       getAvailability: 'getList',
+      getCalendarCurrentView: 'getCalendarCurrentView',
+      getSpecialHoursForCurrentView: 'getSpecialHoursForCurrentView',
+    }),
+    ...mapMutations('availability', {
+      setCalendarCurrentView: 'setCalendarCurrentView',
     }),
     getEvents() {
       if (this.withEvents) {
@@ -89,31 +92,6 @@ export default {
         return events;
       }
       return [];
-    },
-    calculateSpecialHoursForCalendarCurrentView(availability, currentCalendarView) {
-      let result = {};
-      for (let d = new Date(currentCalendarView.startDate); d <= currentCalendarView.endDate; d.setDate(d.getDate() + 1)) {
-        let key = d.toFormatString(1);
-        if (availability.hasOwnProperty(key)) {
-          let dayOfWeek = d.getDay();
-          if(!result.hasOwnProperty(dayOfWeek)) {
-            result[dayOfWeek] = [];
-          }
-          for (let range of availability[key]) {
-            let from = SpecialHoursHelper.timeStringToDate(range.from);
-            let to = SpecialHoursHelper.timeStringToDate(range.to);
-            result[dayOfWeek].push(
-                {
-                  from: from.getHours() * 60 + from.getMinutes(),
-                  to: to.getHours() * 60 + to.getMinutes(),
-                  class: 'business-hours'
-                }
-            );
-          }
-        }
-      }
-
-      return result;
     },
     /**
      * @param specialHoursForCurrentView - already formatted/prepared for calendar
@@ -149,13 +127,20 @@ export default {
       }
     },
     calendarViewChange(event) {
-      this.calendarCurrentView = event;
+      this.setCalendarCurrentView(event);
       if (
           Object.keys(event).length &&
           this.getSchedule() !== null &&
           (event.view === 'week' || event.view === 'day')
       ) {
-        this.loadAvailabilityFromCache(event);
+        this.loadAvailability({
+          filter: {
+            schedule: this.getSchedule().id,
+            filterFrom: event.startDate.timestamp(),
+            filterTo: event.endDate.timestamp(),
+          },
+          successCallback: () => this.calculateCalendarFromTo(this.getSpecialHoursForCurrentView(), event)
+        });
       }
       this.$emit('calendar-view-change', event);
     },
@@ -164,7 +149,6 @@ export default {
     },
     loadAvailabilityFromCache(event) {
       let successCallback = (data) => {
-        this.specialHoursForCurrentView = this.calculateSpecialHoursForCalendarCurrentView(data, event);
         this.calculateCalendarFromTo(this.specialHoursForCurrentView, event);
       };
       if (

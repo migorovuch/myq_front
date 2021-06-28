@@ -217,6 +217,9 @@ export default {
     ...mapMutations('schedule', {
       selectSchedule: 'loadOne',
     }),
+    ...mapActions('availability', {
+      loadAvailability: 'load'
+    }),
     getEventsFilter() {
       let filter = {};
       for (let filterKey in this.filter) {
@@ -315,6 +318,15 @@ export default {
         id: model.id,
         data: model,
         successCallback: (data) => {
+          if (this.bookingsView) {
+            this.loadAvailability({
+              filter: {
+                schedule: this.getSchedule().id,
+                filterFrom: new Date(this.filter.filterFrom).timestamp(),
+                filterTo: new Date(this.filter.filterTo).timestamp(),
+              }
+            });
+          }
           this.applyBookingsFilter();
           this.$root.$bvToast.toast(this.$t('Successfully saved'), {
             toaster: 'b-toaster-top-left',
