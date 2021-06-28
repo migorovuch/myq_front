@@ -122,6 +122,18 @@
                     {value: 3, text: this.$t('Accept only after pay advance')},
                   ]
               ),
+              acceptBookingTime: new AppFormInput(
+                  "number",
+                  this.$t('Accept booking time:'),
+                  'minutes',
+                  {}
+              ),
+              timeBetweenBookings: new AppFormInput(
+                  "number",
+                  this.$t('Time between bookings:'),
+                  'minutes',
+                  {}
+              ),
               description: new AppFormInput(
                   "textarea",
                   this.$t('Description:'),
