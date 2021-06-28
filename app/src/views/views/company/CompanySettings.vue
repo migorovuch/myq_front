@@ -14,11 +14,19 @@
 <script>
   import CompanyForm from "./CompanyForm";
   import ScheduleList from "../schedule/ScheduleList";
-  import {mapActions, mapGetters} from 'vuex';
+  import {mapMutations} from 'vuex';
 
   export default {
     name: "CompanySettings",
     components: {ScheduleList, CompanyForm},
+    created() {
+      this.selectSchedule(null);
+    },
+    methods: {
+      ...mapMutations('schedule', {
+        selectSchedule: 'loadOne',
+      }),
+    }
   }
 </script>
 

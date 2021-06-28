@@ -6,7 +6,6 @@
             v-if="formModel.model"
             :formModel="formModel"
             @onFormSubmit="onSubmit"
-            @onFormReset="onReset"
         >
           <template v-slot:available>
             <b-form-checkbox
@@ -24,7 +23,7 @@
         </AppForm>
       </div>
       <div class="col-8">
-        <CompanyCalendar :with-events="true"/>
+        <CompanyCalendar :with-events="false"/>
       </div>
     </div>
     <b-modal id="modal-specal-hours" hide-footer :title="$t('Availability')">
@@ -161,7 +160,6 @@
       }),
       onSubmit(formModel) {
         let idSchedule = this.idSchedule;
-        console.log(idSchedule, formModel.model);
         this.updateSchedule({
           id: idSchedule,
           data: formModel.model,
@@ -176,8 +174,6 @@
             formModel.handleResponseErrors(data);
           },
         })
-      },
-      onReset() {
       },
     }
 
