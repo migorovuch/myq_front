@@ -3,8 +3,8 @@
     <VueCal
         :special-hours="getSpecialHoursForCurrentView()"
         :events="getEvents()"
-        :time-from="calendarTimeFrom"
-        :time-to="calendarTimeTo"
+        :time-from="getCalendarTimeFrom()"
+        :time-to="getCalendarTimeTo()"
         locale="uk"
         events-on-month-view="short"
         :disable-views="['years', 'year']"
@@ -38,8 +38,6 @@ export default {
   },
   data() {
     return {
-      calendarTimeFrom: 0,
-      calendarTimeTo: 24 * 60,
       // TODO: move it to store
       specialHours: [],
     };
@@ -47,7 +45,7 @@ export default {
   computed: {
     computedSchedule () {
       return this.getSchedule();
-    }
+    },
   },
   watch: {
     computedSchedule (newValue) {
@@ -71,6 +69,8 @@ export default {
       getAvailability: 'getList',
       getCalendarCurrentView: 'getCalendarCurrentView',
       getSpecialHoursForCurrentView: 'getSpecialHoursForCurrentView',
+      getCalendarTimeFrom: 'getCalendarTimeFrom',
+      getCalendarTimeTo: 'getCalendarTimeTo',
     }),
     ...mapMutations('availability', {
       setCalendarCurrentView: 'setCalendarCurrentView',
@@ -82,8 +82,8 @@ export default {
           let item = this.getEventsList()[itemKey];
           let event = {
             title: item.title,
-            start: new Date(item.start).toFormatString(),
-            end: new Date(item.end).toFormatString(),
+            start: new Date(item.start).sformat('yyyy-mm-dd HH:MM:ss'),
+            end: new Date(item.end).sformat('yyyy-mm-dd HH:MM:ss'),
             bookingData: item
           };
           events.push(event);
@@ -93,39 +93,6 @@ export default {
       }
       return [];
     },
-    /**
-     * @param specialHoursForCurrentView - already formatted/prepared for calendar
-     * @param currentCalendarView
-     */
-    calculateCalendarFromTo(specialHoursForCurrentView, currentCalendarView) {
-      if (
-          specialHoursForCurrentView &&
-          Object.keys(specialHoursForCurrentView).length !== 0 &&
-          specialHoursForCurrentView.constructor === Object &&
-          (currentCalendarView.view === 'week' || currentCalendarView.view === 'day')
-      ) {
-        this.calendarTimeFrom = null;
-        this.calendarTimeTo = null;
-        Object.keys(specialHoursForCurrentView).forEach(dayOfWeek => {
-          let dailyHours = specialHoursForCurrentView[dayOfWeek];
-          Array.from(dailyHours).forEach(time => {
-            if (time.from < this.calendarTimeFrom || this.calendarTimeFrom === null) {
-              this.calendarTimeFrom = time.from;
-            }
-            if (time.to > this.calendarTimeTo || this.calendarTimeTo === null) {
-              this.calendarTimeTo = time.to;
-            }
-          });
-        });
-
-        if (this.calendarTimeFrom === null) {
-          this.calendarTimeFrom = 9 * 60;
-        }
-        if (this.calendarTimeTo === null) {
-          this.calendarTimeTo = 18 * 60;
-        }
-      }
-    },
     calendarViewChange(event) {
       this.setCalendarCurrentView(event);
       if (
@@ -133,13 +100,13 @@ export default {
           this.getSchedule() !== null &&
           (event.view === 'week' || event.view === 'day')
       ) {
+        let filter = {
+          schedule: this.getSchedule().id,
+          filterFrom: event.startDate.timestamp(),
+          filterTo: event.endDate.timestamp(),
+        };
         this.loadAvailability({
-          filter: {
-            schedule: this.getSchedule().id,
-            filterFrom: event.startDate.timestamp(),
-            filterTo: event.endDate.timestamp(),
-          },
-          successCallback: () => this.calculateCalendarFromTo(this.getSpecialHoursForCurrentView(), event)
+          filter: filter,
         });
       }
       this.$emit('calendar-view-change', event);
@@ -149,12 +116,12 @@ export default {
     },
     loadAvailabilityFromCache(event) {
       let successCallback = (data) => {
-        this.calculateCalendarFromTo(this.specialHoursForCurrentView, event);
+
       };
       if (
           this.specialHours.hasOwnProperty(this.getSchedule().id) &&
-          this.specialHours[this.getSchedule().id].hasOwnProperty(event.startDate.toFormatString(1)) &&
-          this.specialHours[this.getSchedule().id].hasOwnProperty(event.endDate.toFormatString(1))
+          this.specialHours[this.getSchedule().id].hasOwnProperty(event.startDate.sformat('yyyy-mm-dd')) &&
+          this.specialHours[this.getSchedule().id].hasOwnProperty(event.endDate.sformat('yyyy-mm-dd'))
       ) {
         successCallback(this.specialHours[this.getSchedule().id]);
       } else {

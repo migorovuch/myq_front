@@ -62,7 +62,7 @@
       <b-button @click="saveAvailabilitySpecialHours">{{ $t('Save availability') }}</b-button>
     </div>
     <div v-else>
-      <div class="row mb-2" v-for="(period, periodKey) in specialHoursForCurrentView" :key="periodKey">
+      <div class="row mb-2" v-for="(period, periodKey) in specialHoursForCurrentView" :key="periodKey" @click="selectedPeriodKey=periodKey">
         <div class="col">
           <b-form-datepicker
               v-model="period.startDate"
@@ -156,12 +156,18 @@ export default {
     };
   },
   created() {
-    this.specialHours = this.getSpecialHours();
-    if (this.specialHours && this.specialHours.length) {
-      let firstSpecialHours = this.specialHours[Object.keys(this.specialHours)[0]];
-      this.selectedPeriodKey = this.periodKeyFromSpecialHours(firstSpecialHours);
-      this.specialHoursForCurrentView = this.specialHoursToPeriods(this.specialHours);
-    }
+    this.loadSpecialHours({
+      filter: {schedule: this.idSchedule},
+      successCallback: (data) => {
+        this.specialHours = data;
+        if (this.specialHours && this.specialHours.length) {
+          this.prepareSpecialHours(this.specialHours);
+          let firstSpecialHours = this.specialHours[Object.keys(this.specialHours)[0]];
+          this.selectedPeriodKey = this.periodKeyFromSpecialHours(firstSpecialHours);
+          this.specialHoursForCurrentView = this.specialHoursToPeriods(this.specialHours);
+        }
+      }
+    });
   },
   methods: {
     ...mapGetters('specialHours', {
@@ -171,14 +177,22 @@ export default {
       loadSpecialHours: 'load',
       saveSpecialHours: 'saveList'
     }),
+    prepareSpecialHours(specialHours) {
+      for (let specialHoursItem of specialHours) {
+        if (typeof specialHoursItem.startDate === 'string') {
+          specialHoursItem.startDate = new Date(specialHoursItem.startDate);
+        }
+        if (typeof specialHoursItem.endDate === 'string') {
+          specialHoursItem.endDate = new Date(specialHoursItem.endDate);
+        }
+        for (let range of specialHoursItem.ranges) {
+          range.from = SpecialHoursHelper.timeStringToDate(range.from).sformat('HH:MM');
+          range.to = SpecialHoursHelper.timeStringToDate(range.to).sformat('HH:MM');
+        }
+      }
+    },
     periodKeyFromSpecialHours(specialHours) {
-      if (typeof specialHours.startDate === 'string') {
-        specialHours.startDate = new Date(specialHours.startDate);
-      }
-      if (typeof specialHours.endDate === 'string') {
-        specialHours.endDate = new Date(specialHours.endDate);
-      }
-      return specialHours.startDate.getTime() + "_" + specialHours.endDate.getTime();
+      return specialHours.startDate.sformat('yyyymmdd') + "_" + specialHours.endDate.sformat('yyyymmdd');
     },
     getNextDayOfWeek(date, dayOfWeek) {
       var resultDate = new Date(date.getTime());
@@ -190,11 +204,11 @@ export default {
     specialHoursToPeriods(specialHours) {
       let defaultSpecialHours = () => {
         return {
-          0: {id: null, from: '10:00', to: '18:00', available: true, dayOfWeek: this.$t('Monday')},
-          1: {id: null, from: '10:00', to: '18:00', available: true, dayOfWeek: this.$t('Tuesday')},
-          2: {id: null, from: '10:00', to: '18:00', available: true, dayOfWeek: this.$t('Wednesday')},
-          3: {id: null, from: '10:00', to: '18:00', available: true, dayOfWeek: this.$t('Thursday')},
-          4: {id: null, from: '10:00', to: '18:00', available: true, dayOfWeek: this.$t('Friday')},
+          0: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Monday')},
+          1: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Tuesday')},
+          2: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Wednesday')},
+          3: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Thursday')},
+          4: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Friday')},
           5: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Saturday')},
           6: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Sunday')},
         }
@@ -253,10 +267,10 @@ export default {
             id: periodDay.id,
             schedule: idSchedule,
             ranges: [{from: periodDay.from, to: periodDay.to}],
-            startDate: period.startDate.toFormatString(),
-            endDate: period.endDate.toFormatString(),
+            startDate: period.startDate,
+            endDate: period.endDate,
             repeatCondition: 1,
-            repeatDate: nextDayOfWeek.toFormatString(),
+            repeatDate: nextDayOfWeek,
             repeatDay: specialHoursKey,
             available: periodDay.available,
           });
@@ -283,28 +297,42 @@ export default {
         }
       }
       this.specialHours = originalSpecialHours;
-      this.saveSpecialHours({data: originalSpecialHours});
-      this.$emit('form:save', this.specialHours);
+      this.saveAvailabilitySpecialHours();
     },
     saveAvailabilitySpecialHours() {
+      let specialHours = [];
       // datepicker return string value, so before save need to convert it to Date
-      console.log(this.specialHours);
       for (let specialHoursItem of this.specialHours) {
-        if (typeof specialHoursItem.startDate !== String) {
-          specialHoursItem.startDate = specialHoursItem.startDate.toFormatString();
+        let newItem = {
+          id: specialHoursItem.id,
+          schedule: this.idSchedule,
+          startDate: new Date(specialHoursItem.startDate).timestamp(),
+          endDate: new Date(specialHoursItem.endDate).timestamp(),
+          repeatCondition: specialHoursItem.repeatCondition,
+          repeatDate: new Date(specialHoursItem.repeatDate).timestamp(),
+          repeatDay: specialHoursItem.repeatDay,
+          available: specialHoursItem.available,
+          ranges:[]
+        };
+        for (let range of specialHoursItem.ranges) {
+          newItem.ranges.push({
+            from: SpecialHoursHelper.timeStringToDate(range.from, false).sformat('UTC:HH:MM'),
+            to: SpecialHoursHelper.timeStringToDate(range.to, false).sformat('UTC:HH:MM')
+          });
         }
-        if (typeof specialHoursItem.endDate !== String) {
-          specialHoursItem.endDate = specialHoursItem.endDate.toFormatString();
-        }
-        specialHoursItem.schedule = this.idSchedule;
+        specialHours.push(newItem);
       }
       this.saveSpecialHours({
-        data: this.specialHours,
+        data: specialHours,
         successCallback: (data) => {
-          this.specialHoursForCurrentView = this.specialHoursToPeriods(data);
+          this.specialHours = data;
+          this.prepareSpecialHours(this.specialHours);
+          let firstSpecialHours = this.specialHours[Object.keys(this.specialHours)[0]];
+          this.selectedPeriodKey = this.periodKeyFromSpecialHours(firstSpecialHours);
+          this.specialHoursForCurrentView = this.specialHoursToPeriods(this.specialHours);
+          this.$emit('form:save', this.specialHours);
         }
       });
-      this.$emit('form:save', this.specialHours);
     },
     addRangeToItem(specialHoursItem) {
       specialHoursItem.ranges.push({from: '09:00', to: '18:00'});

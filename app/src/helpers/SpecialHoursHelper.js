@@ -15,11 +15,16 @@ export default class SpecialHoursHelper {
         return minutes;
     }
 
-    static timeStringToDate(timeString) {
+    static timeStringToDate(timeString, utc = true) {
         let time = timeString.split(':');
         let date = new Date();
-        date.setUTCHours(time[0]);
-        date.setUTCMinutes(time[1]);
+        if (utc) {
+            date.setUTCHours(time[0]);
+            date.setUTCMinutes(time[1]);
+        } else {
+            date.setHours(time[0]);
+            date.setMinutes(time[1]);
+        }
 
         return date;
     }

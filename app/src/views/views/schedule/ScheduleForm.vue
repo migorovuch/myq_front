@@ -27,7 +27,7 @@
       </div>
     </div>
     <b-modal id="modal-specal-hours" hide-footer :title="$t('Availability')">
-      <SpecialHoursForm :id-schedule="idSchedule"></SpecialHoursForm>
+      <SpecialHoursForm :id-schedule="idSchedule" v-on:form:save="refreshAvailability"></SpecialHoursForm>
     </b-modal>
   </div>
 </template>
@@ -152,23 +152,22 @@
         id: this.$route.params.id,
         successCallback: (data) => {
           this.formModel.model = data;
-          this.loadSpecialHours({filter:{schedule:this.$route.params.id}});
         }
       });
     },
     methods: {
-      ...mapGetters('specialHours', {
-        getSpecialHours: 'getList',
-      }),
-      ...mapActions('specialHours', {
-        loadSpecialHours: 'load'
-      }),
       ...mapGetters('schedule', {
         getSchedule: 'getModel',
       }),
       ...mapActions('schedule', {
         loadSchedule: 'loadOne',
         updateSchedule: 'update',
+      }),
+      ...mapActions('availability', {
+        loadAvailability: 'load'
+      }),
+      ...mapGetters('availability', {
+        getCalendarCurrentView: 'getCalendarCurrentView'
       }),
       onSubmit(formModel) {
         let idSchedule = this.idSchedule;
@@ -187,6 +186,17 @@
           },
         })
       },
+      refreshAvailability() {
+        let calendarCurrentView = this.getCalendarCurrentView();
+        let filter = {
+          schedule: this.idSchedule,
+          filterFrom: calendarCurrentView.startDate.timestamp(),
+          filterTo: calendarCurrentView.endDate.timestamp(),
+        };
+        this.loadAvailability({
+          filter: filter
+        });
+      }
     }
 
   }

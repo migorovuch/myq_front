@@ -5,7 +5,7 @@
         <b-form-select :options="scheduleOptions" @change="changeSelectedSchedule" :model="selectedSchedule"></b-form-select>
       </div>
     </div>
-    <div class="row" v-if="getSpecialHours()">
+    <div class="row">
       <div class="col">
         <CompanyCalendar :with-events="false"/>
       </div>
@@ -27,7 +27,6 @@ export default {
   },
   created() {
     this.loadSchedule(this.idSchedule);
-    this.loadSpecialHours(this.idSchedule);
     this.loadEvents(this.idSchedule);
   },
   computed: {
@@ -41,12 +40,6 @@ export default {
     }
   },
   methods: {
-    ...mapGetters('specialHours', {
-      getSpecialHours: 'getList',
-    }),
-    ...mapActions('specialHours', {
-      loadSpecialHours: 'load'
-    }),
     ...mapGetters('events', {
       getEvents: 'getList',
     }),
@@ -71,10 +64,6 @@ export default {
         }
       }
       this.selectSchedule(eventSchedule);
-      this.loadSpecialHours({
-        filter: {schedule:value},
-        idSchedule: value,
-      });
     }
   }
 }

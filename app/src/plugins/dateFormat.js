@@ -112,7 +112,7 @@ Date.prototype.sformat = function (mask, utc) {
 };
 
 Date.prototype.timestamp = function() {
-    return this.valueOf() / 1000;
+    return parseInt(this.valueOf() / 1000);
 };
 Date.prototype.toFormatString = function(format = 0) {
     var

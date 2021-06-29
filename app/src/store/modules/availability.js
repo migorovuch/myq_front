@@ -9,11 +9,15 @@ export default {
         list: [],
         calendarCurrentView: null,
         specialHoursForCurrentView: null,
+        calendarTimeFrom: 0,
+        calendarTimeTo: 24 * 60,
     },
     getters: {
         getList: state => state.list,
         getCalendarCurrentView: state => state.calendarCurrentView,
         getSpecialHoursForCurrentView: state => state.specialHoursForCurrentView,
+        getCalendarTimeFrom: state => state.calendarTimeFrom,
+        getCalendarTimeTo: state => state.calendarTimeTo,
     },
     actions: {
         load(context, {filter, successCallback, failCallback}) {
@@ -37,8 +41,10 @@ export default {
         loadSpecialHours(state, availability) {
             if (state.calendarCurrentView) {
                 let result = {};
+                state.calendarTimeFrom = 24 * 60;
+                state.calendarTimeTo = 0;
                 for (let d = new Date(state.calendarCurrentView.startDate); d <= state.calendarCurrentView.endDate; d.setDate(d.getDate() + 1)) {
-                    let key = d.toFormatString(1);
+                    let key = d.sformat('yyyy-mm-dd');
                     if (availability.hasOwnProperty(key)) {
                         let dayOfWeek = d.getDay();
                         if (!result.hasOwnProperty(dayOfWeek)) {
@@ -47,17 +53,21 @@ export default {
                         for (let range of availability[key]) {
                             let from = SpecialHoursHelper.timeStringToDate(range.from);
                             let to = SpecialHoursHelper.timeStringToDate(range.to);
-                            result[dayOfWeek].push(
-                                {
-                                    from: from.getHours() * 60 + from.getMinutes(),
-                                    to: to.getHours() * 60 + to.getMinutes(),
-                                    class: 'business-hours'
-                                }
-                            );
+                            let newRange = {
+                                from: from.getHours() * 60 + from.getMinutes(),
+                                to: to.getHours() * 60 + to.getMinutes(),
+                                class: 'business-hours'
+                            };
+                            if (newRange.from < state.calendarTimeFrom) {
+                                state.calendarTimeFrom = newRange.from;
+                            }
+                            if (newRange.to > state.calendarTimeTo) {
+                                state.calendarTimeTo = newRange.to;
+                            }
+                            result[dayOfWeek].push(newRange);
                         }
                     }
                 }
-
                 state.specialHoursForCurrentView = result;
             }
         },

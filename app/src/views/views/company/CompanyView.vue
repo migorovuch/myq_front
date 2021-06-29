@@ -16,7 +16,7 @@
         </div>
       </div>
     </div>
-    <div class="row" v-if="getSpecialHours()">
+    <div class="row">
       <div class="col">
         <CompanyCalendar :with-events="false"/>
       </div>
@@ -51,9 +51,6 @@ export default {
             if (data.length) {
               this.selectedSchedule = data[0].id;
               this.selectSchedule(data[0]);
-              this.loadSpecialHours({
-                filter: {schedule:this.selectedSchedule}
-              });
             }
           }
         });
@@ -71,12 +68,6 @@ export default {
     }
   },
   methods: {
-    ...mapGetters('specialHours', {
-      getSpecialHours: 'getList',
-    }),
-    ...mapActions('specialHours', {
-      loadSpecialHours: 'load'
-    }),
     ...mapGetters('schedule', {
       getSchedule: 'getModel',
       getScheduleList: 'getList',
@@ -103,10 +94,6 @@ export default {
         }
       }
       this.selectSchedule(eventSchedule);
-      this.loadSpecialHours({
-        filter: {schedule:value},
-        idSchedule: value,
-      });
     }
   }
 }
