@@ -24,9 +24,36 @@ export default {
                 failCallback
             );
         },
+        loadMy(context, {filter, successCallback, failCallback}) {
+            scheduleApiProvider.getMyScheduleList(
+                filter,
+                (data) => {
+                    context.commit('load', data);
+                    if (successCallback) {
+                        successCallback(data);
+                    }
+                },
+                failCallback
+            );
+        },
         loadOne(context, {id, successCallback, failCallback}) {
             let filter = {id: id};
             scheduleApiProvider.getScheduleList(
+                filter,
+                (data) => {
+                    if (data.length) {
+                        context.commit('loadOne', data[0]);
+                        if (successCallback) {
+                            successCallback(data[0]);
+                        }
+                    }
+                },
+                failCallback
+            );
+        },
+        loadMyOne(context, {id, successCallback, failCallback}) {
+            let filter = {id: id};
+            scheduleApiProvider.getMyScheduleList(
                 filter,
                 (data) => {
                     if (data.length) {

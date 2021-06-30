@@ -26,7 +26,7 @@
         </div>
         <div class="col-6">
           <b-form-select v-if="item.repeatCondition===1" v-model="item.repeatDay" :options="onceAWeekOptions"></b-form-select>
-          <b-form-select v-if="item.repeatCondition===2" v-model="item.repeatDate" :options="onceAMonthOptions"></b-form-select>
+          <b-form-select v-if="item.repeatCondition===2" v-model="item.repeatDateMonth" :options="onceAMonthOptions"></b-form-select>
           <b-form-datepicker
               v-if="item.repeatCondition===3"
               v-model="item.repeatDate"
@@ -185,6 +185,10 @@ export default {
         if (typeof specialHoursItem.endDate === 'string') {
           specialHoursItem.endDate = new Date(specialHoursItem.endDate);
         }
+        if (typeof specialHoursItem.repeatDate === 'string') {
+          specialHoursItem.repeatDate = new Date(specialHoursItem.repeatDate);
+          specialHoursItem.repeatDateMonth = specialHoursItem.repeatDate.getDate();
+        }
         for (let range of specialHoursItem.ranges) {
           range.from = SpecialHoursHelper.timeStringToDate(range.from).sformat('HH:MM');
           range.to = SpecialHoursHelper.timeStringToDate(range.to).sformat('HH:MM');
@@ -303,6 +307,12 @@ export default {
       let specialHours = [];
       // datepicker return string value, so before save need to convert it to Date
       for (let specialHoursItem of this.specialHours) {
+        if (specialHoursItem.repeatCondition == 2 && specialHoursItem.repeatDateMonth) {
+          if (!specialHoursItem.repeatDate) {
+            specialHoursItem.repeatDate = new Date();
+          }
+          specialHoursItem.repeatDate.setDate(specialHoursItem.repeatDateMonth);
+        }
         let newItem = {
           id: specialHoursItem.id,
           schedule: this.idSchedule,
@@ -341,6 +351,7 @@ export default {
       let idSchedule = this.idSchedule;
       this.specialHours.push({
         id: null,
+        available: true,
         schedule: idSchedule,
         ranges: [{from: '09:00', to: '18:00'}],
         startDate: new Date(),
