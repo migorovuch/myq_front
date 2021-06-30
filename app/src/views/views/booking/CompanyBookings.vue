@@ -285,7 +285,9 @@ export default {
       let views = ['month', 'week', 'day'];
       if (views.includes(calendarView.view)) {
         this.filter.filterFrom = calendarView.startDate.sformat('yyyy-mm-dd');
-        this.filter.filterTo = calendarView.endDate.sformat('yyyy-mm-dd');
+        let oneDay = 86400000;
+        let endDate = new Date(calendarView.endDate.getTime() + oneDay);
+        this.filter.filterTo = endDate.sformat('yyyy-mm-dd');
         this.applyBookingsFilter();
       }
     },

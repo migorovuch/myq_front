@@ -6,8 +6,10 @@
         :time-from="getCalendarTimeFrom()"
         :time-to="getCalendarTimeTo()"
         locale="uk"
+        :showWeekNumbers="false"
         events-on-month-view="short"
         :disable-views="['years', 'year']"
+        @cell-click="$emit('cell-click', $event)"
         @view-change="calendarViewChange"
         @ready="calendarViewChange"
     >
@@ -107,6 +109,9 @@ export default {
         };
         this.loadAvailability({
           filter: filter,
+          successCallback: (data) => {
+            this.$emit('load-availability-callback', data);
+          }
         });
       }
       this.$emit('calendar-view-change', event);

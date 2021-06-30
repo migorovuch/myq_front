@@ -2,6 +2,8 @@
   <AppForm :formModel="formModel" @onFormSubmit="onSubmit">
     <template v-slot:formFooter>
       <b-button type="submit" variant="primary">{{$t("Checkout")}}</b-button>
+      <b-button type="button" @click="generateTimeLink" variant="secondary">{{$t("Share time")}}</b-button>
+
     </template>
   </AppForm>
 </template>
@@ -21,69 +23,78 @@ let eventsLocalStorageProvider = new EventsLocalStorageProvider();
 export default {
   name: "CreateBooking",
   components: {AppForm},
+  props: {
+    bookingStart: Date
+  },
   created() {
-    // add user contact details if user is not logged in
-    if (!this.isUserLogged()) {
-      this.formModel.form.userName = new AppFormInput(
-          "text",
-          this.$t('Your name:'),
-          this.$t('Enter your name'),
-          {
-            required: this.$t('This value should not be blank'),
-          }
-      );
-      this.formModel.form.userPhone = new AppFormInput(
-          "text",
-          this.$t('Your phone number:'),
-          this.$t('Enter your contact phone number'),
-          {
-            required: this.$t('This value should not be blank'),
-          }
-      );
-      this.formModel.validations.model.userName = {required};
-      this.formModel.validations.model.userPhone = {required};
-    }
-    // add booking duration if it's not predefined
-    if (!this.getSelectedSchedule().bookingDuration) {
-      let durationMinutesRound = 5;
-      let durationOptions = [];
-      let minDuration = Math.round((this.getSelectedSchedule().minBookingTime / durationMinutesRound)) * durationMinutesRound;
-      minDuration = minDuration ? minDuration : durationMinutesRound;
-
-      let maxDuration = Math.round((this.getSelectedSchedule().maxBookingTime / durationMinutesRound)) * durationMinutesRound;
-      for (let i = minDuration; i < maxDuration; i += durationMinutesRound) {
-        let text = '';
-        if (i < 60) {
-          text = this.$t('{min} minutes', {min: i});
-        } else if (i >= 60) {
-          let hours = parseInt(i / 60);
-          let minutes = (i - (hours * 60));
-          text = this.$t('{hs} hour(s) {min} minutes', {hs: hours, min: minutes});
-          if (!minutes) {
-            text = this.$t('{hs} hour(s)', {hs: hours});
-          }
-        }
-        durationOptions.push({
-          value: i,
-          text: text
-        });
+    if (this.getSelectedSchedule()) {
+      // add user contact details if user is not logged in
+      if (!this.isUserLogged()) {
+        this.formModel.form.userName = new AppFormInput(
+            "text",
+            this.$t('Your name:'),
+            this.$t('Enter your name'),
+            {
+              required: this.$t('This value should not be blank'),
+            }
+        );
+        this.formModel.form.userPhone = new AppFormInput(
+            "text",
+            this.$t('Your phone number:'),
+            this.$t('Enter your contact phone number'),
+            {
+              required: this.$t('This value should not be blank'),
+            }
+        );
+        this.formModel.validations.model.userName = {required};
+        this.formModel.validations.model.userPhone = {required};
       }
-      this.formModel.form.duration = new AppFormSelect(
-          "select",
-          this.$t('Duration:'),
-          this.$t('Select duration'),
-          {
-            required: this.$t('This value should not be blank'),
-          },
-          null,
-          durationOptions
-      );
-      this.formModel.model.duration = minDuration;
-    } else {
-      this.formModel.model.duration = this.getSelectedSchedule().bookingDuration;
-    }
-    this.formModel.model.schedule = this.getSelectedSchedule().id;
+      // add booking duration if it's not predefined
+      if (!this.getSelectedSchedule().bookingDuration) {
+        let durationMinutesRound = 5;
+        let durationOptions = [];
+        let minDuration = Math.round((this.getSelectedSchedule().minBookingTime / durationMinutesRound)) * durationMinutesRound;
+        minDuration = minDuration ? minDuration : durationMinutesRound;
 
+        let maxDuration = Math.round((this.getSelectedSchedule().maxBookingTime / durationMinutesRound)) * durationMinutesRound;
+        for (let i = minDuration; i < maxDuration; i += durationMinutesRound) {
+          let text = '';
+          if (i < 60) {
+            text = this.$t('{min} minutes', {min: i});
+          } else if (i >= 60) {
+            let hours = parseInt(i / 60);
+            let minutes = (i - (hours * 60));
+            text = this.$t('{hs} hour(s) {min} minutes', {hs: hours, min: minutes});
+            if (!minutes) {
+              text = this.$t('{hs} hour(s)', {hs: hours});
+            }
+          }
+          durationOptions.push({
+            value: i,
+            text: text
+          });
+        }
+        this.formModel.form.duration = new AppFormSelect(
+            "select",
+            this.$t('Duration:'),
+            this.$t('Select duration'),
+            {
+              required: this.$t('This value should not be blank'),
+            },
+            null,
+            durationOptions
+        );
+        this.formModel.model.duration = minDuration;
+      } else {
+        this.formModel.model.duration = this.getSelectedSchedule().bookingDuration;
+      }
+      this.formModel.model.schedule = this.getSelectedSchedule().id;
+
+      if (this.bookingStart) {
+        this.formModel.model.startDate = this.bookingStart;
+        this.formModel.model.startTime = this.bookingStart.sformat('HH:MM');
+      }
+    }
   },
   data: function () {
     return {
@@ -149,6 +160,29 @@ export default {
     ...mapGetters('schedule', {
       getSelectedSchedule: 'getModel',
     }),
+    generateTimeLink() {
+      if (this.formModel.model.startDate && this.formModel.model.startTime) {
+        let start = new Date(this.formModel.model.startDate);
+        let startTimeMinutes = SpecialHoursHelper.timeStringToMinutes(this.formModel.model.startTime);
+        let hours = parseInt(startTimeMinutes / 60);
+        start.setHours(hours);
+        start.setMinutes(startTimeMinutes - (hours * 60));
+        let path = this.$router.resolve(
+            {
+              name: 'company_vue',
+              params: {
+                id: this.getCompany().id
+              },
+              query: {
+                schedule: this.getSelectedSchedule().id,
+                time: start.sformat('isoDateTime')
+              }
+            }
+        ).href;
+        // !! The bellow shows what I may want.
+        alert(window.location.origin + "/" + path);
+      }
+    },
     bookingTimeValidation(bookingFormModel) {
       let validationResult = 0;
       let bookingDate = new Date(bookingFormModel.model.startDate);
