@@ -1,8 +1,9 @@
 <template>
     <div>
         <div class="container-fluid">
-            <b-navbar fixed="top" variant="light">
+            <b-navbar fixed="top" variant="light" toggleable="lg">
                 <b-navbar-brand href="#"><img src="../../../assets/logo.png" class="logo"></b-navbar-brand>
+                <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
                 <b-collapse id="nav-collapse" is-nav>
                     <b-navbar-nav  class="ml-auto">
                         <b-nav-item :to="{name: 'home'}">{{$t("Home")}}</b-nav-item>
@@ -74,6 +75,6 @@
 
 <style scoped>
     .logo {
-        width: 72px;
+        width: 40px;
     }
 </style>
