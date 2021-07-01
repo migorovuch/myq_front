@@ -1,13 +1,7 @@
 <template>
   <div>
-    <div class="row">
-      <div class="col-4">
-        <CompanyForm/>
-      </div>
-      <div class="col-8">
-        <ScheduleList />
-      </div>
-    </div>
+      <CompanyForm/>
+      <ScheduleList />
   </div>
 </template>
 

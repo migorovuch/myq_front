@@ -41,7 +41,8 @@
                   this.$t('Enter company name'),
                   {
                     required: this.$t('This value should not be blank'),
-                  }
+                  },
+                  {wrapClass: 'col-lg-3'}
               ),
               email: new AppFormInput(
                   "email",
@@ -50,31 +51,36 @@
                   {
                     required: this.$t('This value should not be blank'),
                     email: this.$t('Value is not valid')
-                  }
+                  },
+                  {wrapClass: 'col-lg-3'}
               ),
               phone: new AppFormInput(
                   "text",
                   this.$t('Phone:'),
                   this.$t('Enter phone'),
-                  {}
+                  {},
+                  {wrapClass: 'col-lg-3'}
               ),
               logo: new AppFormInput(
                   "file",
                   this.$t('Logo:'),
                   this.$t('Select logo'),
-                  {}
+                  {},
+                  {wrapClass: 'col-lg-3'}
               ),
               address: new AppFormInput(
                   "text",
                   this.$t('Address:'),
                   this.$t('Enter address'),
-                  {}
+                  {},
+                  {wrapClass: 'col-lg-3'}
               ),
               description: new AppFormInput(
                   "textarea",
                   this.$t('Description:'),
                   this.$t('Enter description'),
-                  {}
+                  {},
+                  {wrapClass: 'col-lg-9'}
               ),
             }, null, {
               model: {

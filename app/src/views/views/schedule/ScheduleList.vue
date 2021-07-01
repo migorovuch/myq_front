@@ -1,8 +1,26 @@
 <template>
   <div>
-    <b-table striped hover :items="getScheduleList()" :fields="fields">
-      <template #cell(buttons)="data">
-        <router-link :to="{name: 'company_schedule_item', params: {id: data.item.id}}">Edit</router-link>
+    <b-table
+        striped
+        hover
+        :items="getScheduleList()"
+        :fields="fields"
+        @row-clicked="(item) => {this.$router.push({name: 'company_schedule_item', params: {id: item.id}})}"
+    >
+      <template #cell(available)="data">
+        {{
+          data.item.enabled ?
+              (data.item.available ? $t('Schedule available 24/7') : $t('Schedule available only at special hours')) :
+              $t('Schedule is not available for booking')
+        }}
+      </template>
+      <template #cell(bookingDuration)="data">
+        <template v-if="data.item.bookingDuration">
+          {{data.item.bookingDuration}} {{$t('min.')}}
+        </template>
+        <template v-else>
+          {{data.item.minBookingTime}} - {{data.item.maxBookingTime}} {{$t('min.')}}
+        </template>
       </template>
     </b-table>
   </div>
@@ -16,13 +34,9 @@ import {mapActions, mapGetters} from 'vuex';
     data() {
       return {
         fields: [
-          {key: 'name', label: this.$t('Schedule title')},
-          {key: 'enabled', label: this.$t('Enabled/Disabled')},
+          {key: 'name', label: this.$t('Title')},
           {key: 'available', label: this.$t('Availability')},
-          {key: 'bookingDuration', label: this.$t('Up to customer/Predefined')},
-          {key: 'minBookingTime', label: this.$t('Min. booking duration')},
-          {key: 'maxBookingTime', label: this.$t('Max. booking duration')},
-          {key: 'buttons', label: this.$t('Max. booking duration')},
+          {key: 'bookingDuration', label: this.$t('Booking duration')},
         ],
       };
     },

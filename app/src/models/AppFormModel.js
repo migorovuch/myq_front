@@ -3,8 +3,11 @@ export default class AppFormModel {
     form;
     errors;
     validations; //vue js vuelidate
+    style = {
+        horizontal: 12
+    };
 
-    constructor(model, form, errors, validations) {
+    constructor(model, form, errors, validations, style) {
         this.model = model;
         this.form = form;
         this.errors = errors;
@@ -12,6 +15,7 @@ export default class AppFormModel {
             this.resetErrors();
         }
         this.validations = validations;
+        Object.assign(this.style, style);
     }
 
     resetErrors() {

@@ -30,7 +30,11 @@ const routes = [
         }},
       {path: '/bookings', name: 'my_bookings', component: () => import('../../views/views/booking/MyBookings')},
       {path: '/company/schedule', name: 'company_schedule', component: () => import('../../views/views/schedule/ScheduleList')},
-      {path: '/company/schedule/:id', name: 'company_schedule_item', component: () => import('../../views/views/schedule/ScheduleForm')},
+      {path: '/company/schedule/:id', name: 'company_schedule_item', component: () => import('../../views/views/schedule/ScheduleForm'),meta: {
+          middleware: [
+            authMiddleware
+          ]
+        }},
       {path: '/q/:id', name: 'schedule_vue', component: () => import('../../views/views/schedule/ScheduleView')},
       {path: '/company/:id', name: 'company_vue', component: () => import('../../views/views/company/CompanyView')},
     ]

@@ -2,73 +2,77 @@
     <b-form @submit.prevent="onFormSubmit" @reset="onFormReset" novalidate class="text-left">
         <div class="invalid-feedback d-block" v-if="formModel.errors.formError!=''">{{appFormModel.errors.formError}}</div>
         <slot name="formBody">
-          <template v-for="(input, inputName) in appFormModel.form">
-            <slot :name="inputName">
-              <b-form-checkbox
-                  v-if="input.type==='checkbox'"
-                  :id="'input-'+inputName"
-                  :key="'form-checkbox-' + inputName"
-                  v-model="appFormModel.model[inputName]"
-                  value="true"
-                  unchecked-value="false"
-                  :class="(inputName in formModel.errors?'is-invalid':'') + ' mb-3'"
-              >{{input.label}}</b-form-checkbox>
-              <b-form-group
-                      v-else
-                      :id="inputName + '-input-group'"
-                      :label="input.label"
-                      :label-for="'input-'+inputName"
-                      :key="'form-group-' + inputName"
-              >
-                  <b-form-datepicker
-                      v-if="input.type==='datepicker'"
+          <div class="row">
+            <template v-for="(input, inputName) in appFormModel.form">
+              <div :class="`${input.style.wrapClass} col-xs-12`">
+                <slot :name="inputName">
+                  <div v-if="input.type==='checkbox'" class="mt-2 pt-lg-4">
+                    <input
+                      type="checkbox"
                       :id="'input-'+inputName"
-                      v-model="appFormModel.model[inputName]"
-                      :class="(inputName in formModel.errors?'is-invalid':'')"
-                      :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-                      :placeholder="((input.placeholder !== '')?input.placeholder:input.label)"
-                  ></b-form-datepicker>
-                  <b-form-timepicker
-                      v-else-if="input.type==='timepicker'"
-                      :id="'input-'+inputName"
-                      v-model="appFormModel.model[inputName]"
-                      :class="(inputName in formModel.errors?'is-invalid':'')"
-                      label-no-time-selected="-:-"
-                      size="sm"
-                      minutes-step="5"
-                  ></b-form-timepicker>
-                  <b-form-textarea
-                          v-else-if="input.type==='textarea'"
-                          :id="'input-'+inputName"
-                          v-model="appFormModel.model[inputName]"
-                          :class="(inputName in formModel.errors?'is-invalid':'')"
-                          :placeholder="((input.placeholder !== '')?input.placeholder:input.label)"
-                  ></b-form-textarea>
-                  <b-form-file
-                          v-else-if="input.type==='file'"
-                          :id="'input-'+inputName"
-                          v-model="appFormModel.model[inputName]"
-                          :class="(inputName in formModel.errors?'is-invalid':'')"
-                          :placeholder="((input.placeholder !== '')?input.placeholder:input.label)"
-                  ></b-form-file>
-                  <b-form-select
-                      v-else-if="input.type==='select'"
-                      v-model="appFormModel.model[inputName]"
-                      :class="(inputName in formModel.errors?'is-invalid':'')"
-                      :options="input.options"
-                  ></b-form-select>
-                  <b-form-input
+                      class="apple-switch"
+                      :key="'form-checkbox-' + inputName"
+                      v-model="appFormModel.model[inputName]"/>
+                    <label :for="'input-'+inputName">{{input.label}}</label>
+                  </div>
+                  <b-form-group
                           v-else
+                          :id="inputName + '-input-group'"
+                          :label="input.label"
+                          :label-for="'input-'+inputName"
+                          :key="'form-group-' + inputName"
+                  >
+                      <b-form-datepicker
+                          v-if="input.type==='datepicker'"
                           :id="'input-'+inputName"
                           v-model="appFormModel.model[inputName]"
-                          :type="input.type"
                           :class="(inputName in formModel.errors?'is-invalid':'')"
+                          :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
                           :placeholder="((input.placeholder !== '')?input.placeholder:input.label)"
-                  ></b-form-input>
-                  <div class="invalid-feedback" v-if="(inputName in appFormModel.errors)">{{appFormModel.errors[inputName]}}</div>
-              </b-form-group>
-            </slot>
-          </template>
+                      ></b-form-datepicker>
+                      <b-form-timepicker
+                          v-else-if="input.type==='timepicker'"
+                          :id="'input-'+inputName"
+                          v-model="appFormModel.model[inputName]"
+                          :class="(inputName in formModel.errors?'is-invalid':'')"
+                          label-no-time-selected="-:-"
+                          size="sm"
+                          minutes-step="5"
+                      ></b-form-timepicker>
+                      <b-form-textarea
+                              v-else-if="input.type==='textarea'"
+                              :id="'input-'+inputName"
+                              v-model="appFormModel.model[inputName]"
+                              :class="(inputName in formModel.errors?'is-invalid':'')"
+                              :placeholder="((input.placeholder !== '')?input.placeholder:input.label)"
+                      ></b-form-textarea>
+                      <b-form-file
+                              v-else-if="input.type==='file'"
+                              :id="'input-'+inputName"
+                              v-model="appFormModel.model[inputName]"
+                              :class="(inputName in formModel.errors?'is-invalid':'')"
+                              :placeholder="((input.placeholder !== '')?input.placeholder:input.label)"
+                      ></b-form-file>
+                      <b-form-select
+                          v-else-if="input.type==='select'"
+                          v-model="appFormModel.model[inputName]"
+                          :class="(inputName in formModel.errors?'is-invalid':'')"
+                          :options="input.options"
+                      ></b-form-select>
+                      <b-form-input
+                              v-else
+                              :id="'input-'+inputName"
+                              v-model="appFormModel.model[inputName]"
+                              :type="input.type"
+                              :class="(inputName in formModel.errors?'is-invalid':'')"
+                              :placeholder="((input.placeholder !== '')?input.placeholder:input.label)"
+                      ></b-form-input>
+                      <div class="invalid-feedback" v-if="(inputName in appFormModel.errors)">{{appFormModel.errors[inputName]}}</div>
+                  </b-form-group>
+                </slot>
+              </div>
+            </template>
+          </div>
         </slot>
         <slot name="formFooter"></slot>
     </b-form>
@@ -80,7 +84,8 @@
 
     export default {
         name: "AppForm",
-        props: {
+      components: {},
+      props: {
             formModel: AppFormModel,
         },
         mixins: [validationMixin],

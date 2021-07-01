@@ -3,13 +3,15 @@ export default class AppFormInput {
     label;
     placeholder;
     errorLabels;
-    style;
+    style = {
+        wrapClass: 'col-lg-12'
+    };
 
     constructor(type, label, placeholder, errorLabels, style) {
         this.type = type;
         this.label = label;
         this.placeholder = placeholder;
         this.errorLabels = errorLabels;
-        this.style = style ? style : {};
+        Object.assign(this.style, style);
     }
 }

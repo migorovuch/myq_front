@@ -47,6 +47,9 @@ export default {
                     let key = d.sformat('yyyy-mm-dd');
                     if (availability.hasOwnProperty(key)) {
                         let dayOfWeek = d.getDay();
+                        if (!dayOfWeek) {
+                            dayOfWeek = 7;
+                        }
                         if (!result.hasOwnProperty(dayOfWeek)) {
                             result[dayOfWeek] = [];
                         }

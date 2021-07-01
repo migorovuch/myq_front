@@ -1,31 +1,31 @@
 <template>
   <div>
-    <div class="row">
-      <div class="col-4">
-        <AppForm
-            v-if="formModel.model"
-            :formModel="formModel"
-            @onFormSubmit="onSubmit"
-        >
-          <template v-slot:available>
-            <b-form-checkbox
+    <AppForm
+        v-if="formModel.model"
+        :formModel="formModel"
+        @onFormSubmit="onSubmit"
+    >
+      <template v-slot:available>
+        <div class="row">
+          <div class="mt-2 pt-lg-4 col-lg-6 col-xs-12">
+            <input
+                type="checkbox"
                 :id="'input-available'"
-                v-model="formModel.model.available"
-                value="true"
-                unchecked-value="false"
-                :class="('available' in formModel.errors?'is-invalid':'') + ' mb-3'"
-            >{{formModel.form.available.label}}</b-form-checkbox>
-            <b-button v-b-modal.modal-specal-hours>{{ $t('Select availability') }}</b-button>
-          </template>
-          <template v-slot:formFooter>
-            <b-button type="submit" variant="primary">{{$t("Save")}}</b-button>
-          </template>
-        </AppForm>
-      </div>
-      <div class="col-8">
-        <CompanyCalendar :with-events="false"/>
-      </div>
-    </div>
+                class="apple-switch"
+                :key="'form-checkbox-available'"
+                v-model="formModel.model.available"/>
+            <label :for="'input-available'">{{formModel.form.available.label}}</label>
+          </div>
+          <div class="col-lg-6 col-xs-12 pt-lg-4">
+            <b-button v-if="!formModel.model.available" v-b-modal.modal-specal-hours>{{ $t('Select availability') }}</b-button>
+          </div>
+        </div>
+      </template>
+      <template v-slot:formFooter>
+        <b-button type="submit" variant="primary">{{$t("Save")}}</b-button>
+      </template>
+    </AppForm>
+    <CompanyCalendar :with-events="false"/>
     <b-modal id="modal-specal-hours" hide-footer :title="$t('Availability')">
       <SpecialHoursForm :id-schedule="idSchedule" v-on:form:save="refreshAvailability"></SpecialHoursForm>
     </b-modal>
@@ -66,44 +66,50 @@
                   this.$t('Enter name'),
                   {
                     required: this.$t('This value should not be blank'),
-                  }
+                  },
+                  {wrapClass: 'col-lg-3'}
               ),
               enabled: new AppFormInput(
                   "checkbox",
                   this.$t('Available for booking:'),
                   null,
-                  {}
+                  {},
+                  {wrapClass: 'col-lg-3'}
               ),
               available: new AppFormInput(
                   "checkbox",
                   this.$t('Always availabl:'),
                   null,
-                  {}
+                  {},
+                  {wrapClass: 'col-lg-6'}
               ),
               bookingDuration: new AppFormInput(
                   "number",
                   this.$t('Booking duration:'),
                   'seconds',
-                  {}
+                  {},
+                  {wrapClass: 'col-lg-3'}
               ),
               minBookingTime: new AppFormInput(
                   "number",
                   this.$t('Min Booking time:'),
                   'seconds',
-                  {}
+                  {},
+                  {wrapClass: 'col-lg-3'}
               ),
               maxBookingTime: new AppFormInput(
                   "number",
                   this.$t('Max Booking time:'),
                   'seconds',
-                  {}
+                  {},
+                  {wrapClass: 'col-lg-3'}
               ),
               bookingCondition: new AppFormSelect(
                   "select",
                   this.$t('Booking condition:'),
                   '',
                   {},
-                  null,
+                  {wrapClass: 'col-lg-3'},
                   [
                     {value: 0, text: this.$t('All users')},
                     {value: 1, text: this.$t('Authorized only')},
@@ -114,7 +120,7 @@
                   this.$t('Accept booking condition:'),
                   '',
                   {},
-                  null,
+                  {wrapClass: 'col-lg-3'},
                   [
                     {value: 0, text: this.$t('Accept all bookings')},
                     {value: 1, text: this.$t('Decline all bookings')},
@@ -126,19 +132,22 @@
                   "number",
                   this.$t('Accept booking time:'),
                   'minutes',
-                  {}
+                  {},
+                  {wrapClass: 'col-lg-3'}
               ),
               timeBetweenBookings: new AppFormInput(
                   "number",
                   this.$t('Time between bookings:'),
                   'minutes',
-                  {}
+                  {},
+                  {wrapClass: 'col-lg-3'}
               ),
               description: new AppFormInput(
                   "textarea",
                   this.$t('Description:'),
                   this.$t('Enter description'),
-                  {}
+                  {},
+                  {wrapClass: 'col-lg-6'}
               ),
             },
             null,
@@ -160,7 +169,7 @@
         getSchedule: 'getModel',
       }),
       ...mapActions('schedule', {
-        loadSchedule: 'loadOne',
+        loadSchedule: 'loadMyOne',
         updateSchedule: 'update',
       }),
       ...mapActions('availability', {
@@ -184,7 +193,7 @@
           failCallback: (data) => {
             formModel.handleResponseErrors(data);
           },
-        })
+        });
       },
       refreshAvailability() {
         let calendarCurrentView = this.getCalendarCurrentView();
