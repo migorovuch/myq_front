@@ -2,32 +2,47 @@
   <div>
     <b-form-checkbox v-model="extended">{{$t("Extended")}}</b-form-checkbox>
     <div v-if="extended">
-      <div v-for="(item, specialHoursKey) in specialHours" :key="specialHoursKey" class="row form-group">
-        <div class="col-6">
+      <div v-for="(item, specialHoursKey) in specialHours" :key="specialHoursKey" v-if="item.deleted !== 1" class="row form-group">
+        <div class="col-5 form-group">
           <b-form-datepicker
               v-model="item.startDate"
               size="sm"
               class="date-picker-min-width"
               :max="item.endDate"
+              :disabled="!item.available"
               :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
           ></b-form-datepicker>
         </div>
-        <div class="col-6">
+        <div class="col-5 form-group">
           <b-form-datepicker
               v-model="item.endDate"
               size="sm"
               class="date-picker-min-width"
               :min="item.endDate"
+              :disabled="!item.available"
               :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
           ></b-form-datepicker>
         </div>
-        <div class="col-6">
-          <b-form-select v-model="item.repeatCondition" :options="repeatOptions"></b-form-select>
+        <div class="col-2 form-group">
+<!--          <input type="checkbox" v-model="item.deleted" @input="console.log(item)"/>-->
+          <b-icon class="mt-2" icon="trash-fill" aria-hidden="true" variant="danger" @click="removeSpecialHoursItem(specialHoursKey)"></b-icon>
+          <label class="d-none">
+            <b-icon v-if="item.available" class="mt-2" icon="square" aria-hidden="true" variant="danger"></b-icon>
+            <b-icon v-else class="mt-2" icon="square" aria-hidden="true" variant="danger"></b-icon>
+            <input
+                type="checkbox"
+                class="d-none"
+                v-model="item.available"/>
+          </label>
         </div>
-        <div class="col-6">
-          <b-form-select v-if="item.repeatCondition===1" v-model="item.repeatDay" :options="onceAWeekOptions"></b-form-select>
-          <b-form-select v-if="item.repeatCondition===2" v-model="item.repeatDateMonth" :options="onceAMonthOptions"></b-form-select>
+        <div class="col-6 form-group">
+          <b-form-select :disabled="!item.available" v-model="item.repeatCondition" :value="item.repeatCondition" :options="repeatOptions"></b-form-select>
+        </div>
+        <div class="col-6 form-group">
+          <b-form-select :disabled="!item.available" v-if="item.repeatCondition===1" v-model="item.repeatDay" :value="item.repeatDay" :options="onceAWeekOptions"></b-form-select>
+          <b-form-select :disabled="!item.available" v-if="item.repeatCondition===2" v-model="item.repeatDateMonth" :value="item.repeatDateMonth" :options="onceAMonthOptions"></b-form-select>
           <b-form-datepicker
+              :disabled="!item.available"
               v-if="item.repeatCondition===3"
               v-model="item.repeatDate"
               size="sm"
@@ -36,29 +51,50 @@
         </div>
         <div class="col-12">
           <div v-for="(range, rangeKey) in item.ranges" :key="rangeKey" class="row">
-            <div class="col-3">
+            <div class="col-4 form-group">
               <b-form-timepicker
                   class="special-hours-time"
                   v-model="range.from"
                   label-no-time-selected="-:-"
                   size="sm"
+                  :disabled="!item.available"
                   minutes-step="5"
               ></b-form-timepicker>
             </div>
-            <div class="col-3">
+            <div class="col-4 form-group">
               <b-form-timepicker
                   class="special-hours-time"
                   v-model="range.to"
                   label-no-time-selected="-:-"
                   size="sm"
+                  :disabled="!item.available"
                   minutes-step="5"
               ></b-form-timepicker>
             </div>
+            <div class="col-2" v-if="rangeKey!==0">
+              <b-icon class="mt-2" @click="removeRangeFromItem(item, rangeKey)" icon="trash-fill" aria-hidden="true" variant="danger"></b-icon>
+            </div>
           </div>
-          <span @click="addRangeToItem(item)">+</span>
+          <div class="row">
+            <div class="offset-8 col-1">
+              <b-icon
+                  @click="addRangeToItem(item)"
+                  class="mt-2"
+                  icon="patch-plus"
+                  aria-hidden="true"
+                  variant="success">
+              </b-icon>
+            </div>
+          </div>
         </div>
       </div>
-      <div @click="addSpecialHoursItem">+</div>
+      <b-icon
+          @click="addSpecialHoursItem"
+          class="mt-2"
+          icon="calendar-plus"
+          aria-hidden="true"
+          variant="success">
+      </b-icon>
       <b-button @click="saveAvailabilitySpecialHours">{{ $t('Save availability') }}</b-button>
     </div>
     <div v-else>
@@ -85,15 +121,16 @@
             v-for="(hours, dayOfWeek) in specialHoursForCurrentView[selectedPeriodKey].specialHours"
             :key="dayOfWeek"
             class="row mb-2">
-          <div class="col-4">
-            {{hours.dayOfWeek}}
+          <div class="col-lg-4 col-xs-12">
+            <label :for="'available'+dayOfWeek" class="d-block">{{hours.dayOfWeek}}</label>
           </div>
           <div class="col-2">
             <b-form-checkbox
+                :id="'available'+dayOfWeek"
                 v-model="hours.available"
             ></b-form-checkbox>
           </div>
-          <div class="col-3">
+          <div class="col-lg-3 col-5">
             <b-form-timepicker
                 v-model="hours.from"
                 label-no-time-selected="-:-"
@@ -102,7 +139,7 @@
                 minutes-step="5"
             ></b-form-timepicker>
           </div>
-          <div class="col-3">
+          <div class="col-lg-3 col-5">
             <b-form-timepicker
                 v-model="hours.to"
                 label-no-time-selected="-:-"
@@ -121,6 +158,7 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import SpecialHoursHelper from '@/helpers/SpecialHoursHelper';
+import Vue from 'vue'
 
 export default {
   name: "SpecialHoursForm",
@@ -179,6 +217,7 @@ export default {
     }),
     prepareSpecialHours(specialHours) {
       for (let specialHoursItem of specialHours) {
+        specialHoursItem.deleted = 0;
         if (typeof specialHoursItem.startDate === 'string') {
           specialHoursItem.startDate = new Date(specialHoursItem.startDate);
         }
@@ -347,6 +386,9 @@ export default {
     addRangeToItem(specialHoursItem) {
       specialHoursItem.ranges.push({from: '09:00', to: '18:00'});
     },
+    removeRangeFromItem(specialHoursItem, rangeKey) {
+      Vue.delete(specialHoursItem.ranges, rangeKey);
+    },
     addSpecialHoursItem() {
       let idSchedule = this.idSchedule;
       this.specialHours.push({
@@ -360,6 +402,10 @@ export default {
         repeatDay: 0,
         repeatDate: new Date(),
       });
+    },
+    removeSpecialHoursItem(specialHoursKey) {
+      this.specialHours[specialHoursKey].deleted = 1;
+      console.log(this.specialHours[specialHoursKey]);
     },
   }
 }

@@ -7,7 +7,7 @@
     >
       <template v-slot:available>
         <div class="row">
-          <div class="mt-2 pt-lg-4 col-lg-6 col-xs-12">
+          <div class="mt-2 pt-lg-4 col-lg-6 col-xs-12 form-group">
             <input
                 type="checkbox"
                 :id="'input-available'"
@@ -16,8 +16,11 @@
                 v-model="formModel.model.available"/>
             <label :for="'input-available'">{{formModel.form.available.label}}</label>
           </div>
-          <div class="col-lg-6 col-xs-12 pt-lg-4">
-            <b-button v-if="!formModel.model.available" v-b-modal.modal-specal-hours>{{ $t('Select availability') }}</b-button>
+          <div class="col-lg-6 col-xs-12 pt-lg-4 form-group">
+            <b-button v-if="!formModel.model.available" v-b-modal.modal-specal-hours>
+              <b-icon icon="clock" class="mr-2"/>
+              {{ $t('Select availability') }}
+            </b-button>
           </div>
         </div>
       </template>

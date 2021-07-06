@@ -128,5 +128,20 @@
     "Per page": "Per page",
     "Event time": "Event time",
     "Ascending": "Ascending",
-    "Descending": "Descending"
+    "Descending": "Descending",
+    "My Company": "My Company",
+    "Edit Company": "Edit Company",
+    "Save changes": "Save changes",
+    "Subject": "Subject",
+    "Less filters": "Less filters",
+    "More filters": "More filters",
+    "Share time": "Share time",
+    "Event date": "Event date",
+    "Accept booking time:": "Accept booking time:",
+    "Time between bookings:": "Time between bookings:",
+    "Schedule available 24/7": "Schedule available 24/7",
+    "Schedule available only at special hours": "Schedule available only at special hours",
+    "Schedule is not available for booking": "Schedule is not available for booking",
+    "min.": "min.",
+    "Booking duration": "Booking duration"
 }

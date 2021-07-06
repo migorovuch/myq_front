@@ -1,14 +1,12 @@
 <template>
   <div>
-    <b-button :variant="!bookingsView?'success':'outline-primary'" @click="bookingsView=0">{{ $t("List") }}</b-button>
-    <b-button :variant="bookingsView?'success':'outline-primary'" @click="bookingsView=1">{{ $t("Calendar") }}</b-button>
       <div class="row">
-        <div class="col" v-if="scheduleOptions.length>1">
+        <div class="col-lg-4 col-xs-12" v-if="scheduleOptions.length>1">
           <b-form-group :label="$t('Schedule')">
-            <b-form-select :options="scheduleOptions || []" @change="changeSelectedSchedule" :model="filter.schedule"></b-form-select>
+            <b-form-select :options="scheduleOptions || []" @change="changeSelectedSchedule" :model="filter.schedule" :value="filter.schedule"></b-form-select>
           </b-form-group>
         </div>
-        <div class="col">
+        <div class="col-lg-4 col-xs-12">
           <b-form-group :label="$t('Filter from')">
             <b-form-datepicker
                 v-model="filter.filterFrom"
@@ -17,7 +15,7 @@
             ></b-form-datepicker>
           </b-form-group>
         </div>
-        <div class="col">
+        <div class="col-lg-4 col-xs-12">
           <b-form-group :label="$t('Filter to')">
             <b-form-datepicker
                 v-model="filter.filterTo"
@@ -27,28 +25,58 @@
           </b-form-group>
         </div>
       </div>
-      <div class="row">
-        <div class="col">
+      <div class="row" v-if="moreFilters">
+        <div class="col-lg-4 col-xs-12">
           <b-form-group :label="$t('Title')">
             <b-form-input type="text" v-model="filter.title" @change="applyBookingsFilter" />
           </b-form-group>
         </div>
-        <div class="col">
+        <div class="col-lg-4 col-xs-12">
           <b-form-group :label="$t('User name')">
             <b-form-input type="text" v-model="filter.userName" @change="applyBookingsFilter" />
           </b-form-group>
         </div>
-        <div class="col">
+        <div class="col-lg-4 col-xs-12">
           <b-form-group :label="$t('Comment')">
             <b-form-input type="text" v-model="filter.customerComment" @change="applyBookingsFilter"/>
           </b-form-group>
         </div>
       </div>
-    <b-button variant="danger" @click="resetFilter">{{ $t("Reset filter") }}</b-button>
+    <div class="row form-group">
+      <div class="col-8">
+        <b-form-checkbox v-model="moreFilters" size="sm" button>
+          {{moreFilters?$t('Less filters'):$t('More filters')}}
+        </b-form-checkbox>
+        <b-button variant="danger" size="sm" @click="resetFilter">{{ $t("Reset filter") }}</b-button>
+      </div>
+      <div class="col-4 text-right">
+        <b-button :variant="!bookingsView?'success':'outline-success'" size="sm" @click="bookingsView=0" :title="$t('List')">
+          <span class="d-none d-sm-inline">{{ $t("List") }}</span>
+          <b-icon icon="list" :aria-label="$t('List')"></b-icon>
+        </b-button>
+        <b-button :variant="bookingsView?'success':'outline-success'" size="sm" @click="bookingsView=1" :title="$t('Calendar')">
+          <span class="d-none d-sm-inline">{{ $t("Calendar") }}</span>
+          <b-icon icon="calendar2-week" :aria-label="$t('Calendar')"></b-icon>
+        </b-button>
+      </div>
+    </div>
+
+
     <template v-if="!bookingsView">
       <BookingsList :items="items" v-on:row-clicked="rowClicked"/>
       <div class="row">
-        <div class="col">
+        <div class="col-lg-4 col-xs-12 m-auto" v-if="totalRows > perPage">
+          <b-pagination
+              v-model="currentPage"
+              :total-rows="totalRows"
+              :per-page="perPage"
+              @input="applyBookingsFilter"
+              align="fill"
+              size="sm"
+              class="my-0"
+          ></b-pagination>
+        </div>
+        <div class="col-lg-4 col-xs-12">
           <b-form-group
               label="Sort"
               label-for="sort-by-select"
@@ -63,7 +91,7 @@
                   v-model="sortBy"
                   @input="applyBookingsFilter"
                   :options="sortOptions"
-                  class="w-75"
+                  class="w-50"
               >
               </b-form-select>
               <b-form-select
@@ -71,13 +99,13 @@
                   :options="sortDescOptions"
                   @input="applyBookingsFilter"
                   size="sm"
-                  class="w-25"
+                  class="w-50"
               >
               </b-form-select>
             </b-input-group>
           </b-form-group>
         </div>
-        <div class="col">
+        <div class="col-lg-4 col-xs-12">
           <b-form-group
               :label="$t('Per page')"
               label-for="per-page-select"
@@ -96,17 +124,6 @@
                 size="sm"
             ></b-form-select>
           </b-form-group>
-        </div>
-        <div class="col">
-          <b-pagination
-              v-model="currentPage"
-              :total-rows="totalRows"
-              :per-page="perPage"
-              @input="applyBookingsFilter"
-              align="fill"
-              size="sm"
-              class="my-0"
-          ></b-pagination>
         </div>
       </div>
     </template>
@@ -144,6 +161,7 @@ export default {
       items: [],
       selectedSchedule: null,
       selectedBooking: null,
+      moreFilters: false,
       filter: {
         comapny: null,
         schedule: null,

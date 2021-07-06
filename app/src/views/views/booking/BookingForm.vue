@@ -1,15 +1,15 @@
 <template>
   <div>
     <div class="form-group">
-      <label>{{ $t("User") }}</label>
       <div class="row">
         <div class="col">
-          {{ $t("User name") }}:{{ selectedBooking.hasOwnProperty('user') ? selectedBooking.user.fullName : selectedBooking.userName }}
+          {{ $t("User name") }}: {{ selectedBooking.hasOwnProperty('user') ? selectedBooking.user.fullName : selectedBooking.userName }}
         </div>
         <div class="col">
-          {{ $t("User phone") }}:{{ selectedBooking.hasOwnProperty('user') ? selectedBooking.user.phone : selectedBooking.userPhone }}
+          {{ $t("User phone") }}: {{ selectedBooking.hasOwnProperty('user') ? selectedBooking.user.phone : selectedBooking.userPhone }}
         </div>
       </div>
+      {{selectedBooking.customerComment}}
     </div>
     <AppForm
         :formModel="formModel"

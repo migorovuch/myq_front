@@ -111,10 +111,11 @@ export default {
             startDate: new AppFormInput(
                 "datepicker",
                 this.$t('Event date:'),
-                this.$t('Enter event date'),
+                this.$t('Event date'),
                 {
                   required: this.$t('This value should not be blank')
-                }
+                },
+                {wrapClass: 'col-6'}
             ),
             startTime: new AppFormInput(
                 "timepicker",
@@ -122,7 +123,8 @@ export default {
                 this.$t('Enter event time'),
                 {
                   required: this.$t('This value should not be blank'),
-                }
+                },
+                {wrapClass: 'col-6'}
             ),
             customerComment: new AppFormInput(
                 "textarea",

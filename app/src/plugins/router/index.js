@@ -4,6 +4,7 @@ import BaseLayout from "@/views/layouts/main/BaseLayout";
 import authMiddleware from "./authMiddleware";
 import middlewarePipeline from "./middlewarePipeline";
 import store from "../../store/store";
+import companyMiddleware from "./companyMiddleware";
 
 Vue.use(VueRouter)
 
@@ -12,6 +13,7 @@ const routes = [
     path: '/', redirect: '/home', name: 'root', component: BaseLayout, children: [
       {path: '/home', name: 'home', component: () => import('../../views/views/Home.vue')},
       {path: '/about', name: 'about', component: () => import('../../views/views/About.vue')},
+      {path: '/my_company', name: 'my_company', meta: {middleware: [companyMiddleware, authMiddleware]}},
       {
         path: '/company',
         name: 'company',

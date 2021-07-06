@@ -36,7 +36,6 @@
                           v-model="appFormModel.model[inputName]"
                           :class="(inputName in formModel.errors?'is-invalid':'')"
                           label-no-time-selected="-:-"
-                          size="sm"
                           minutes-step="5"
                       ></b-form-timepicker>
                       <b-form-textarea

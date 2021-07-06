@@ -128,5 +128,20 @@
     "Per page": "__STRING_NOT_TRANSLATED__",
     "Event time": "__STRING_NOT_TRANSLATED__",
     "Ascending": "__STRING_NOT_TRANSLATED__",
-    "Descending": "__STRING_NOT_TRANSLATED__"
+    "Descending": "__STRING_NOT_TRANSLATED__",
+    "My Company": "__STRING_NOT_TRANSLATED__",
+    "Edit Company": "__STRING_NOT_TRANSLATED__",
+    "Save changes": "__STRING_NOT_TRANSLATED__",
+    "Subject": "__STRING_NOT_TRANSLATED__",
+    "Less filters": "__STRING_NOT_TRANSLATED__",
+    "More filters": "__STRING_NOT_TRANSLATED__",
+    "Share time": "__STRING_NOT_TRANSLATED__",
+    "Event date": "__STRING_NOT_TRANSLATED__",
+    "Accept booking time:": "__STRING_NOT_TRANSLATED__",
+    "Time between bookings:": "__STRING_NOT_TRANSLATED__",
+    "Schedule available 24/7": "__STRING_NOT_TRANSLATED__",
+    "Schedule available only at special hours": "__STRING_NOT_TRANSLATED__",
+    "Schedule is not available for booking": "__STRING_NOT_TRANSLATED__",
+    "min.": "__STRING_NOT_TRANSLATED__",
+    "Booking duration": "__STRING_NOT_TRANSLATED__"
 }

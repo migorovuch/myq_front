@@ -1,5 +1,5 @@
 <template>
-  <BookingsList :items="items"/>
+  <BookingsList :items="items" :fields="fields" />
 </template>
 
 <script>
@@ -14,7 +14,12 @@ export default {
   components: {BookingsList},
   data() {
     return {
-      items: []
+      items: [],
+      fields: [
+        {key: 'subjectClient', label: this.$t('Subject')},
+        {key: 'date', label: this.$t('Booking date')},
+        {key: 'status', label: this.$t('Status')}
+      ]
     };
   },
   created() {

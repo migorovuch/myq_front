@@ -7,7 +7,7 @@
         :fields="tableFields"
         @row-clicked="rowClicked">
       <template #cell(status)="data">
-        <span>{{getStatusLabel(data.value)}}</span>
+        <span :class="getStatusColor(data.value)">{{getStatusLabel(data.value)}}</span>
       </template>
     </b-table>
   </div>
@@ -24,12 +24,11 @@ export default {
   },
   data() {
     let defaultFields = [
-      {key: 'user', label: this.$t('Client')},
-      {key: 'scheduleName', label: ''},
+      {key: 'subjectCompany', label: this.$t('Subject')},
+      // {key: 'user', label: this.$t('Client')},
+      // {key: 'scheduleName', label: ''},
       {key: 'date', label: this.$t('Booking date')},
-      {key: 'timeFrom', label: this.$t('Booking time')},
-      {key: 'timeTo', label: this.$t('Booking time to')},
-      {key: 'customerComment', label: this.$t('Details')},
+      // {key: 'customerComment', label: this.$t('Details')},
       {key: 'status', label: this.$t('Status')}
     ];
     return {
@@ -57,23 +56,22 @@ export default {
       for (let booking of bookings) {
         let start = new Date(booking.start);
         let end = new Date(booking.end);
+        console.log(booking);
         let item = {
           id: booking.id,
+          subjectCompany: booking.userName + ' - ' + booking.schedule.name,
+          subjectClient: booking.schedule.company.name + ' - ' + booking.schedule.name,
+          scheduleName: booking.schedule.name,
           user: booking.userName,
-          date: start.sformat('d/m'),
-          timeFrom: start.sformat('HH:MM'),
-          timeTo: end.sformat('HH:MM'),
+          date: start.sformat('dd.mm') + ` (${start.sformat('HH:MM')}-${end.sformat('HH:MM')})`,
           status: booking.status,
           customerComment: booking.customerComment,
           bookingData: booking
         };
-        if (booking.hasOwnProperty('schedule')) {
-          item.scheduleName = booking.schedule.name;
-        }
         let color = this.getStatusColor(booking.status);
-        if(color) {
-          item._rowVariant = color;
-        }
+        // if(color) {
+        //   item._rowVariant = color;
+        // }
         tableItems.push(item);
       }
 
@@ -81,9 +79,9 @@ export default {
     },
     getStatusColor(status) {
       let colors = {
-        0: null,
-        1: 'success',
-        2: 'danger',
+        0: '',
+        1: 'text-success',
+        2: 'text-danger',
       };
 
       return colors[status];

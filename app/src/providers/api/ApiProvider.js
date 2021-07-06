@@ -16,12 +16,12 @@ export default class ApiProvider {
             .join('&');
     }
 
-    request(url, options = {}, successCallback = null, failCallback = null, errorCallback = function () {}) {
+    asyncRequest(url, options = {}) {
         url = process.env.VUE_APP_API_URL + url;
         if ('body' in options && options.body && typeof options.body !== 'string' && !(options.body instanceof FormData)) {
             options.body = JSON.stringify(this.underscoreObjectKeys(options.body));
         }
-        if('queryParams' in options && Object.keys(options.queryParams).length) {
+        if ('queryParams' in options && Object.keys(options.queryParams).length) {
             url += '?' + this.buildUrlParams(options.queryParams);
         }
         let requestOptions = {
@@ -37,8 +37,13 @@ export default class ApiProvider {
         if (store.getters['account/isUserLogged']) {
             requestOptions.headers.Authorization = 'Bearer ' + store.getters['account/getUserToken'];
         }
+
+        return fetch(url, requestOptions);
+    }
+
+    request(url, options = {}, successCallback = null, failCallback = null, errorCallback = function () {}) {
         (async () => {
-            return await fetch(url, requestOptions);
+            return await this.asyncRequest(url, options);
         })()
             .then(response => {
                 if (response.ok) {

@@ -1,18 +1,33 @@
 <template>
   <div>
-    <div v-if="getCompany()">
+    <div v-if="getCompany()" class="text-left">
       <div class="row">
-        <div class="col">{{getCompany().name}}</div>
-        <div class="col">{{getCompany().email}}</div>
-        <div class="col">{{getCompany().phone}}</div>
-        <div class="col">{{getCompany().address}}</div>
-      </div>
-      <div class="row">
-        <div class="col">{{getCompany().description}}</div>
-      </div>
-      <div class="row" v-if="scheduleOptions.length>1">
+        <div class="col-2" v-if="getCompany().logo">
+          <div class="comapny-logo">
+            <img :src="'http://q.localhost/media/'+getCompany().logo" alt="Company logo">
+          </div>
+        </div>
         <div class="col">
-          <b-form-select :options="scheduleOptions" @change="changeSelectedSchedule" :model="selectedSchedule"></b-form-select>
+          <h1>{{getCompany().name}}</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col form-group" v-if="getCompany().phone"><a :href="'tel:'+getCompany().phone">{{ getCompany().phone }}</a></div>
+        <div class="col form-group" v-if="getCompany().email"><a :href="'mailto:'+getCompany().email">{{ getCompany().email }}</a></div>
+        <div class="col form-group" v-if="getCompany().address">{{ getCompany().address }}</div>
+      </div>
+      <div class="row">
+        <div class="col text-left">{{getCompany().description}}</div>
+      </div>
+      <div class="row" v-if="getSchedule()">
+        <div class="col text-left">{{getSchedule().description}}</div>
+      </div>
+      <div class="row">
+        <div class="col-6 col-lg-3 mt-3" v-if="scheduleOptions.length>1">
+          <b-form-select :options="scheduleOptions" @change="changeSelectedSchedule" :model="selectedSchedule" :value="selectedSchedule"></b-form-select>
+        </div>
+        <div :class="(scheduleOptions.length>1?'text-right offset-lg-6':'offset-lg-9 offset-6') + ' col-6 col-lg-3 mt-3 mb-3 text-right'">
+          <b-button v-b-modal.modal-booking variant="success">{{ $t('Time booking') }}</b-button>
         </div>
       </div>
     </div>
@@ -21,7 +36,6 @@
         <CompanyCalendar :with-events="false" v-on:cell-click="createBooking" v-on:load-availability-callback="loadAvailabilityCallback"/>
       </div>
     </div>
-    <b-button v-b-modal.modal-booking>{{ $t('Time booking') }}</b-button>
     <b-modal id="modal-booking" hide-footer :title="$t('Time booking')">
       <CreateBooking :booking-start="bookingStart"/>
     </b-modal>
@@ -95,6 +109,7 @@ export default {
     }),
     ...mapGetters('availability', {
       getSpecialHoursForCurrentView: 'getSpecialHoursForCurrentView',
+      getCalendarCurrentView: 'getCalendarCurrentView',
     }),
     loadAvailabilityCallback(data) {
       if (this.queryTime && 'schedule' in this.$route.query) {
@@ -105,13 +120,19 @@ export default {
     },
     createBooking(dateStart) {
       let specialHours = this.getSpecialHoursForCurrentView();
-      if (specialHours && this.getSelectedSchedule() && specialHours.hasOwnProperty(dateStart.getDay())) {
+      if (
+          specialHours &&
+          this.getSelectedSchedule() &&
+          specialHours.hasOwnProperty(dateStart.getDay()) &&
+          specialHours[dateStart.getDay()].length &&
+          (this.getCalendarCurrentView().view === 'week' || this.getCalendarCurrentView().view === 'day')
+      ) {
         let bookingTimeMinutes = dateStart.getHours() * 60 + dateStart.getMinutes();
         let bookingDurationMinutes = this.getSelectedSchedule().bookingDuration ?
             this.getSelectedSchedule().bookingDuration :
             this.getSelectedSchedule().minBookingTime;
         let ranges = specialHours[dateStart.getDay()];
-        ranges.sort(function(range1, range2) {
+        ranges.sort(function (range1, range2) {
           if (range1.from > range2.from) {
             return 1;
           }
@@ -134,9 +155,9 @@ export default {
             }
           }
         }
+        this.bookingStart = dateStart;
+        this.$bvModal.show('modal-booking');
       }
-      this.bookingStart = dateStart;
-      this.$bvModal.show('modal-booking');
     },
     changeSelectedSchedule(value) {
       let eventSchedule = null;

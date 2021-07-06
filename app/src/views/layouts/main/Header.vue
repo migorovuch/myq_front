@@ -2,15 +2,20 @@
     <div>
         <div class="container-fluid">
             <b-navbar fixed="top" variant="light" toggleable="lg">
-                <b-navbar-brand href="#"><img src="../../../assets/logo.png" class="logo"></b-navbar-brand>
-                <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+                <b-navbar-brand href="#"><img src="../../../assets/myQ_logo.png" class="logo"></b-navbar-brand>
+                <b-navbar-toggle target="nav-collapse">
+                  <template #default="{ expanded }">
+                    <Hamburger :expanded="expanded" />
+                  </template>
+                </b-navbar-toggle>
                 <b-collapse id="nav-collapse" is-nav>
-                    <b-navbar-nav  class="ml-auto">
+                    <b-navbar-nav  class="ml-auto text-right">
                         <b-nav-item :to="{name: 'home'}">{{$t("Home")}}</b-nav-item>
                         <b-nav-item :to="{name: 'about'}">{{$t("About")}}</b-nav-item>
                         <b-nav-item :to="{name: 'my_bookings'}">{{$t('My bookings')}}</b-nav-item>
-                        <b-nav-item-dropdown :text="$t('Company')" v-if="isUserLogged()">
-                          <b-dropdown-item :to="{name: 'company'}">{{$t('Company')}}</b-dropdown-item>
+                        <b-nav-item-dropdown :text="$t('Company')" v-if="isUserLogged()" menu-class="mt-lg-2" >
+                          <b-dropdown-item :to="{name: 'my_company'}">{{$t('My Company')}}</b-dropdown-item>
+                          <b-dropdown-item :to="{name: 'company'}">{{$t('Edit Company')}}</b-dropdown-item>
                           <b-dropdown-item :to="{name: 'company_bookings'}">{{$t('Bookings')}}</b-dropdown-item>
                         </b-nav-item-dropdown>
                         <b-nav-item v-else v-b-modal.modal-login>{{$t('Company')}}</b-nav-item>
@@ -42,10 +47,12 @@
     import RegistrationForm from "../../views/auth/RegistrationForm";
     import LoginForm from "../../views/auth/LoginForm";
     import {mapActions, mapGetters} from "vuex";
+    import Hamburger from "../../components/Hamburger";
 
     export default {
       name: "Header",
       components: {
+        Hamburger,
         ResetPasswordForm,
         RegistrationForm,
         LoginForm
@@ -75,6 +82,6 @@
 
 <style scoped>
     .logo {
-        width: 40px;
+        width: 60px;
     }
 </style>

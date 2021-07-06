@@ -7,11 +7,12 @@
         :time-to="getCalendarTimeTo()"
         locale="uk"
         :showWeekNumbers="false"
-        events-on-month-view="short"
+        events-count-on-month-view
         :disable-views="['years', 'year']"
         @cell-click="$emit('cell-click', $event)"
         @view-change="calendarViewChange"
         @ready="calendarViewChange"
+        :time-cell-height="100"
     >
       <template v-slot:event="{ event, view }">
         <div @click="$emit('event-click', event)">
