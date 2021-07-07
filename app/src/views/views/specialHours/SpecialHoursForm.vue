@@ -1,8 +1,15 @@
 <template>
   <div>
-    <b-form-checkbox v-model="extended">{{$t("Extended")}}</b-form-checkbox>
+    <div class="form-group">
+      <input
+          type="checkbox"
+          id="extended-configs"
+          class="apple-switch"
+          v-model="extended"/>
+      <label for="extended-configs">{{$t("Extended configuration")}}</label>
+    </div>
     <div v-if="extended">
-      <div v-for="(item, specialHoursKey) in specialHours" :key="specialHoursKey" v-if="item.deleted !== 1" class="row form-group">
+      <div v-for="(item, specialHoursKey) in specialHours" :key="specialHoursKey" v-if="!item.deleted" class="row form-group">
         <div class="col-5 form-group">
           <b-form-datepicker
               v-model="item.startDate"
@@ -24,8 +31,7 @@
           ></b-form-datepicker>
         </div>
         <div class="col-2 form-group">
-<!--          <input type="checkbox" v-model="item.deleted" @input="console.log(item)"/>-->
-          <b-icon class="mt-2" icon="trash-fill" aria-hidden="true" variant="danger" @click="removeSpecialHoursItem(specialHoursKey)"></b-icon>
+          <b-icon class="mt-2" icon="trash-fill" aria-hidden="true" variant="danger" @click="removeSpecialHoursItem(item, specialHoursKey)"></b-icon>
           <label class="d-none">
             <b-icon v-if="item.available" class="mt-2" icon="square" aria-hidden="true" variant="danger"></b-icon>
             <b-icon v-else class="mt-2" icon="square" aria-hidden="true" variant="danger"></b-icon>
@@ -88,29 +94,27 @@
           </div>
         </div>
       </div>
-      <b-icon
-          @click="addSpecialHoursItem"
-          class="mt-2"
-          icon="calendar-plus"
-          aria-hidden="true"
-          variant="success">
-      </b-icon>
-      <b-button @click="saveAvailabilitySpecialHours">{{ $t('Save availability') }}</b-button>
+      <b-button @click="addSpecialHoursItem" variant="outline-success">
+        <b-icon icon="calendar-plus" aria-hidden="true" class="mr-1"></b-icon><span>{{ $t('Add special hours') }}</span>
+      </b-button>
+      <b-button @click="saveAvailabilitySpecialHours" variant="success">{{ $t('Save availability') }}</b-button>
     </div>
     <div v-else>
       <div class="row mb-2" v-for="(period, periodKey) in specialHoursForCurrentView" :key="periodKey" @click="selectedPeriodKey=periodKey">
         <div class="col">
           <b-form-datepicker
+              @shown="selectedPeriodKey=periodKey"
               v-model="period.startDate"
-              size="sm"
+              :size="selectedPeriodKey===periodKey?'md':'sm'"
               :max="period.endDate"
               :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
           ></b-form-datepicker>
         </div>
         <div class="col">
           <b-form-datepicker
+              @shown="selectedPeriodKey=periodKey"
               v-model="period.endDate"
-              size="sm"
+              :size="selectedPeriodKey===periodKey?'md':'sm'"
               :min="period.startDate"
               :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
           ></b-form-datepicker>
@@ -120,7 +124,7 @@
         <div
             v-for="(hours, dayOfWeek) in specialHoursForCurrentView[selectedPeriodKey].specialHours"
             :key="dayOfWeek"
-            class="row mb-2">
+            class="row form-group">
           <div class="col-lg-4 col-xs-12">
             <label :for="'available'+dayOfWeek" class="d-block">{{hours.dayOfWeek}}</label>
           </div>
@@ -150,7 +154,10 @@
           </div>
         </div>
       </div>
-      <b-button @click="savePeriods">{{ $t('Save availability') }}</b-button>
+      <b-button @click="addPeriod" variant="outline-success">
+        <b-icon icon="calendar-plus" aria-hidden="true" class="mr-1"></b-icon><span>{{ $t('Add period') }}</span>
+      </b-button>
+      <b-button @click="savePeriods" variant="success">{{ $t('Save availability') }}</b-button>
     </div>
   </div>
 </template>
@@ -217,7 +224,7 @@ export default {
     }),
     prepareSpecialHours(specialHours) {
       for (let specialHoursItem of specialHours) {
-        specialHoursItem.deleted = 0;
+        specialHoursItem.deleted = false;
         if (typeof specialHoursItem.startDate === 'string') {
           specialHoursItem.startDate = new Date(specialHoursItem.startDate);
         }
@@ -243,34 +250,34 @@ export default {
 
       return resultDate;
     },
-    // special hours to periods for current view
-    specialHoursToPeriods(specialHours) {
-      let defaultSpecialHours = () => {
-        return {
-          0: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Monday')},
-          1: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Tuesday')},
-          2: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Wednesday')},
-          3: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Thursday')},
-          4: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Friday')},
-          5: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Saturday')},
-          6: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Sunday')},
-        }
-      };
+    getDefaultSpecialHours() {
+      return {
+        0: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Monday')},
+        1: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Tuesday')},
+        2: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Wednesday')},
+        3: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Thursday')},
+        4: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Friday')},
+        5: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Saturday')},
+        6: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Sunday')},
+      }
+    },
+    getDefaultPeriod(){
       let date = new Date();
       date.setFullYear(date.getFullYear() + 1);
-      let defaultPeriod = () => {
-        return {
-          startDate: new Date(),
-          endDate: date,
-          specialHours: defaultSpecialHours()
-        }
-      };
+      return {
+        startDate: new Date(),
+        endDate: date,
+        specialHours: this.getDefaultSpecialHours()
+      }
+    },
+    // special hours to periods for current view
+    specialHoursToPeriods(specialHours) {
       let periods = {};
       for (let specialHoursItem of specialHours) {
         if (specialHoursItem.repeatCondition === 1) {
           let periodKey = this.periodKeyFromSpecialHours(specialHoursItem);
           if (!(periodKey in periods)) {
-            periods[periodKey] = defaultPeriod();
+            periods[periodKey] = this.getDefaultPeriod();
             periods[periodKey].startDate = specialHoursItem.startDate;
             periods[periodKey].endDate = specialHoursItem.endDate;
           }
@@ -290,6 +297,7 @@ export default {
         }
       }
       if (!Object.keys(periods).length) {
+        let defaultPeriod = this.getDefaultPeriod();
         periods[this.periodKeyFromSpecialHours(defaultPeriod)] = defaultPeriod;
       }
 
@@ -308,6 +316,7 @@ export default {
           let nextDayOfWeek = this.getNextDayOfWeek(d, specialHoursKey)
           specialHours.push({
             id: periodDay.id,
+            deleted: false,
             schedule: idSchedule,
             ranges: [{from: periodDay.from, to: periodDay.to}],
             startDate: period.startDate,
@@ -354,6 +363,7 @@ export default {
         }
         let newItem = {
           id: specialHoursItem.id,
+          deleted: specialHoursItem.deleted,
           schedule: this.idSchedule,
           startDate: new Date(specialHoursItem.startDate).timestamp(),
           endDate: new Date(specialHoursItem.endDate).timestamp(),
@@ -389,10 +399,15 @@ export default {
     removeRangeFromItem(specialHoursItem, rangeKey) {
       Vue.delete(specialHoursItem.ranges, rangeKey);
     },
+    addPeriod() {
+      this.addSpecialHoursItem();
+      this.specialHoursForCurrentView = this.specialHoursToPeriods(this.specialHours);
+    },
     addSpecialHoursItem() {
       let idSchedule = this.idSchedule;
       this.specialHours.push({
         id: null,
+        deleted: false,
         available: true,
         schedule: idSchedule,
         ranges: [{from: '09:00', to: '18:00'}],
@@ -403,9 +418,14 @@ export default {
         repeatDate: new Date(),
       });
     },
-    removeSpecialHoursItem(specialHoursKey) {
-      this.specialHours[specialHoursKey].deleted = 1;
-      console.log(this.specialHours[specialHoursKey]);
+    removeSpecialHoursItem(specialHours, specialHoursKey) {
+      if (specialHours.id) {
+        let tmpItem = this.specialHours[specialHoursKey];
+        tmpItem.deleted = true;
+        Vue.set(this.specialHours, specialHoursKey, tmpItem);
+      } else {
+        Vue.delete(this.specialHours, specialHoursKey);
+      }
     },
   }
 }

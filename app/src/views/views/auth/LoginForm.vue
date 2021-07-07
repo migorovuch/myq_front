@@ -7,7 +7,7 @@
                     @onFormReset="onResetLogin"
             >
                 <template v-slot:formFooter>
-                    <b-button type="submit" variant="primary">{{$t("Sign in")}}</b-button>
+                    <b-button type="submit" variant="success">{{$t("Sign in")}}</b-button>
                     <a href="#" class="ml-2 forgot-password-link" @click.stop.prevent="showLoginForm=false;">{{$t('Forgot password?')}}</a>
                 </template>
             </AppForm>
@@ -19,7 +19,7 @@
                     @onFormReset="onResetRequest"
             >
                 <template v-slot:formFooter>
-                    <b-button type="submit" variant="primary">{{$t("Reset password")}}</b-button>
+                    <b-button type="submit" variant="success">{{$t("Reset password")}}</b-button>
                 </template>
             </AppForm>
         </div>
@@ -114,7 +114,7 @@
                   data: formModel.model,
                   successCallback: () => {
                     this.$root.$bvToast.toast(this.$t('Successfully authenticated'), {
-                      toaster: 'b-toaster-top-left',
+                      toaster: 'b-toaster-bottom-left',
                       appendToast: true,
                       autoHideDelay: 4000
                     });
@@ -133,7 +133,7 @@
                   formModel.model.email = '';
                   if ('message' in result) {
                     this.$root.$bvToast.toast(result.message, {
-                      toaster: 'b-toaster-top-left',
+                      toaster: 'b-toaster-bottom-left',
                       appendToast: true,
                       autoHideDelay: 4000
                     });

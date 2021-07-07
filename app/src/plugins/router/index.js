@@ -13,7 +13,7 @@ const routes = [
     path: '/', redirect: '/home', name: 'root', component: BaseLayout, children: [
       {path: '/home', name: 'home', component: () => import('../../views/views/Home.vue')},
       {path: '/about', name: 'about', component: () => import('../../views/views/About.vue')},
-      {path: '/my_company', name: 'my_company', meta: {middleware: [companyMiddleware, authMiddleware]}},
+      {path: '/my_company', name: 'my_company', meta: {middleware: [companyMiddleware]}},
       {
         path: '/company',
         name: 'company',

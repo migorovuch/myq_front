@@ -1,12 +1,14 @@
 <template>
-  <div>
+  <div class="form-group">
     <AppForm
         :formModel="formModel"
         @onFormSubmit="onSubmit"
         @onFormReset="onReset"
     >
       <template v-slot:formFooter>
-        <b-button type="submit" variant="primary">{{$t("Save")}}</b-button>
+        <div class="text-right">
+          <b-button type="submit" variant="success">{{$t("Save")}}</b-button>
+        </div>
       </template>
     </AppForm>
   </div>
@@ -116,19 +118,17 @@
               });
             }
             this.$root.$bvToast.toast(this.$t('Successfully saved'), {
-              toaster: 'b-toaster-top-left',
+              toaster: 'b-toaster-bottom-left',
               appendToast: true,
               autoHideDelay: 4000
             });
           };
           if (!this.getCompany()) {
-            console.log('save');
             this.createCompany({
               data: formModel.model,
               successCallback: successCallback
             });
           } else {
-            console.log('update');
             this.updateCompany({
               id: this.getCompany().id,
               data: formModel.model,

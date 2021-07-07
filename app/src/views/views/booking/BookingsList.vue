@@ -56,7 +56,6 @@ export default {
       for (let booking of bookings) {
         let start = new Date(booking.start);
         let end = new Date(booking.end);
-        console.log(booking);
         let item = {
           id: booking.id,
           subjectCompany: booking.userName + ' - ' + booking.schedule.name,

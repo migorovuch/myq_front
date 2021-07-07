@@ -6,7 +6,7 @@
                 @onFormReset="onReset"
         >
             <template v-slot:formFooter>
-                <b-button type="submit" variant="primary">{{$t("Sign up")}}</b-button>
+                <b-button type="submit" variant="success">{{$t("Sign up")}}</b-button>
             </template>
         </AppForm>
     </div>
@@ -96,7 +96,7 @@
                       roles: ["ROLE_USER"]
                     }
                     this.$root.$bvToast.toast(this.$t('Account successfully registered'), {
-                      toaster: 'b-toaster-top-left',
+                      toaster: 'b-toaster-bottom-left',
                       appendToast: true,
                       autoHideDelay: 4000
                     });

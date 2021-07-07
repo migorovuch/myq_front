@@ -11,9 +11,12 @@ export default async function companyMiddleware({ next, store }) {
         return next({
             name: 'company_vue',
             params: {id: company.id}
-        })
+        });
+    } else {
+        return next({
+            name: 'home'
+        });
     }
-    return next()
 }
 
 

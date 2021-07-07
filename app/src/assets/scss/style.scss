@@ -113,8 +113,17 @@ main {
   min-width: 600px;
 }
 
-.navbar-toggler, .custom-select, .form-control, .btn, .dropdown-menu {
+.navbar-toggler, .custom-select, .form-control, .btn, .dropdown-menu, .custom-checkbox .custom-control-label::before {
   border-radius: 0;
+}
+
+.custom-control-input:checked~.custom-control-label::before {
+  border-color: $green;
+  background-color: $green;
+}
+
+label {
+  cursor: pointer;
 }
 
 //pagination
@@ -168,9 +177,24 @@ main {
   background-color: $green;
   color: $white;
   font-size: .7rem;
+  cursor: pointer;
 }
 
 //Calendar END
+
+// toast
+.b-toast {
+  .toast {
+    background-color: $green;
+    color: $white;
+    .close {
+      font-weight: normal;
+      font-size: 2rem;
+    }
+  }
+}
+// toast END
+
 //apple switch
 input.apple-switch {
   position: relative;

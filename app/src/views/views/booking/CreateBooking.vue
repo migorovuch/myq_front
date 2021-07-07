@@ -236,7 +236,7 @@ export default {
             eventsLocalStorageProvider.addMyEvent(data);
             this.$emit('onFormSubmit', data);
             this.$root.$bvToast.toast(this.$t('Booking successfully created'), {
-              toaster: 'b-toaster-top-left',
+              toaster: 'b-toaster-bottom-left',
               appendToast: true,
               autoHideDelay: 4000
             });

@@ -2,11 +2,11 @@
   <div>
     <div class="form-group">
       <div class="row">
-        <div class="col">
+        <div class="col-12">
           {{ $t("User name") }}: {{ selectedBooking.hasOwnProperty('user') ? selectedBooking.user.fullName : selectedBooking.userName }}
         </div>
-        <div class="col">
-          {{ $t("User phone") }}: {{ selectedBooking.hasOwnProperty('user') ? selectedBooking.user.phone : selectedBooking.userPhone }}
+        <div class="col-12">
+          {{ $t("User phone") }}: <a :href="'tel:'+(selectedBooking.hasOwnProperty('user') ? selectedBooking.user.phone : selectedBooking.userPhone)">{{ selectedBooking.hasOwnProperty('user') ? selectedBooking.user.phone : selectedBooking.userPhone }}</a>
         </div>
       </div>
       {{selectedBooking.customerComment}}
@@ -16,7 +16,7 @@
         @onFormSubmit="$emit('onFormSubmit', formModel)"
     >
       <template v-slot:formFooter>
-        <b-button type="submit" variant="primary">{{$t("Save changes")}}</b-button>
+        <b-button type="submit" variant="success">{{$t("Save changes")}}</b-button>
       </template>
     </AppForm>
   </div>

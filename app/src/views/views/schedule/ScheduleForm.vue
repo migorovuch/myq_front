@@ -17,7 +17,7 @@
             <label :for="'input-available'">{{formModel.form.available.label}}</label>
           </div>
           <div class="col-lg-6 col-xs-12 pt-lg-4 form-group">
-            <b-button v-if="!formModel.model.available" v-b-modal.modal-specal-hours>
+            <b-button v-if="!formModel.model.available" variant="success" v-b-modal.modal-specal-hours>
               <b-icon icon="clock" class="mr-2"/>
               {{ $t('Select availability') }}
             </b-button>
@@ -25,7 +25,9 @@
         </div>
       </template>
       <template v-slot:formFooter>
-        <b-button type="submit" variant="primary">{{$t("Save")}}</b-button>
+        <div class="form-group text-right">
+          <b-button type="submit" variant="success">{{$t("Save")}}</b-button>
+        </div>
       </template>
     </AppForm>
     <CompanyCalendar :with-events="false"/>
@@ -188,7 +190,7 @@
           data: formModel.model,
           successCallback: (data) => {
             this.$root.$bvToast.toast(this.$t('Successfully saved'), {
-              toaster: 'b-toaster-top-left',
+              toaster: 'b-toaster-bottom-left',
               appendToast: true,
               autoHideDelay: 4000
             });

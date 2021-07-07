@@ -6,7 +6,7 @@
                 @onFormReset="onResetFormReset"
         >
             <template v-slot:formFooter>
-                <b-button type="submit" variant="primary">{{$t("Change password")}}</b-button>
+                <b-button type="submit" variant="success">{{$t("Change password")}}</b-button>
             </template>
         </AppForm>
     </div>
@@ -84,7 +84,7 @@
                   () => {
                     this.$router.push({name: 'home'});
                     this.$root.$bvToast.toast(this.$t('Password successfully changed'), {
-                      toaster: 'b-toaster-top-left',
+                      toaster: 'b-toaster-bottom-left',
                       appendToast: true,
                       autoHideDelay: 4000
                     });

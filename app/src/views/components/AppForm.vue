@@ -48,6 +48,7 @@
                       <b-form-file
                               v-else-if="input.type==='file'"
                               :id="'input-'+inputName"
+                              accept=".jpg, .jpeg"
                               v-model="appFormModel.model[inputName]"
                               :class="(inputName in formModel.errors?'is-invalid':'')"
                               :placeholder="((input.placeholder !== '')?input.placeholder:input.label)"
