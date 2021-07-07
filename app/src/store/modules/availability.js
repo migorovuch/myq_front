@@ -76,6 +76,12 @@ export default {
         },
         setCalendarCurrentView(state, calendarCurrentView) {
             state.calendarCurrentView = calendarCurrentView
+        },
+        setCalendarTimeFrom(state, calendarTimeFrom) {
+            state.calendarTimeFrom = calendarTimeFrom;
+        },
+        setCalendarTimeTo(state, calendarTimeTo) {
+            state.calendarTimeTo = calendarTimeTo;
         }
     }
 }

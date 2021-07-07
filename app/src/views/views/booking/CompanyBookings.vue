@@ -65,7 +65,7 @@
     <template v-if="!bookingsView">
       <BookingsList :items="items" v-on:row-clicked="rowClicked"/>
       <div class="row">
-        <div class="col-lg-4 col-xs-12 m-auto" v-if="totalRows > perPage">
+        <div class="col-sm-4 col-xs-12 m-auto" v-if="totalRows > perPage">
           <b-pagination
               v-model="currentPage"
               :total-rows="totalRows"
@@ -76,7 +76,7 @@
               class="my-0"
           ></b-pagination>
         </div>
-        <div class="col-lg-4 col-xs-12">
+        <div class="col-sm-4 col-xs-12">
           <b-form-group
               label="Sort"
               label-for="sort-by-select"
@@ -105,7 +105,7 @@
             </b-input-group>
           </b-form-group>
         </div>
-        <div class="col-lg-4 col-xs-12">
+        <div class="col-sm-4 col-xs-12">
           <b-form-group
               :label="$t('Per page')"
               label-for="per-page-select"
@@ -128,7 +128,7 @@
       </div>
     </template>
     <template v-else>
-      <CompanyCalendar with-events="true" v-on:event-click="eventSelect" v-on:calendar-view-change="calendarViewChange"/>
+      <CompanyCalendar with-events="true" v-on:event-click="eventSelect" v-on:cell-click="cellClick" v-on:calendar-view-change="calendarViewChange"/>
     </template>
     <b-modal id="modal-booking" hide-footer :title="$t('Booking form')">
       <BookingForm v-on:onFormSubmit="onBookingFormSubmit" :selected-booking="selectedBooking"/>
@@ -238,6 +238,16 @@ export default {
     ...mapActions('availability', {
       loadAvailability: 'load'
     }),
+    ...mapGetters('availability', {
+      getCalendarCurrentView: 'getCalendarCurrentView',
+      getCalendarTimeFrom: 'getCalendarTimeFrom',
+      getCalendarTimeTo: 'getCalendarTimeTo',
+    }),
+    ...mapMutations('availability', {
+      setCalendarCurrentView: 'setCalendarCurrentView',
+      setCalendarTimeFrom: 'setCalendarTimeFrom',
+      setCalendarTimeTo: 'setCalendarTimeTo',
+    }),
     getEventsFilter() {
       let filter = {};
       for (let filterKey in this.filter) {
@@ -285,6 +295,19 @@ export default {
       this.loadEvents({
         filter: this.getEventsFilter(),
         successCallback: (data) => {
+
+          for (let event of data.data) {
+            let eventStartDate = new Date(event.start);
+            let eventEndDate = new Date(event.end);
+            let eventStart = eventStartDate.getHours() * 60 + eventStartDate.getMinutes();
+            let eventEnd = eventEndDate.getHours() * 60 + eventEndDate.getMinutes();
+            if (this.getCalendarTimeFrom() > eventStart) {
+              this.setCalendarTimeFrom(eventStart);
+            }
+            if (this.getCalendarTimeTo() < eventEnd) {
+              this.setCalendarTimeTo(eventEnd);
+            }
+          }
           this.items = data.data;
           this.totalRows = data.total;
         }
@@ -307,6 +330,11 @@ export default {
         let endDate = new Date(calendarView.endDate.getTime() + oneDay);
         this.filter.filterTo = endDate.sformat('yyyy-mm-dd');
         this.applyBookingsFilter();
+      }
+    },
+    cellClick(data, vuecal) {
+      if (this.getCalendarCurrentView().view === 'month') {
+        vuecal.switchView('day', data)
       }
     },
     eventSelect(event) {
@@ -349,7 +377,7 @@ export default {
           }
           this.applyBookingsFilter();
           this.$root.$bvToast.toast(this.$t('Successfully saved'), {
-            toaster: 'b-toaster-top-left',
+            toaster: 'b-toaster-bottom-left',
             appendToast: true,
             autoHideDelay: 4000
           });

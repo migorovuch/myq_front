@@ -1,6 +1,7 @@
 <template>
   <div>
     <VueCal
+        ref="vuecal"
         :special-hours="getSpecialHoursForCurrentView()"
         :events="getEvents()"
         :time-from="getCalendarTimeFrom()"
@@ -9,7 +10,7 @@
         :showWeekNumbers="false"
         events-count-on-month-view
         :disable-views="['years', 'year']"
-        @cell-click="$emit('cell-click', $event)"
+        @cell-click="$emit('cell-click', $event, $refs.vuecal)"
         @view-change="calendarViewChange"
         @ready="calendarViewChange"
         :time-cell-height="100"
