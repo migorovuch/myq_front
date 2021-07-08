@@ -20,6 +20,7 @@
   import {required, email} from "vuelidate/lib/validators";
   import AppForm from "@/views/components/AppForm";
   import {mapActions, mapGetters} from "vuex";
+  import AppFormPhone from "../../../models/AppFormPhone";
 
   export default {
     name: "CompanyForm",
@@ -56,11 +57,13 @@
                   },
                   {wrapClass: 'col-lg-3'}
               ),
-              phone: new AppFormInput(
-                  "text",
+              phone: new AppFormPhone(
+                  "phone",
                   this.$t('Phone:'),
-                  this.$t('Enter phone'),
-                  {},
+                  this.$t('Phone number'),
+                  {
+                    phone: this.$t('Phone number is not valid'),
+                  },
                   {wrapClass: 'col-lg-3'}
               ),
               logo: new AppFormInput(

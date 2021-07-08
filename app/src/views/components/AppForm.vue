@@ -59,6 +59,20 @@
                           :class="(inputName in formModel.errors?'is-invalid':'')"
                           :options="input.options"
                       ></b-form-select>
+                      <vue-tel-input
+                          v-else-if="input.type==='phone'"
+                          v-bind="input.phoneProps"
+                          v-model="appFormModel.model[inputName]"
+                          :class="(inputName in formModel.errors?'is-invalid':'')"
+                          @validate="(phoneObject) => {input.phoneObject = phoneObject}"
+                      >
+                        <template
+                            slot="arrow-icon"
+                            slot-scope="{ open }">
+                          <b-icon v-if="open" icon="caret-up-fill" aria-hidden="true"></b-icon>
+                          <b-icon v-else icon="caret-down-fill" aria-hidden="true"></b-icon>
+                        </template>
+                      </vue-tel-input>
                       <b-form-input
                               v-else
                               :id="'input-'+inputName"
@@ -81,54 +95,64 @@
 <script>
     import { validationMixin } from 'vuelidate';
     import AppFormModel from "../../models/AppFormModel";
+    import AppFormPhone from "../../models/AppFormPhone";
+    import AppFormSelect from '../../models/AppFormSelect';
 
     export default {
-        name: "AppForm",
+      name: "AppForm",
       components: {},
       props: {
-            formModel: AppFormModel,
-        },
-        mixins: [validationMixin],
-        validations() {
-            let validations = this.formModel.validations;
-            return {
-                appFormModel: validations
-            };
-        },
-        data: function() {
-            return {
-                appFormModel: this.formModel,
-            };
-        },
-        methods: {
-          onFormSubmit() {
-            this.$emit('beforeFormValidation', this.appFormModel);
-            this.appFormModel.resetErrors();
-            if (this.appFormModel.validations) {
-              this.$v.appFormModel.model.$touch();
-              let vmodel = this.$v.appFormModel.model;
-              this.appFormModel.errors.invalid = vmodel.$invalid;
-              if (this.appFormModel.errors.invalid) {
-                for (let inputName in this.formModel.form) {
-                  if (inputName in vmodel && vmodel[inputName].$invalid) {
-                    let input = this.formModel.form[inputName];
-                    if ('errorLabels' in input) {
-                      for (let errorKey in input.errorLabels) {
-                        if (!vmodel[inputName][errorKey]) {
-                          this.appFormModel.errors[inputName] = input.errorLabels[errorKey];
-                        }
-                      }
+        formModel: AppFormModel,
+      },
+      mixins: [validationMixin],
+      validations() {
+        let validations = this.formModel.validations;
+        return {
+          appFormModel: validations
+        };
+      },
+      data: function () {
+        return {
+          appFormModel: this.formModel,
+        };
+      },
+      methods: {
+        onFormSubmit() {
+          this.$emit('beforeFormValidation', this.appFormModel);
+          this.appFormModel.resetErrors();
+          if (this.appFormModel.validations) {
+            this.$v.appFormModel.model.$touch();
+            let vmodel = this.$v.appFormModel.model;
+            this.appFormModel.errors.invalid = vmodel.$invalid;
+            for (let inputName in this.formModel.form) {
+              let input = this.formModel.form[inputName];
+              if (inputName in vmodel && vmodel[inputName].$invalid) {
+                if ('errorLabels' in input) {
+                  for (let errorKey in input.errorLabels) {
+                    if (errorKey in vmodel[inputName] && !vmodel[inputName][errorKey]) {
+                      this.appFormModel.errors[inputName] = input.errorLabels[errorKey];
                     }
                   }
                 }
               }
+              // custom validation of phone number, because it is out of scope vuelidate
+              if (
+                  this.appFormModel.form[inputName] instanceof AppFormPhone &&
+                  'phone' in input.errorLabels &&
+                  !this.appFormModel.form[inputName].phoneObject.valid
+              ) {
+                this.appFormModel.form[inputName].phoneProps.inputOptions.styleClasses = 'is-invalud';
+                this.appFormModel.errors[inputName] = input.errorLabels.phone;
+                this.appFormModel.errors.invalid = true;
+              }
             }
-            this.$emit('onFormSubmit', this.appFormModel);
-          },
-          onFormReset() {
-            this.$emit('onFormReset', this.appFormModel);
           }
+          this.$emit('onFormSubmit', this.appFormModel);
+        },
+        onFormReset() {
+          this.$emit('onFormReset', this.appFormModel);
         }
+      }
     }
 </script>
 

@@ -17,6 +17,7 @@ import {required, email, minLength} from "vuelidate/lib/validators";
 import SpecialHoursHelper from '@/helpers/SpecialHoursHelper';
 import EventsLocalStorageProvider from "../../../providers/localStorage/EventsLocalStorageProvider";
 import AppFormSelect from "../../../models/AppFormSelect";
+import AppFormPhone from "../../../models/AppFormPhone";
 
 let eventsLocalStorageProvider = new EventsLocalStorageProvider();
 
@@ -38,12 +39,13 @@ export default {
               required: this.$t('This value should not be blank'),
             }
         );
-        this.formModel.form.userPhone = new AppFormInput(
-            "text",
+        this.formModel.form.userPhone = new AppFormPhone(
+            "phone",
             this.$t('Your phone number:'),
             this.$t('Enter your contact phone number'),
             {
               required: this.$t('This value should not be blank'),
+              phone: this.$t('Phone number is not valid'),
             }
         );
         this.formModel.validations.model.userName = {required};
