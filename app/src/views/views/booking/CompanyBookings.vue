@@ -340,12 +340,13 @@ export default {
     eventSelect(event) {
       this.selectedBooking = event.bookingData;
       let startDate = new Date(this.selectedBooking.start);
-      let dateEnd = new Date(this.selectedBooking.end);
+      let endDate = new Date(this.selectedBooking.end);
       this.selectedBooking.startDate = startDate.sformat('yyyy-mm-dd');
       this.selectedBooking.startTime = startDate.sformat('HH:MM');
-      this.selectedBooking.endTime = dateEnd.sformat('HH:MM');
+      this.selectedBooking.endTime = endDate.sformat('HH:MM');
       this.selectedBooking.scheduleId = this.selectedBooking.schedule.id;
       this.selectedBooking.scheduleList = this.scheduleOptions;
+      this.selectedBooking.duration = (endDate.valueOf() - startDate.valueOf()) / 60000;
       this.$bvModal.show('modal-booking');
     },
     rowClicked(item, index, event) {
@@ -354,6 +355,25 @@ export default {
     onBookingFormSubmit(formModel) {
       let start = new Date(formModel.model.startDate + ' ' + formModel.model.startTime);
       let end = new Date(formModel.model.startDate + ' ' + formModel.model.endTime);
+      let duration = (end.valueOf() - start.valueOf()) / 60000;
+      if (
+          formModel.model.duration !== duration &&
+          !(
+              (
+                  formModel.model.schedule.bookingDuration &&
+                  formModel.model.schedule.bookingDuration === duration
+              ) ||
+              (
+                  formModel.model.schedule.minBookingTime <= duration &&
+                  formModel.model.schedule.maxBookingTime >= duration
+              )
+          )
+      ) {
+        formModel.errors.endTime = this.$t('Booking duration is not valid');
+        formModel.errors.invalid = true;
+        return;
+      }
+      // let end = new Date(start.valueOf() + formModel.model.duration);
       let model = {
         start: start.timestamp(),
         end: end.timestamp(),
