@@ -129,18 +129,23 @@
         },
         onSubmitRequest(formModel) {
           if (!formModel.errors.invalid) {
-            this.requestPassword(formModel.model, result => {
-                  formModel.model.email = '';
-                  if ('message' in result) {
-                    this.$root.$bvToast.toast(result.message, {
-                      toaster: 'b-toaster-bottom-left',
-                      appendToast: true,
-                      autoHideDelay: 4000
-                    });
+            this.requestPassword(
+                {
+                  data: formModel.model,
+                  successCallback: result => {
+                    formModel.model.email = '';
+                    if ('message' in result) {
+                      this.$root.$bvToast.toast(result.message, {
+                        toaster: 'b-toaster-bottom-left',
+                        appendToast: true,
+                        autoHideDelay: 4000
+                      });
+                      this.$root.$emit('bv::hide::modal', 'modal-login');
+                    }
+                  },
+                  failCallback: (data) => {
+                    formModel.handleResponseErrors(data);
                   }
-                },
-                (data) => {
-                  formModel.handleResponseErrors(data);
                 }
             );
           }

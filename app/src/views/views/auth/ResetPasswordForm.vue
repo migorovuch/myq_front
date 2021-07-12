@@ -76,21 +76,24 @@
             resetPassword: 'resetPassword',
           }),
           onSubmitReset(formModel) {
-            let body = new Object();
-            body.token = this.queryToken;
+            let body = {token: this.queryToken};
             Object.assign(formModel.model, body);
             if (!formModel.errors.invalid) {
-              this.resetPassword(formModel.model,
-                  () => {
-                    this.$router.push({name: 'home'});
-                    this.$root.$bvToast.toast(this.$t('Password successfully changed'), {
-                      toaster: 'b-toaster-bottom-left',
-                      appendToast: true,
-                      autoHideDelay: 4000
-                    });
-                  },
-                  data => {
-                    formModel.handleResponseErrors(data);
+              this.resetPassword(
+                  {
+                    data: formModel.model,
+                    successCallback: () => {
+                      this.$router.push({name: 'home'});
+                      this.$root.$bvToast.toast(this.$t('Password successfully changed'), {
+                        toaster: 'b-toaster-bottom-left',
+                        appendToast: true,
+                        autoHideDelay: 4000
+                      });
+                      this.$root.$emit('bv::hide::modal', 'modal-reset');
+                    },
+                    failCallback: data => {
+                      formModel.handleResponseErrors(data);
+                    }
                   }
               );
             }

@@ -19,7 +19,19 @@ export default class AccountApiProvider extends ApiProvider {
         this.post('reset-password/request', data, successCallback, failCallback);
     }
 
-    resetPassword(formModel, successCallback, failCallback) {
-        this.post('reset-password/reset', formModel.model, successCallback, failCallback);
+    resetPassword(data, successCallback, failCallback) {
+        this.post('reset-password/reset', data, successCallback, failCallback);
+    }
+
+
+
+    emailConfirmAsync(id, token) {
+        return this.asyncRequest('approve-email', {
+            'method': 'POST',
+            'body': {
+                id,
+                token
+            }
+        });
     }
 }

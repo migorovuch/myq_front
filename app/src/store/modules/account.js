@@ -25,13 +25,13 @@ export default {
         logout(context) {
             context.commit('setUserToken', null, { root: true })
         },
-        requestPassword(context, data, successCallback, failCallback) {
+        requestPassword(context, {data, successCallback, failCallback}) {
             accountApiProvider.requestPassword(data, successCallback, failCallback);
         },
-        registration(context, data, successCallback, failCallback) {
+        registration(context, {data, successCallback, failCallback}) {
             accountApiProvider.registration(data, successCallback, failCallback);
         },
-        resetPassword(context, data, successCallback, failCallback) {
+        resetPassword(context, {data, successCallback, failCallback}) {
             accountApiProvider.resetPassword(data, successCallback, failCallback);
         },
     },

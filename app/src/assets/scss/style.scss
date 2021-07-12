@@ -113,7 +113,14 @@ main {
   min-width: 600px;
 }
 
-.navbar-toggler, .custom-select, .form-control, .btn, .dropdown-menu, .custom-checkbox .custom-control-label::before, .vti__input {
+.navbar-toggler,
+.custom-select,
+.form-control,
+.btn,
+.dropdown-menu,
+.custom-checkbox .custom-control-label::before,
+.vti__input,
+.modal-content {
   border-radius: 0;
 }
 

@@ -27,13 +27,13 @@
             return {
                 formModel: new AppFormModel(
                     {
-                        nickname: "",
+                      fullName: "",
                         email: "",
                         password: "",
                         roles: ["ROLE_USER"]
                     },
                     {
-                        nickname: new AppFormInput(
+                      fullName: new AppFormInput(
                             'text',
                             this.$t('Name:'),
                             this.$t('Enter name'),
@@ -59,12 +59,11 @@
                                 minLength: this.$t('This field must be at least {limit} characters long', {limit: minPasswordLength})
                             }
                         ),
-                    }, {
-                        formError: '',
-                        invalid: false
-                    }, {
+                    },
+                    null,
+                    {
                         model: {
-                            nickname: {
+                          fullName: {
                                 required,
                             },
                             email: {
@@ -86,24 +85,28 @@
           }),
           onSubmit(formModel) {
             if (!formModel.errors.invalid) {
-              this.registration(
-                  Object.assign(formModel.model, {roles: ["ROLE_USER"]}),
-                  () => {
-                    formModel.model = {
-                      nickname: "",
-                      email: "",
-                      password: "",
-                      roles: ["ROLE_USER"]
-                    }
-                    this.$root.$bvToast.toast(this.$t('Account successfully registered'), {
-                      toaster: 'b-toaster-bottom-left',
-                      appendToast: true,
-                      autoHideDelay: 4000
-                    });
-                  },
-                  data => {
-                    formModel.handleResponseErrors(data);
+              let model = Object.assign(formModel.model, {roles: ["ROLE_USER"]});
+              model.nickname = model.email.replace(/@.*$/, "") + Date.now();
+              this.registration({
+                data: model,
+                successCallback: () => {
+                  formModel.model = {
+                    fullName: "",
+                    email: "",
+                    password: "",
+                    roles: ["ROLE_USER"]
+                  }
+                  this.$root.$bvToast.toast(this.$t('Account successfully registered'), {
+                    toaster: 'b-toaster-bottom-left',
+                    appendToast: true,
+                    autoHideDelay: 4000
                   });
+                  this.$root.$emit('bv::hide::modal', 'modal-registration');
+                },
+                failCallback: data => {
+                  formModel.handleResponseErrors(data);
+                }
+              });
             }
           },
           onReset() {
