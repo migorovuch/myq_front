@@ -14,7 +14,10 @@
       <div class="row">
         <div class="col form-group" v-if="getCompany().phone"><a :href="'tel:'+getCompany().phone">{{ getCompany().phone }}</a></div>
         <div class="col form-group" v-if="getCompany().email"><a :href="'mailto:'+getCompany().email">{{ getCompany().email }}</a></div>
-        <div class="col form-group" v-if="getCompany().address">{{ getCompany().address }}</div>
+        <div class="col form-group" v-if="getCompany().address">
+          <a :href="getCompany().addressLink" v-if="getCompany().addressLink" target="_blank">{{ getCompany().address }}</a>
+          <span v-else>{{ getCompany().address }}</span>
+        </div>
       </div>
       <div class="row">
         <div class="col text-left">{{getCompany().description}}</div>

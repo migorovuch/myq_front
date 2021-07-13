@@ -5,6 +5,29 @@
         @onFormSubmit="onSubmit"
         @onFormReset="onReset"
     >
+      <template v-slot:logo>
+
+        <b-form-group
+            :id="'logo-input-group'"
+            :label="formModel.form.logo.label"
+            :label-for="'input-logo'"
+            :key="'form-group-logo'"
+        >
+          <label>
+            <b-form-file
+                v-show="!previewUrl"
+                :id="'input-logo'"
+                accept="image/jpeg, image/png"
+                v-model="formModel.model.logo"
+                :class="('logo' in formModel.errors?'is-invalid':'')"
+                @change="loadPreview"
+                :placeholder="((formModel.form.logo.placeholder !== '')?formModel.form.logo.placeholder:formModel.form.logo.label)"
+            ></b-form-file>
+            <img v-if="previewUrl" class="w-100" :src="previewUrl" />
+          </label>
+          <div class="invalid-feedback" v-if="('logo' in formModel.errors)">{{formModel.errors.logo}}</div>
+        </b-form-group>
+      </template>
       <template v-slot:formFooter>
         <div class="text-right">
           <b-button type="submit" variant="success">{{$t("Save")}}</b-button>
@@ -27,6 +50,7 @@
     components: {AppForm},
     data: function() {
       return {
+        previewUrl: null,
         formModel: new AppFormModel(
             {
               name: '',
@@ -34,6 +58,7 @@
               phone: '',
               logo: [],
               address: '',
+              addressLink: '',
               description: '',
               photos: [],
             },
@@ -80,12 +105,19 @@
                   {},
                   {wrapClass: 'col-lg-3'}
               ),
+              addressLink: new AppFormInput(
+                  "text",
+                  this.$t('Address link:'),
+                  this.$t('Enter address link'),
+                  {},
+                  {wrapClass: 'col-lg-3'}
+              ),
               description: new AppFormInput(
                   "textarea",
                   this.$t('Description:'),
                   this.$t('Enter description'),
                   {},
-                  {wrapClass: 'col-lg-9'}
+                  {wrapClass: 'col-lg-12'}
               ),
             }, null, {
               model: {
@@ -109,12 +141,16 @@
       ...mapActions('schedule', {
         loadScheduleList: 'load'
       }),
+      loadPreview(event){
+        const file = event.target.files[0];
+        this.previewUrl = URL.createObjectURL(file);
+      },
       onSubmit(formModel) {
         if (!formModel.errors.invalid) {
           let logo = formModel.model.logo;
           formModel.model.logo = null;
           let successCallback = (data) => {
-            if (Object.keys(logo).length !== 0) {
+            if (logo && Object.keys(logo).length !== 0) {
               this.uploadCompanyLogo({
                 id: data.id,
                 data: logo
@@ -149,6 +185,10 @@
       this.loadMyCompany({
         successCallback: (data) => {
           if (Object.keys(data).length !== 0) {
+            if (data.logo) {
+              this.previewUrl = 'http://q.localhost/media/' + data.logo+'?'+Date.now();
+              data.logo = null;
+            }
             this.formModel.model = Object.assign(this.formModel.model, data);
             this.loadScheduleList({filter:{company: data.id}});
           }
