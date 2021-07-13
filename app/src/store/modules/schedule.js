@@ -81,6 +81,20 @@ export default {
                 failCallback
             );
         },
+        create(context, {data, successCallback, failCallback}) {
+            scheduleApiProvider.create(
+                data,
+                (callbackData) => {
+                    if (Object.keys(callbackData).length) {
+                        context.commit('loadOne', callbackData);
+                    }
+                    if (successCallback) {
+                        successCallback(callbackData);
+                    }
+                },
+                failCallback
+            );
+        },
     },
     mutations: {
         load(state, payload) {

@@ -22,4 +22,8 @@ export default class ScheduleApiProvider extends ApiProvider {
     update(id, data, successCallback, failCallback) {
         this.put('schedule/' + id, data, successCallback, failCallback);
     }
+
+    create(data, successCallback, failCallback) {
+        this.post('schedule/', data, successCallback, failCallback);
+    }
 }

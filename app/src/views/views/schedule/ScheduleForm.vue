@@ -1,12 +1,11 @@
 <template>
   <div>
     <AppForm
-        v-if="formModel.model"
         :formModel="formModel"
         @onFormSubmit="onSubmit"
     >
       <template v-slot:available>
-        <div class="row">
+        <div class="row" v-if="idSchedule">
           <div class="mt-2 pt-lg-4 col-lg-6 col-xs-12 form-group">
             <input
                 type="checkbox"
@@ -30,8 +29,13 @@
         </div>
       </template>
     </AppForm>
-    <CompanyCalendar :with-events="false"/>
-    <b-modal id="modal-specal-hours" hide-footer :title="$t('Availability')">
+    {{idSchedule}}
+    <CompanyCalendar
+        v-if="idSchedule"
+        :with-events="false"/>
+    <b-modal id="modal-specal-hours"
+             v-if="idSchedule"
+             hide-footer :title="$t('Availability')">
       <SpecialHoursForm :id-schedule="idSchedule" v-on:form:save="refreshAvailability"></SpecialHoursForm>
     </b-modal>
   </div>
@@ -46,6 +50,7 @@
   import {mapActions, mapGetters} from "vuex";
   import {required} from "vuelidate/lib/validators";
   import AppFormSelect from "../../../models/AppFormSelect";
+  import Vue from 'vue'
 
   export default {
     name: "ScheduleForm",
@@ -62,7 +67,9 @@
               enabled: true,
               maxBookingTime: 0,
               minBookingTime: 0,
-              name: ""
+              name: "",
+              acceptBookingTime: 0,
+              timeBetweenBookings: 0,
             },
             {
               name: new AppFormInput(
@@ -156,18 +163,24 @@
               ),
             },
             null,
-            null
+            {
+              model: {
+                name: {required,},
+              }
+            }
         ),
         idSchedule: this.$route.params.id
       };
     },
     created() {
-      this.loadSchedule({
-        id: this.$route.params.id,
-        successCallback: (data) => {
-          this.formModel.model = data;
-        }
-      });
+      if (this.idSchedule && this.idSchedule != 0) {
+        this.loadSchedule({
+          id: this.idSchedule,
+          successCallback: (data) => {
+            Vue.set(this.formModel, 'model', data);
+          }
+        });
+      }
     },
     methods: {
       ...mapGetters('schedule', {
@@ -176,6 +189,7 @@
       ...mapActions('schedule', {
         loadSchedule: 'loadMyOne',
         updateSchedule: 'update',
+        createSchedule: 'create',
       }),
       ...mapActions('availability', {
         loadAvailability: 'load'
@@ -184,21 +198,39 @@
         getCalendarCurrentView: 'getCalendarCurrentView'
       }),
       onSubmit(formModel) {
-        let idSchedule = this.idSchedule;
-        this.updateSchedule({
-          id: idSchedule,
-          data: formModel.model,
-          successCallback: (data) => {
-            this.$root.$bvToast.toast(this.$t('Successfully saved'), {
-              toaster: 'b-toaster-bottom-left',
-              appendToast: true,
-              autoHideDelay: 4000
-            });
-          },
-          failCallback: (data) => {
-            formModel.handleResponseErrors(data);
-          },
-        });
+        if (this.idSchedule && this.idSchedule != 0) {
+          this.updateSchedule({
+            id: this.idSchedule,
+            data: formModel.model,
+            successCallback: (data) => {
+              this.$root.$bvToast.toast(this.$t('Successfully saved'), {
+                toaster: 'b-toaster-bottom-left',
+                appendToast: true,
+                autoHideDelay: 4000
+              });
+            },
+            failCallback: (data) => {
+              formModel.handleResponseErrors(data);
+            },
+          });
+        } else {
+          this.createSchedule({
+            data: formModel.model,
+            successCallback: (data) => {
+              this.idSchedule = data.id;
+              Vue.set(this.formModel, 'model', data);
+              this.$router.push({name: 'company_schedule_item', params: {id: data.id}})
+              this.$root.$bvToast.toast(this.$t('Successfully saved'), {
+                toaster: 'b-toaster-bottom-left',
+                appendToast: true,
+                autoHideDelay: 4000
+              });
+            },
+            failCallback: (data) => {
+              formModel.handleResponseErrors(data);
+            },
+          });
+        }
       },
       refreshAvailability() {
         let calendarCurrentView = this.getCalendarCurrentView();

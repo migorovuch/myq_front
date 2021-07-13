@@ -120,6 +120,7 @@ main {
 .dropdown-menu,
 .custom-checkbox .custom-control-label::before,
 .vti__input,
+.vue-tel-input,
 .modal-content {
   border-radius: 0;
 }
@@ -129,6 +130,9 @@ main {
   background-color: $green;
 }
 
+.vue-tel-input {
+  border: 1px solid #ced4da;
+}
 .vue-tel-input.is-invalid {
   border-color: #dc3545;
   padding-right: calc(1.5em + 0.75rem);

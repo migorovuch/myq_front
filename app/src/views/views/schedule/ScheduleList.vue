@@ -1,5 +1,14 @@
 <template>
   <div>
+    <div class="text-right form-group" v-if="getCompany()">
+      <b-button
+          type="submit"
+          variant="success"
+          @click="$router.push({name: 'company_schedule_item', params: {id: 0}})">
+        <b-icon icon="calendar2-plus" aria-hidden="true"></b-icon>
+        {{$t("Add schedule")}}
+      </b-button>
+    </div>
     <b-table
         striped
         hover
@@ -43,6 +52,9 @@ import {mapActions, mapGetters} from 'vuex';
     methods: {
       ...mapGetters('schedule', {
         getScheduleList: 'getList'
+      }),
+      ...mapGetters('company', {
+        getCompany: 'getModel'
       }),
       ...mapActions('schedule', {
         loadScheduleList: 'load'
