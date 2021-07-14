@@ -1,7 +1,7 @@
 <template>
   <AppForm :formModel="formModel" @onFormSubmit="onSubmit">
     <template v-slot:formFooter>
-      <b-button type="submit" variant="primary">{{$t("Checkout")}}</b-button>
+      <b-button type="submit" variant="success">{{$t("Checkout")}}</b-button>
       <b-button type="button" @click="generateTimeLink" variant="secondary">{{$t("Share time")}}</b-button>
 
     </template>
@@ -18,8 +18,12 @@ import SpecialHoursHelper from '@/helpers/SpecialHoursHelper';
 import EventsLocalStorageProvider from "../../../providers/localStorage/EventsLocalStorageProvider";
 import AppFormSelect from "../../../models/AppFormSelect";
 import AppFormPhone from "../../../models/AppFormPhone";
+import ClientLocalStorageProvider from "../../../providers/localStorage/ClientLocalStorageProvider";
+import ClientApiProvider from "../../../providers/api/ClientApiProvider";
 
 let eventsLocalStorageProvider = new EventsLocalStorageProvider();
+let clientLocalStorageProvider = new ClientLocalStorageProvider();
+let clientApiProvider = new ClientApiProvider();
 
 export default {
   name: "CreateBooking",
@@ -30,27 +34,6 @@ export default {
   created() {
     if (this.getSelectedSchedule()) {
       // add user contact details if user is not logged in
-      if (!this.isUserLogged()) {
-        this.formModel.form.userName = new AppFormInput(
-            "text",
-            this.$t('Your name:'),
-            this.$t('Enter your name'),
-            {
-              required: this.$t('This value should not be blank'),
-            }
-        );
-        this.formModel.form.userPhone = new AppFormPhone(
-            "phone",
-            this.$t('Your phone number:'),
-            this.$t('Enter your contact phone number'),
-            {
-              required: this.$t('This value should not be blank'),
-              phone: this.$t('Phone number is not valid'),
-            }
-        );
-        this.formModel.validations.model.userName = {required};
-        this.formModel.validations.model.userPhone = {required};
-      }
       // add booking duration if it's not predefined
       if (!this.getSelectedSchedule().bookingDuration) {
         let durationMinutesRound = 5;
@@ -97,6 +80,13 @@ export default {
         this.formModel.model.startTime = this.bookingStart.sformat('HH:MM');
       }
     }
+    let clientId = clientLocalStorageProvider.getClientId();
+    if (clientId) {
+      clientApiProvider.getClient(clientId, (data) => {
+        this.formModel.model.userName = data.name;
+        this.formModel.model.userPhone = data.phone;
+      })
+    }
   },
   data: function () {
     return {
@@ -128,6 +118,23 @@ export default {
                 },
                 {wrapClass: 'col-6'}
             ),
+            userName: new AppFormInput(
+                "text",
+                this.$t('Your name:'),
+                this.$t('Enter your name'),
+                {
+                  required: this.$t('This value should not be blank'),
+                }
+            ),
+            userPhone: new AppFormPhone(
+                "phone",
+                this.$t('Your phone number:'),
+                this.$t('Enter your contact phone number'),
+                {
+                  required: this.$t('This value should not be blank'),
+                  phone: this.$t('Phone number is not valid'),
+                }
+            ),
             customerComment: new AppFormInput(
                 "textarea",
                 this.$t('Additional details:'),
@@ -140,12 +147,10 @@ export default {
           null,
           {
             model: {
-              startDate: {
-                required,
-              },
-              startTime: {
-                required,
-              },
+              startDate: {required,},
+              startTime: {required,},
+              userName: {required},
+              userPhone: {required},
             }
           }
       )
@@ -231,11 +236,16 @@ export default {
         let end = new Date(start.getTime() + bookingFormModel.model.duration * 60000);
         bookingFormModel.model.start = start.timestamp();
         bookingFormModel.model.end = end.timestamp();
+        let clientId = clientLocalStorageProvider.getClientId();
+        if (clientId) {
+          bookingFormModel.model.client = clientId;
+        }
 
         this.createEvent({
           data: bookingFormModel.model,
           successCallback: (data) => {
             eventsLocalStorageProvider.addMyEvent(data);
+            clientLocalStorageProvider.setClientId(data.client.id);
             this.$emit('onFormSubmit', data);
             this.$root.$bvToast.toast(this.$t('Booking successfully created'), {
               toaster: 'b-toaster-bottom-left',

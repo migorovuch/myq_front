@@ -6,8 +6,10 @@
 import {mapActions, mapGetters} from "vuex";
 import BookingsList from "./BookingsList";
 import EventsLocalStorageProvider from "../../../providers/localStorage/EventsLocalStorageProvider";
+import ClientLocalStorageProvider from "../../../providers/localStorage/ClientLocalStorageProvider";
 
 let eventsLocalStorageProvider = new EventsLocalStorageProvider();
+let clientLocalStorageProvider = new ClientLocalStorageProvider();
 
 export default {
   name: "MyBookings",
@@ -31,7 +33,22 @@ export default {
         }
       });
     } else {
-      this.items = eventsLocalStorageProvider.getMyEvents();
+      let clientId = clientLocalStorageProvider.getClientId();
+      console.log(clientId);
+      this.loadEvents({
+        filter: {sort: {start: 'DESC'}, client: clientId},
+        successCallback: (data) => {
+          this.items = data.data;
+        },
+        failCallback: () => {
+          this.$root.$bvToast.toast(this.$t('You have no bookings or try to sign in!'), {
+            toaster: 'b-toaster-bottom-left',
+            variant: 'danger',
+            appendToast: true,
+            autoHideDelay: 4000
+          });
+        }
+      });
     }
   },
   methods: {

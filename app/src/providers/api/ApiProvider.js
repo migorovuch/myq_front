@@ -6,6 +6,9 @@ export default class ApiProvider {
         return Object.keys(params)
             .map(
                 key => {
+                    if (params[key] == null) {
+                        return null;
+                    }
                     let keyStr = parentStr ? `${parentStr}[${key}]` : key;
                     if (typeof (params[key]) === 'object') {
                         return this.buildUrlParams(params[key], keyStr)

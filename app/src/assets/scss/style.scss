@@ -217,10 +217,21 @@ label {
 //Calendar END
 
 // toast
-.b-toast {
+
+.b-toast-success {
   .toast {
     background-color: $green;
     color: $white;
+  }
+}
+.b-toast-danger {
+  .toast {
+    background-color: $white;
+  }
+}
+.b-toast {
+  .toast {
+    border-radius: 0;
     .close {
       font-weight: normal;
       font-size: 2rem;
