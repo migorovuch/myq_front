@@ -17,6 +17,7 @@
                           <b-dropdown-item :to="{name: 'my_company'}">{{$t('My Company')}}</b-dropdown-item>
                           <b-dropdown-item :to="{name: 'company'}">{{$t('Edit Company')}}</b-dropdown-item>
                           <b-dropdown-item :to="{name: 'company_bookings'}">{{$t('Bookings')}}</b-dropdown-item>
+                          <b-dropdown-item :to="{name: 'company_clients'}">{{$t('Clients')}}</b-dropdown-item>
                         </b-nav-item-dropdown>
                         <b-nav-item v-else v-b-modal.modal-login>{{$t('Company')}}</b-nav-item>
                         <template v-if="!isUserLogged()">

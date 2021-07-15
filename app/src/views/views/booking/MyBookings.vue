@@ -34,21 +34,29 @@ export default {
       });
     } else {
       let clientId = clientLocalStorageProvider.getClientId();
-      console.log(clientId);
-      this.loadEvents({
-        filter: {sort: {start: 'DESC'}, client: clientId},
-        successCallback: (data) => {
-          this.items = data.data;
-        },
-        failCallback: () => {
-          this.$root.$bvToast.toast(this.$t('You have no bookings or try to sign in!'), {
-            toaster: 'b-toaster-bottom-left',
-            variant: 'danger',
-            appendToast: true,
-            autoHideDelay: 4000
-          });
-        }
-      });
+      if (clientId) {
+        this.loadEvents({
+          filter: {sort: {start: 'DESC'}, client: clientId},
+          successCallback: (data) => {
+            this.items = data.data;
+          },
+          failCallback: () => {
+            this.$root.$bvToast.toast(this.$t('You have no bookings or try to sign in!'), {
+              toaster: 'b-toaster-bottom-left',
+              variant: 'danger',
+              appendToast: true,
+              autoHideDelay: 4000
+            });
+          }
+        });
+      } else {
+        this.$root.$bvToast.toast(this.$t('You have no bookings or try to sign in!'), {
+          toaster: 'b-toaster-bottom-left',
+          variant: 'danger',
+          appendToast: true,
+          autoHideDelay: 4000
+        });
+      }
     }
   },
   methods: {
