@@ -13,7 +13,7 @@
         <a :href="'tel:'+data.item.phone">{{ data.item.phone }}</a>
       </template>
       <template #cell(name)="data">
-        <span v-if="data.item.name === data.item.pseudonym || !data.item.pseudonym.trim()">{{data.item.name}}</span>
+        <span v-if="data.item.name === data.item.pseudonym || !data.item.pseudonym || (data.item.pseudonym && !data.item.pseudonym.trim())">{{data.item.name}}</span>
         <div v-else><span>{{data.item.pseudonym}}</span> <span>({{data.item.name}})</span></div>
       </template>
       <template #row-details="row">

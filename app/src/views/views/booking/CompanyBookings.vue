@@ -380,7 +380,7 @@ export default {
         id: formModel.model.id,
         schedule: formModel.model.scheduleId,
         status: formModel.model.status,
-        title: formModel.model.title
+        title: formModel.model.title,
       };
       this.updateEvent({
         id: model.id,

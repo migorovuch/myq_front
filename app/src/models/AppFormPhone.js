@@ -12,7 +12,7 @@ export default class AppFormPhone extends AppFormInput{
         dropdownOptions: {
             showDialCodeInList: true,
             showFlags: true,
-            showDialCodeInSelection: false,
+            showDialCodeInSelection: true,
         },
         inputOptions: {}
     };

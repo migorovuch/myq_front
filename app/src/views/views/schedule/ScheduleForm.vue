@@ -134,10 +134,10 @@
                   {},
                   {wrapClass: 'col-lg-3'},
                   [
-                    {value: 0, text: this.$t('Accept all bookings')},
-                    {value: 1, text: this.$t('Decline all bookings')},
-                    {value: 2, text: this.$t('Accept only from approved users')},
-                    {value: 3, text: this.$t('Accept only after pay advance')},
+                    {value: 0, text: this.$t('Mark bookings as New')},
+                    {value: 1, text: this.$t('Accept all bookings')},
+                    {value: 3, text: this.$t('Accept only from approved users')},
+                    {value: 4, text: this.$t('Accept only after pay advance')},
                   ]
               ),
               acceptBookingTime: new AppFormInput(
