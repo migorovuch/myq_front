@@ -10,6 +10,9 @@ export default {
         getUserToken(state, getters, rootState, rootGetters) {
             return rootGetters.getUserToken;
         },
+        getUserData(state, getters, rootState, rootGetters) {
+            return rootGetters.getUserData;
+        },
     },
     actions: {
         login(context, {data, successCallback, failCallback}) {
@@ -17,6 +20,7 @@ export default {
                 data,
                 (response) => {
                     context.commit('setUserToken', response.token, { root: true })
+                    context.commit('setUserData', response.data, { root: true })
                     successCallback(response);
                 },
                 failCallback

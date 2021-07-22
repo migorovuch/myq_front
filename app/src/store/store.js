@@ -16,6 +16,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         userToken: accountLocalStorageProvider.getUserToken(),
+        userData: accountLocalStorageProvider.getUserData(),
         isUserLogged: accountLocalStorageProvider.isUserLogged()
     },
     modules: {
@@ -30,13 +31,17 @@ export default new Vuex.Store({
     getters: {
         isUserLogged: state => state.isUserLogged,
         getUserToken: state => state.userToken,
+        getUserData: state => state.userData,
     },
     mutations: {
         setUserToken(state, userToken) {
             accountLocalStorageProvider.setUserToken(userToken);
             state.userToken = accountLocalStorageProvider.getUserToken();
             state.isUserLogged = accountLocalStorageProvider.isUserLogged();
-
         },
+        setUserData(state, data) {
+            accountLocalStorageProvider.setUserData(data);
+            state.userData = data;
+        }
     }
 });

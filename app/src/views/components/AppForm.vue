@@ -6,7 +6,7 @@
             <template v-for="(input, inputName) in appFormModel.form">
               <div :class="`${input.style.wrapClass} col-xs-12`">
                 <slot :name="inputName">
-                  <div v-if="input.type==='checkbox'" class="mt-2 pt-lg-4">
+                  <div v-if="input.type==='checkbox'">
                     <input
                       type="checkbox"
                       :id="'input-'+inputName"

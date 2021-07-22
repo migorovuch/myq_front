@@ -86,7 +86,7 @@
                   this.$t('Available for booking:'),
                   null,
                   {},
-                  {wrapClass: 'col-lg-3'}
+                  {wrapClass: 'mt-2 pt-lg-4 col-lg-3'}
               ),
               available: new AppFormInput(
                   "checkbox",

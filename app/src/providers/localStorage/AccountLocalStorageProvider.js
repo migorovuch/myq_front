@@ -18,6 +18,19 @@ export default class AccountLocalStorageProvider {
         localStorage.userToken = userToken;
     }
 
+    getUserData() {
+        let userData = localStorage.getItem("userData");
+        if (userData && userData != 'null' && userData != 'undefined') {
+            return JSON.parse(userData);
+        }
+
+        return null;
+    }
+
+    setUserData(userData) {
+        localStorage.userData = JSON.stringify(userData);
+    }
+
     isUserLogged() {
         return null !== this.getUserToken();
     }

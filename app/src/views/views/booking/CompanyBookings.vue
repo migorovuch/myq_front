@@ -192,6 +192,9 @@ export default {
     },
   },
   created() {
+    if (this.$route.query && 'client' in this.$route.query) {
+      this.filter.client = this.$route.query.client;
+    }
     this.loadMyCompany({
       successCallback: (company) => {
         if (Object.keys(company).length !== 0) {

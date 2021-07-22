@@ -20,6 +20,7 @@ import AppFormSelect from "../../../models/AppFormSelect";
 import AppFormPhone from "../../../models/AppFormPhone";
 import ClientLocalStorageProvider from "../../../providers/localStorage/ClientLocalStorageProvider";
 import ClientApiProvider from "../../../providers/api/ClientApiProvider";
+import Vue from 'vue'
 
 let eventsLocalStorageProvider = new EventsLocalStorageProvider();
 let clientLocalStorageProvider = new ClientLocalStorageProvider();
@@ -32,6 +33,20 @@ export default {
     bookingStart: Date
   },
   created() {
+    if (this.isUserLogged() && this.getCompany().user.id === this.getUserData().id) {
+      this.formModel.model.newClient = false;
+      let newProperties = {
+        newClient: new AppFormInput(
+            "checkbox",
+            this.$t('New client'),
+            null,
+            null,
+            {wrapClass: 'form-group col-12'}
+        )
+      };
+      Object.assign(newProperties, this.formModel.form);
+      Vue.set(this.formModel, 'form', newProperties);
+    }
     if (this.getSelectedSchedule()) {
       // add user contact details if user is not logged in
       // add booking duration if it's not predefined
@@ -97,7 +112,7 @@ export default {
             customerComment: '',
             userName: '',
             userPhone: '',
-            duration: 0
+            duration: 0,
           },
           {
             startDate: new AppFormInput(
@@ -161,7 +176,8 @@ export default {
       getCompany: 'getModel',
     }),
     ...mapGetters('account', {
-      isUserLogged: 'isUserLogged'
+      isUserLogged: 'isUserLogged',
+      getUserData: 'getUserData'
     }),
     ...mapActions('events', {
       createEvent: 'create'
@@ -255,10 +271,12 @@ export default {
             this.$root.$emit('bv::hide::modal', 'modal-booking');
           },
           failCallback: (data) => {
-            for (let error of data.errors) {
-              if (error.source === 'start') {
-                data.errors.push({source:'startDate',title:error.title});
-                data.errors.push({source:'startTime',title:error.title});
+            if ('errors' in data) {
+              for (let error of data.errors) {
+                if (error.source === 'start') {
+                  data.errors.push({source: 'startDate', title: error.title});
+                  data.errors.push({source: 'startTime', title: error.title});
+                }
               }
             }
             bookingFormModel.handleResponseErrors(data);
