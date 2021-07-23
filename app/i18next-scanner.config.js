@@ -9,6 +9,7 @@ module.exports = {
     output: './',
     options: {
         debug: true,
+        removeUnusedKeys: true,
         func: {
             list: ['\\$t'],
             extensions: ['.js', '.jsx', '.vue', '.html', '.htm'],
@@ -17,12 +18,12 @@ module.exports = {
             component: 'Trans',
             extensions: [],
         },
-        lngs: ['en', 'uk'],
-        ns: ['locale'],
-        defaultLng: 'en',
+        lngs: process.env.VUE_APP_I18N_SUPPORTED_LOCALE.split(','),
+        // ns: ['locale', 'layouts_main', 'components', 'views_auth', 'views_booking', 'views_client', 'views_company', 'views_schedule', 'views_specialHours'],
+        defaultLng: process.env.VUE_APP_I18N_LOCALE,
         defaultNs: 'locale',
         defaultValue: function(lng, ns, key) {
-            if (lng === 'en') {
+            if (lng === process.env.VUE_APP_I18N_LOCALE) {
                 // Return key as the default value for English language
                 return key;
             }
@@ -36,7 +37,7 @@ module.exports = {
             lineEnding: '\n',
         },
         nsSeparator: false, // namespace separator
-        keySeparator: false, // key separator
+        keySeparator: '.', // key separator
         interpolation: {
             prefix: '{{',
             suffix: '}}',

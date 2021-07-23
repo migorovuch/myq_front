@@ -6,7 +6,7 @@
         :events="getEvents()"
         :time-from="getCalendarTimeFrom()"
         :time-to="getCalendarTimeTo()"
-        locale="uk"
+        :locale="$i18n.locale"
         :showWeekNumbers="false"
         events-count-on-month-view
         :disable-views="['years', 'year']"

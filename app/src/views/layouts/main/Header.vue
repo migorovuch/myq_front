@@ -27,6 +27,7 @@
                         <template v-else>
                           <b-nav-item @click="logout">{{$t("Logout")}}</b-nav-item>
                         </template>
+                      <LanguageSelect/>
                     </b-navbar-nav>
                 </b-collapse>
             </b-navbar>
@@ -49,6 +50,7 @@
     import LoginForm from "../../views/auth/LoginForm";
     import {mapActions, mapGetters} from "vuex";
     import Hamburger from "../../components/Hamburger";
+    import LanguageSelect from "../../components/LanguageSelect";
 
     export default {
       name: "Header",
@@ -56,7 +58,8 @@
         Hamburger,
         ResetPasswordForm,
         RegistrationForm,
-        LoginForm
+        LoginForm,
+        LanguageSelect
       },
       data: function () {
         return {
