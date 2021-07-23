@@ -14,9 +14,7 @@ export default {
   name: "LanguageSelect",
   data () {
     return {
-      languages: [
-        'uk','en'
-      ]
+      languages: process.env.VUE_APP_I18N_SUPPORTED_LOCALE.split(',')
     };
   },
   methods: {
