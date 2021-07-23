@@ -91,7 +91,9 @@ router.beforeEach((to, from, next) => {
 router.beforeEach(
     async (to, from, next) => {
       // Set locale based on url
-      if (!to.params.locale && supportedLocales.includes(navigator.language)) {
+      if (!to.params.locale && from.params.locale) {
+        i18n.locale = from.params.locale;
+      } else if (!to.params.locale && supportedLocales.includes(navigator.language)) {
         i18n.locale = navigator.language;
       } else if (to.params.locale) {
         i18n.locale = to.params.locale;

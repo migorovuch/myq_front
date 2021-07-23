@@ -1,4 +1,5 @@
 import store from "../../store/store";
+import i18n from "../../plugins/i18n";
 
 export default class ApiProvider {
 
@@ -30,7 +31,8 @@ export default class ApiProvider {
         let requestOptions = {
             method: 'GET',
             headers: {
-                Accept: 'application/json'
+                Accept: 'application/json',
+                'Accept-Language': i18n.locale
             }
         };
         if (!(options.body instanceof FormData)) {
