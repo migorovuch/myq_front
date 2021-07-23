@@ -3,7 +3,7 @@
     <template #button-content>
       <div :class="'mr-2 app__flag '+$i18n.locale "></div>{{$i18n.locale}}
     </template>
-    <b-dropdown-item v-for="(lang, langKey) in languages" @click="changeLang(lang)">
+    <b-dropdown-item v-for="(lang, langKey) in languages" :key="langKey" @click="changeLang(lang)">
       <div :class="'mr-2 app__flag '+lang "></div>{{lang}}
     </b-dropdown-item>
   </b-nav-item-dropdown>

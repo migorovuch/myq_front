@@ -20,7 +20,7 @@
         <div class="row text-center">
           <div class="col-12 col-sm-4">
             <b-input-group>
-              <b-form-input v-model="row.item.pseudonym" :placeholder="$t('Enter client pseudonym')"></b-form-input>
+              <b-form-input v-model="row.item.pseudonym" :placeholder="$t('views_client.Enter client pseudonym')"></b-form-input>
               <b-input-group-append>
                 <b-button variant="outline-success" @click="changeItem(row.item, 'pseudonym')">
                   <b-icon icon="check2"></b-icon>
@@ -30,12 +30,12 @@
           </div>
           <div class="col-12 col-sm-4 pb-3 pb-sm-0 pt-3 pt-sm-2">
             <router-link :to="{name: 'company_bookings', query:{client: row.item.id}}">
-              {{$t("Number of bookings")+': '+row.item.numberOfBookings}}
+              {{$t("views_client.Number of bookings")+': '+row.item.numberOfBookings}}
             </router-link>
           </div>
           <div class="col-12 col-sm-4">
-            <b-button v-if="row.item.status!==1" variant="outline-success" @click="row.item.status=1;changeItem(row.item, 'status');">{{ $t("Enable client") }}</b-button>
-            <b-button v-else variant="outline-danger" @click="row.item.status=2;changeItem(row.item, 'status')">{{ $t("Disable client") }}</b-button>
+            <b-button v-if="row.item.status!==1" variant="outline-success" @click="row.item.status=1;changeItem(row.item, 'status');">{{ $t("views_client.Enable client") }}</b-button>
+            <b-button v-else variant="outline-danger" @click="row.item.status=2;changeItem(row.item, 'status')">{{ $t("views_client.Disable client") }}</b-button>
           </div>
         </div>
       </template>
@@ -71,9 +71,9 @@ export default {
   data() {
     return {
       tableFields: [
-        {key: 'name', label: this.$t('Name')},
-        {key: 'Phone', label: this.$t('Phone')},
-        {key: 'status', label: this.$t('Status')}
+        {key: 'name', label: this.$t('views_client.Name')},
+        {key: 'Phone', label: this.$t('views_client.Phone')},
+        {key: 'status', label: this.$t('views_client.Status')}
       ],
       filter: {},
       tableItems: [],
@@ -110,9 +110,9 @@ export default {
     },
     getStatusLabel(status) {
       let labels = {
-        0: this.$t('Unapproved'),
-        1: this.$t('Approved'),
-        2: this.$t('Deactivated'),
+        0: this.$t('views_client.Unapproved'),
+        1: this.$t('views_client.Approved'),
+        2: this.$t('views_client.Deactivated'),
       };
 
       return labels[status];
@@ -132,7 +132,7 @@ export default {
         id: item.id,
         data,
         successCallback: (client) => {
-          this.$root.$bvToast.toast(this.$t('Successfully saved'), {
+          this.$root.$bvToast.toast(this.$t('views_client.Successfully saved'), {
             toaster: 'b-toaster-bottom-left',
             appendToast: true,
             autoHideDelay: 4000

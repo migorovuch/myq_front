@@ -2,12 +2,12 @@
   <div>
       <div class="row">
         <div class="col-lg-4 col-xs-12" v-if="scheduleOptions.length>1">
-          <b-form-group :label="$t('Schedule')">
+          <b-form-group :label="$t('views_booking.Schedule')">
             <b-form-select :options="scheduleOptions || []" @change="changeSelectedSchedule" :model="filter.schedule" :value="filter.schedule"></b-form-select>
           </b-form-group>
         </div>
         <div class="col-lg-4 col-xs-12">
-          <b-form-group :label="$t('Filter from')">
+          <b-form-group :label="$t('views_booking.Filter from')">
             <b-form-datepicker
                 v-model="filter.filterFrom"
                 @input="applyBookingsFilter"
@@ -16,7 +16,7 @@
           </b-form-group>
         </div>
         <div class="col-lg-4 col-xs-12">
-          <b-form-group :label="$t('Filter to')">
+          <b-form-group :label="$t('views_booking.Filter to')">
             <b-form-datepicker
                 v-model="filter.filterTo"
                 @input="applyBookingsFilter"
@@ -27,17 +27,17 @@
       </div>
       <div class="row" v-if="moreFilters">
         <div class="col-lg-4 col-xs-12">
-          <b-form-group :label="$t('Title')">
+          <b-form-group :label="$t('views_booking.Title')">
             <b-form-input type="text" v-model="filter.title" @change="applyBookingsFilter" />
           </b-form-group>
         </div>
         <div class="col-lg-4 col-xs-12">
-          <b-form-group :label="$t('User name')">
+          <b-form-group :label="$t('views_booking.User name')">
             <b-form-input type="text" v-model="filter.userName" @change="applyBookingsFilter" />
           </b-form-group>
         </div>
         <div class="col-lg-4 col-xs-12">
-          <b-form-group :label="$t('Comment')">
+          <b-form-group :label="$t('views_booking.Comment')">
             <b-form-input type="text" v-model="filter.customerComment" @change="applyBookingsFilter"/>
           </b-form-group>
         </div>
@@ -45,18 +45,18 @@
     <div class="row form-group">
       <div class="col-8">
         <b-form-checkbox v-model="moreFilters" size="sm" button>
-          {{moreFilters?$t('Less filters'):$t('More filters')}}
+          {{moreFilters?$t('views_booking.Less filters'):$t('views_booking.More filters')}}
         </b-form-checkbox>
-        <b-button variant="danger" size="sm" @click="resetFilter">{{ $t("Reset filter") }}</b-button>
+        <b-button variant="danger" size="sm" @click="resetFilter">{{ $t("views_booking.Reset filter") }}</b-button>
       </div>
       <div class="col-4 text-right">
-        <b-button :variant="!bookingsView?'success':'outline-success'" size="sm" @click="bookingsView=0" :title="$t('List')">
-          <span class="d-none d-sm-inline">{{ $t("List") }}</span>
-          <b-icon icon="list" :aria-label="$t('List')"></b-icon>
+        <b-button :variant="!bookingsView?'success':'outline-success'" size="sm" @click="bookingsView=0" :title="$t('views_booking.List')">
+          <span class="d-none d-sm-inline">{{ $t("views_booking.List") }}</span>
+          <b-icon icon="list" :aria-label="$t('views_booking.List')"></b-icon>
         </b-button>
-        <b-button :variant="bookingsView?'success':'outline-success'" size="sm" @click="bookingsView=1" :title="$t('Calendar')">
-          <span class="d-none d-sm-inline">{{ $t("Calendar") }}</span>
-          <b-icon icon="calendar2-week" :aria-label="$t('Calendar')"></b-icon>
+        <b-button :variant="bookingsView?'success':'outline-success'" size="sm" @click="bookingsView=1" :title="$t('views_booking.Calendar')">
+          <span class="d-none d-sm-inline">{{ $t("views_booking.Calendar") }}</span>
+          <b-icon icon="calendar2-week" :aria-label="$t('views_booking.Calendar')"></b-icon>
         </b-button>
       </div>
     </div>
@@ -107,7 +107,7 @@
         </div>
         <div class="col-sm-4 col-xs-12">
           <b-form-group
-              :label="$t('Per page')"
+              :label="$t('views_booking.Per page')"
               label-for="per-page-select"
               label-cols-sm="6"
               label-cols-md="4"
@@ -130,7 +130,7 @@
     <template v-else>
       <CompanyCalendar with-events="true" v-on:event-click="eventSelect" v-on:cell-click="cellClick" v-on:calendar-view-change="calendarViewChange"/>
     </template>
-    <b-modal id="modal-booking" hide-footer :title="$t('Booking form')">
+    <b-modal id="modal-booking" hide-footer :title="$t('views_booking.Booking form')">
       <BookingForm v-on:onFormSubmit="onBookingFormSubmit" :selected-booking="selectedBooking"/>
     </b-modal>
   </div>
@@ -147,14 +147,14 @@ export default {
   components: {BookingForm, CompanyCalendar, BookingsList},
   data() {
     let sortOptions = [
-      {text: this.$t('Event time'), value: 'start'},
-      {text: this.$t('Status'), value: 'status'},
-      {text: this.$t('User'), value: 'userName'},
-      {text: this.$t('Schedule'), value: 'schedule'},
+      {text: this.$t('views_booking.Event time'), value: 'start'},
+      {text: this.$t('views_booking.Status'), value: 'status'},
+      {text: this.$t('views_booking.User'), value: 'userName'},
+      {text: this.$t('views_booking.Schedule'), value: 'schedule'},
     ];
     let sortDescOptions = [
-      {text: this.$t('Ascending'), value: 'ASC'},
-      {text: this.$t('Descending'), value: 'DESC'},
+      {text: this.$t('views_booking.Ascending'), value: 'ASC'},
+      {text: this.$t('views_booking.Descending'), value: 'DESC'},
     ];
     return {
       bookingsView: 0,
@@ -372,7 +372,7 @@ export default {
               )
           )
       ) {
-        formModel.errors.endTime = this.$t('Booking duration is not valid');
+        formModel.errors.endTime = this.$t('views_booking.Booking duration is not valid');
         formModel.errors.invalid = true;
         return;
       }
@@ -399,7 +399,7 @@ export default {
             });
           }
           this.applyBookingsFilter();
-          this.$root.$bvToast.toast(this.$t('Successfully saved'), {
+          this.$root.$bvToast.toast(this.$t('views_booking.Successfully saved'), {
             toaster: 'b-toaster-bottom-left',
             appendToast: true,
             autoHideDelay: 4000

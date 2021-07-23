@@ -24,12 +24,12 @@ export default {
   },
   data() {
     let defaultFields = [
-      {key: 'subjectCompany', label: this.$t('Subject')},
-      // {key: 'user', label: this.$t('Client')},
+      {key: 'subjectCompany', label: this.$t('views_booking.Subject')},
+      // {key: 'user', label: this.$t('views_booking.Client')},
       // {key: 'scheduleName', label: ''},
-      {key: 'date', label: this.$t('Booking date')},
-      // {key: 'customerComment', label: this.$t('Details')},
-      {key: 'status', label: this.$t('Status')}
+      {key: 'date', label: this.$t('views_booking.Booking date')},
+      // {key: 'customerComment', label: this.$t('views_booking.Details')},
+      {key: 'status', label: this.$t('views_booking.Status')}
     ];
     return {
       tableFields: this.fields.length ? this.fields : defaultFields,
@@ -87,9 +87,9 @@ export default {
     },
     getStatusLabel(status) {
       let labels = {
-        0: this.$t('Unapproved'),
-        1: this.$t('Approved'),
-        2: this.$t('Cancelled'),
+        0: this.$t('views_booking.Unapproved'),
+        1: this.$t('views_booking.Approved'),
+        2: this.$t('views_booking.Cancelled'),
       };
 
       return labels[status];

@@ -18,14 +18,14 @@
           <div class="col-lg-6 col-xs-12 pt-lg-4 form-group">
             <b-button v-if="!formModel.model.available" variant="success" v-b-modal.modal-specal-hours>
               <b-icon icon="clock" class="mr-2"/>
-              {{ $t('Select availability') }}
+              {{ $t('views_schedule.Select availability') }}
             </b-button>
           </div>
         </div>
       </template>
       <template v-slot:formFooter>
         <div class="form-group text-right">
-          <b-button type="submit" variant="success">{{$t("Save")}}</b-button>
+          <b-button type="submit" variant="success">{{$t("views_schedule.Save")}}</b-button>
         </div>
       </template>
     </AppForm>
@@ -35,7 +35,7 @@
         :with-events="false"/>
     <b-modal id="modal-specal-hours"
              v-if="idSchedule"
-             hide-footer :title="$t('Availability')">
+             hide-footer :title="$t('views_schedule.Availability')">
       <SpecialHoursForm :id-schedule="idSchedule" v-on:form:save="refreshAvailability"></SpecialHoursForm>
     </b-modal>
   </div>
@@ -74,90 +74,90 @@
             {
               name: new AppFormInput(
                   "text",
-                  this.$t('Name:'),
-                  this.$t('Enter name'),
+                  this.$t('views_schedule.Name:'),
+                  this.$t('views_schedule.Enter name'),
                   {
-                    required: this.$t('This value should not be blank'),
+                    required: this.$t('views_schedule.This value should not be blank'),
                   },
                   {wrapClass: 'col-lg-3'}
               ),
               enabled: new AppFormInput(
                   "checkbox",
-                  this.$t('Available for booking:'),
+                  this.$t('views_schedule.Available for booking:'),
                   null,
                   {},
                   {wrapClass: 'mt-2 pt-lg-4 col-lg-3'}
               ),
               available: new AppFormInput(
                   "checkbox",
-                  this.$t('Always availabl:'),
+                  this.$t('views_schedule.Always availabl:'),
                   null,
                   {},
                   {wrapClass: 'col-lg-6'}
               ),
               bookingDuration: new AppFormInput(
                   "number",
-                  this.$t('Booking duration:'),
+                  this.$t('views_schedule.Booking duration:'),
                   'seconds',
                   {},
                   {wrapClass: 'col-lg-3'}
               ),
               minBookingTime: new AppFormInput(
                   "number",
-                  this.$t('Min Booking time:'),
+                  this.$t('views_schedule.Min Booking time:'),
                   'seconds',
                   {},
                   {wrapClass: 'col-lg-3'}
               ),
               maxBookingTime: new AppFormInput(
                   "number",
-                  this.$t('Max Booking time:'),
+                  this.$t('views_schedule.Max Booking time:'),
                   'seconds',
                   {},
                   {wrapClass: 'col-lg-3'}
               ),
               bookingCondition: new AppFormSelect(
                   "select",
-                  this.$t('Booking condition:'),
+                  this.$t('views_schedule.Booking condition:'),
                   '',
                   {},
                   {wrapClass: 'col-lg-3'},
                   [
-                    {value: 0, text: this.$t('All users')},
-                    {value: 1, text: this.$t('Authorized only')},
+                    {value: 0, text: this.$t('views_schedule.All users')},
+                    {value: 1, text: this.$t('views_schedule.Authorized only')},
                   ]
               ),
               acceptBookingCondition: new AppFormSelect(
                   "select",
-                  this.$t('Accept booking condition:'),
+                  this.$t('views_schedule.Accept booking condition:'),
                   '',
                   {},
                   {wrapClass: 'col-lg-3'},
                   [
-                    {value: 0, text: this.$t('Mark bookings as New')},
-                    {value: 1, text: this.$t('Accept all bookings')},
-                    {value: 3, text: this.$t('Accept only from approved users')},
-                    {value: 4, text: this.$t('Accept only after pay advance')},
+                    {value: 0, text: this.$t('views_schedule.Mark bookings as New')},
+                    {value: 1, text: this.$t('views_schedule.Accept all bookings')},
+                    {value: 3, text: this.$t('views_schedule.Accept only from approved users')},
+                    {value: 4, text: this.$t('views_schedule.Accept only after pay advance')},
                   ]
               ),
               acceptBookingTime: new AppFormInput(
                   "number",
-                  this.$t('Accept booking time:'),
+                  this.$t('views_schedule.Accept booking time:'),
                   'minutes',
                   {},
                   {wrapClass: 'col-lg-3'}
               ),
               timeBetweenBookings: new AppFormInput(
                   "number",
-                  this.$t('Time between bookings:'),
+                  this.$t('views_schedule.Time between bookings:'),
                   'minutes',
                   {},
                   {wrapClass: 'col-lg-3'}
               ),
               description: new AppFormInput(
                   "textarea",
-                  this.$t('Description:'),
-                  this.$t('Enter description'),
+                  this.$t('views_schedule.Description:'),
+                  this.$t('views_schedule.Enter description'),
                   {},
                   {wrapClass: 'col-lg-6'}
               ),
@@ -203,7 +203,7 @@
             id: this.idSchedule,
             data: formModel.model,
             successCallback: (data) => {
-              this.$root.$bvToast.toast(this.$t('Successfully saved'), {
+              this.$root.$bvToast.toast(this.$t('views_schedule.Successfully saved'), {
                 toaster: 'b-toaster-bottom-left',
                 appendToast: true,
                 autoHideDelay: 4000
@@ -220,7 +220,7 @@
               this.idSchedule = data.id;
               Vue.set(this.formModel, 'model', data);
               this.$router.push({name: 'company_schedule_item', params: {id: data.id}})
-              this.$root.$bvToast.toast(this.$t('Successfully saved'), {
+              this.$root.$bvToast.toast(this.$t('views_schedule.Successfully saved'), {
                 toaster: 'b-toaster-bottom-left',
                 appendToast: true,
                 autoHideDelay: 4000

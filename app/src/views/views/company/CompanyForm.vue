@@ -30,7 +30,7 @@
       </template>
       <template v-slot:formFooter>
         <div class="text-right">
-          <b-button type="submit" variant="success">{{$t("Save")}}</b-button>
+          <b-button type="submit" variant="success">{{$t("views_company.Save")}}</b-button>
         </div>
       </template>
     </AppForm>
@@ -65,57 +65,57 @@
             {
               name: new AppFormInput(
                   "text",
-                  this.$t('Company name:'),
-                  this.$t('Enter company name'),
+                  this.$t('views_company.Company name:'),
+                  this.$t('views_company.Enter company name'),
                   {
-                    required: this.$t('This value should not be blank'),
+                    required: this.$t('views_company.This value should not be blank'),
                   },
                   {wrapClass: 'col-lg-3'}
               ),
               email: new AppFormInput(
                   "email",
-                  this.$t('Email:'),
-                  this.$t('Enter email'),
+                  this.$t('views_company.Email:'),
+                  this.$t('views_company.Enter email'),
                   {
-                    required: this.$t('This value should not be blank'),
-                    email: this.$t('Value is not valid')
+                    required: this.$t('views_company.This value should not be blank'),
+                    email: this.$t('views_company.Value is not valid')
                   },
                   {wrapClass: 'col-lg-3'}
               ),
               phone: new AppFormPhone(
                   "phone",
-                  this.$t('Phone:'),
-                  this.$t('Phone number'),
+                  this.$t('views_company.Phone:'),
+                  this.$t('views_company.Phone number'),
                   {
-                    phone: this.$t('Phone number is not valid'),
+                    phone: this.$t('views_company.Phone number is not valid'),
                   },
                   {wrapClass: 'col-lg-3'}
               ),
               logo: new AppFormInput(
                   "file",
-                  this.$t('Logo:'),
-                  this.$t('Select logo'),
+                  this.$t('views_company.Logo:'),
+                  this.$t('views_company.Select logo'),
                   {},
                   {wrapClass: 'col-lg-3'}
               ),
               address: new AppFormInput(
                   "text",
-                  this.$t('Address:'),
-                  this.$t('Enter address'),
+                  this.$t('views_company.Address:'),
+                  this.$t('views_company.Enter address'),
                   {},
                   {wrapClass: 'col-lg-3'}
               ),
               addressLink: new AppFormInput(
                   "text",
-                  this.$t('Address link:'),
-                  this.$t('Enter address link'),
+                  this.$t('views_company.Address link:'),
+                  this.$t('views_company.Enter address link'),
                   {},
                   {wrapClass: 'col-lg-3'}
               ),
               description: new AppFormInput(
                   "textarea",
-                  this.$t('Description:'),
-                  this.$t('Enter description'),
+                  this.$t('views_company.Description:'),
+                  this.$t('views_company.Enter description'),
                   {},
                   {wrapClass: 'col-lg-12'}
               ),
@@ -156,7 +156,7 @@
                 data: logo
               });
             }
-            this.$root.$bvToast.toast(this.$t('Successfully saved'), {
+            this.$root.$bvToast.toast(this.$t('views_company.Successfully saved'), {
               toaster: 'b-toaster-bottom-left',
               appendToast: true,
               autoHideDelay: 4000

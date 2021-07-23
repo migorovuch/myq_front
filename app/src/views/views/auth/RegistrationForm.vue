@@ -6,7 +6,7 @@
                 @onFormReset="onReset"
         >
             <template v-slot:formFooter>
-                <b-button type="submit" variant="success">{{$t("Sign up")}}</b-button>
+                <b-button type="submit" variant="success">{{$t("views_auth.Sign up")}}</b-button>
             </template>
         </AppForm>
     </div>
@@ -35,28 +35,28 @@
                     {
                       fullName: new AppFormInput(
                             'text',
-                            this.$t('Name:'),
-                            this.$t('Enter name'),
+                            this.$t('views_auth.Name:'),
+                            this.$t('views_auth.Enter name'),
                             {
-                                required: this.$t('This value should not be blank')
+                                required: this.$t('views_auth.This value should not be blank')
                             }
                         ),
                         email: new AppFormInput(
                             'email',
-                            this.$t('Email:'),
-                            this.$t('Enter email'),
+                            this.$t('views_auth.Email:'),
+                            this.$t('views_auth.Enter email'),
                             {
-                                required: this.$t('This value should not be blank'),
-                                email: this.$t('Incorrect email format'),
+                                required: this.$t('views_auth.This value should not be blank'),
+                                email: this.$t('views_auth.Incorrect email format'),
                             }
                         ),
                         password: new AppFormInput(
                             'password',
-                            this.$t('Password:'),
-                            this.$t('Enter password'),
+                            this.$t('views_auth.Password:'),
+                            this.$t('views_auth.Enter password'),
                             {
-                                required: this.$t('This value should not be blank'),
-                                minLength: this.$t('This field must be at least {limit} characters long', {limit: minPasswordLength})
+                                required: this.$t('views_auth.This value should not be blank'),
+                                minLength: this.$t('views_auth.This field must be at least {limit} characters long', {limit: minPasswordLength})
                             }
                         ),
                     },
@@ -96,7 +96,7 @@
                     password: "",
                     roles: ["ROLE_USER"]
                   }
-                  this.$root.$bvToast.toast(this.$t('Account successfully registered'), {
+                  this.$root.$bvToast.toast(this.$t('views_auth.Account successfully registered'), {
                     toaster: 'b-toaster-bottom-left',
                     appendToast: true,
                     autoHideDelay: 4000

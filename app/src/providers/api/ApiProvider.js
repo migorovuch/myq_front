@@ -68,7 +68,7 @@ export default class ApiProvider {
     denyAccessUnlessGranted()
     {
         if(!this.getToken()) {
-            throw new Error(this.$t('Authentication failed'));
+            throw new Error(this.$t('views_auth.Authentication failed'));
         }
     }
 

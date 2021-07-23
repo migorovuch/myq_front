@@ -1,8 +1,8 @@
 <template>
   <AppForm :formModel="formModel" @onFormSubmit="onSubmit">
     <template v-slot:formFooter>
-      <b-button type="submit" variant="success">{{$t("Checkout")}}</b-button>
-      <b-button type="button" @click="generateTimeLink" variant="secondary">{{$t("Share time")}}</b-button>
+      <b-button type="submit" variant="success">{{$t("views_booking.Checkout")}}</b-button>
+      <b-button type="button" @click="generateTimeLink" variant="secondary">{{$t("views_booking.Share time")}}</b-button>
 
     </template>
   </AppForm>
@@ -38,7 +38,7 @@ export default {
       let newProperties = {
         newClient: new AppFormInput(
             "checkbox",
-            this.$t('New client'),
+            this.$t('views_booking.New client'),
             null,
             null,
             {wrapClass: 'form-group col-12'}
@@ -60,13 +60,13 @@ export default {
         for (let i = minDuration; i < maxDuration; i += durationMinutesRound) {
           let text = '';
           if (i < 60) {
-            text = this.$t('{min} minutes', {min: i});
+            text = this.$t('views_booking.{min} minutes', {min: i});
           } else if (i >= 60) {
             let hours = parseInt(i / 60);
             let minutes = (i - (hours * 60));
-            text = this.$t('{hs} hour(s) {min} minutes', {hs: hours, min: minutes});
+            text = this.$t('views_booking.{hs} hour(s) {min} minutes', {hs: hours, min: minutes});
             if (!minutes) {
-              text = this.$t('{hs} hour(s)', {hs: hours});
+              text = this.$t('views_booking.{hs} hour(s)', {hs: hours});
             }
           }
           durationOptions.push({
@@ -76,10 +76,10 @@ export default {
         }
         this.formModel.form.duration = new AppFormSelect(
             "select",
-            this.$t('Duration:'),
-            this.$t('Select duration'),
+            this.$t('views_booking.Duration:'),
+            this.$t('views_booking.Select duration'),
             {
-              required: this.$t('This value should not be blank'),
+              required: this.$t('views_booking.This value should not be blank'),
             },
             null,
             durationOptions
@@ -117,45 +117,45 @@ export default {
           {
             startDate: new AppFormInput(
                 "datepicker",
-                this.$t('Event date:'),
-                this.$t('Event date'),
+                this.$t('views_booking.Event date:'),
+                this.$t('views_booking.Event date'),
                 {
-                  required: this.$t('This value should not be blank')
+                  required: this.$t('views_booking.This value should not be blank')
                 },
                 {wrapClass: 'col-6'}
             ),
             startTime: new AppFormInput(
                 "timepicker",
-                this.$t('Event time:'),
-                this.$t('Enter event time'),
+                this.$t('views_booking.Event time:'),
+                this.$t('views_booking.Enter event time'),
                 {
-                  required: this.$t('This value should not be blank'),
+                  required: this.$t('views_booking.This value should not be blank'),
                 },
                 {wrapClass: 'col-6'}
             ),
             userName: new AppFormInput(
                 "text",
-                this.$t('Your name:'),
-                this.$t('Enter your name'),
+                this.$t('views_booking.Your name:'),
+                this.$t('views_booking.Enter your name'),
                 {
-                  required: this.$t('This value should not be blank'),
+                  required: this.$t('views_booking.This value should not be blank'),
                 }
             ),
             userPhone: new AppFormPhone(
                 "phone",
-                this.$t('Your phone number:'),
-                this.$t('Enter your contact phone number'),
+                this.$t('views_booking.Your phone number:'),
+                this.$t('views_booking.Enter your contact phone number'),
                 {
-                  required: this.$t('This value should not be blank'),
-                  phone: this.$t('Phone number is not valid'),
+                  required: this.$t('views_booking.This value should not be blank'),
+                  phone: this.$t('views_booking.Phone number is not valid'),
                 }
             ),
             customerComment: new AppFormInput(
                 "textarea",
-                this.$t('Additional details:'),
-                this.$t('Enter additional details'),
+                this.$t('views_booking.Additional details:'),
+                this.$t('views_booking.Enter additional details'),
                 {
-                  required: this.$t('This value should not be blank'),
+                  required: this.$t('views_booking.This value should not be blank'),
                 }
             ),
           },
@@ -263,7 +263,7 @@ export default {
             eventsLocalStorageProvider.addMyEvent(data);
             clientLocalStorageProvider.setClientId(data.client.id);
             this.$emit('onFormSubmit', data);
-            this.$root.$bvToast.toast(this.$t('Booking successfully created'), {
+            this.$root.$bvToast.toast(this.$t('views_booking.Booking successfully created'), {
               toaster: 'b-toaster-bottom-left',
               appendToast: true,
               autoHideDelay: 4000

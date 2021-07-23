@@ -18,9 +18,9 @@ export default {
     return {
       items: [],
       fields: [
-        {key: 'subjectClient', label: this.$t('Subject')},
-        {key: 'date', label: this.$t('Booking date')},
-        {key: 'status', label: this.$t('Status')}
+        {key: 'subjectClient', label: this.$t('views_booking.Subject')},
+        {key: 'date', label: this.$t('views_booking.Booking date')},
+        {key: 'status', label: this.$t('views_booking.Status')}
       ]
     };
   },
@@ -41,7 +41,7 @@ export default {
             this.items = data.data;
           },
           failCallback: () => {
-            this.$root.$bvToast.toast(this.$t('You have no bookings or try to sign in!'), {
+            this.$root.$bvToast.toast(this.$t('views_booking.You have no bookings or try to sign in!'), {
               toaster: 'b-toaster-bottom-left',
               variant: 'danger',
               appendToast: true,
@@ -50,7 +50,7 @@ export default {
           }
         });
       } else {
-        this.$root.$bvToast.toast(this.$t('You have no bookings or try to sign in!'), {
+        this.$root.$bvToast.toast(this.$t('views_booking.You have no bookings or try to sign in!'), {
           toaster: 'b-toaster-bottom-left',
           variant: 'danger',
           appendToast: true,

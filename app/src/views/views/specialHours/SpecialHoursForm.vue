@@ -6,7 +6,7 @@
           id="extended-configs"
           class="apple-switch"
           v-model="extended"/>
-      <label for="extended-configs">{{$t("Extended configuration")}}</label>
+      <label for="extended-configs">{{$t("views_schedule.Extended configuration")}}</label>
     </div>
     <div v-if="extended">
       <div v-for="(item, specialHoursKey) in specialHours" :key="specialHoursKey" v-if="!item.deleted" class="row form-group">
@@ -95,9 +95,9 @@
         </div>
       </div>
       <b-button @click="addSpecialHoursItem" variant="outline-success">
-        <b-icon icon="calendar-plus" aria-hidden="true" class="mr-1"></b-icon><span>{{ $t('Add special hours') }}</span>
+        <b-icon icon="calendar-plus" aria-hidden="true" class="mr-1"></b-icon><span>{{ $t('views_schedule.Add special hours') }}</span>
       </b-button>
-      <b-button @click="saveAvailabilitySpecialHours" variant="success">{{ $t('Save availability') }}</b-button>
+      <b-button @click="saveAvailabilitySpecialHours" variant="success">{{ $t('views_schedule.Save availability') }}</b-button>
     </div>
     <div v-else>
       <div class="row mb-2" v-for="(period, periodKey) in specialHoursForCurrentView" :key="periodKey" @click="selectedPeriodKey=periodKey">
@@ -155,9 +155,9 @@
         </div>
       </div>
       <b-button @click="addPeriod" variant="outline-success">
-        <b-icon icon="calendar-plus" aria-hidden="true" class="mr-1"></b-icon><span>{{ $t('Add period') }}</span>
+        <b-icon icon="calendar-plus" aria-hidden="true" class="mr-1"></b-icon><span>{{ $t('views_schedule.Add period') }}</span>
       </b-button>
-      <b-button @click="savePeriods" variant="success">{{ $t('Save availability') }}</b-button>
+      <b-button @click="savePeriods" variant="success">{{ $t('views_schedule.Save availability') }}</b-button>
     </div>
   </div>
 </template>
@@ -183,19 +183,19 @@ export default {
       specialHoursForCurrentView: [],
       specialHours: [],
       repeatOptions: [
-        {value: 0, text: this.$t('Every day')},
-        {value: 1, text: this.$t('Once a week')},
-        {value: 2, text: this.$t('Once a month')},
-        {value: 3, text: this.$t('Once a year')},
+        {value: 0, text: this.$t('views_schedule.Every day')},
+        {value: 1, text: this.$t('views_schedule.Once a week')},
+        {value: 2, text: this.$t('views_schedule.Once a month')},
+        {value: 3, text: this.$t('views_schedule.Once a year')},
       ],
       onceAWeekOptions: [
-        {value: 0, text: this.$t('Monday')},
-        {value: 1, text: this.$t('Tuesday')},
-        {value: 2, text: this.$t('Wednesday')},
-        {value: 3, text: this.$t('Thursday')},
-        {value: 4, text: this.$t('Friday')},
-        {value: 5, text: this.$t('Saturday')},
-        {value: 6, text: this.$t('Sunday')},
+        {value: 0, text: this.$t('views_schedule.Monday')},
+        {value: 1, text: this.$t('views_schedule.Tuesday')},
+        {value: 2, text: this.$t('views_schedule.Wednesday')},
+        {value: 3, text: this.$t('views_schedule.Thursday')},
+        {value: 4, text: this.$t('views_schedule.Friday')},
+        {value: 5, text: this.$t('views_schedule.Saturday')},
+        {value: 6, text: this.$t('views_schedule.Sunday')},
       ],
       onceAMonthOptions
     };
@@ -252,13 +252,13 @@ export default {
     },
     getDefaultSpecialHours() {
       return {
-        0: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Monday')},
-        1: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Tuesday')},
-        2: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Wednesday')},
-        3: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Thursday')},
-        4: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Friday')},
-        5: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Saturday')},
-        6: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('Sunday')},
+        0: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('views_schedule.Monday')},
+        1: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('views_schedule.Tuesday')},
+        2: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('views_schedule.Wednesday')},
+        3: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('views_schedule.Thursday')},
+        4: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('views_schedule.Friday')},
+        5: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('views_schedule.Saturday')},
+        6: {id: null, from: '10:00', to: '18:00', available: false, dayOfWeek: this.$t('views_schedule.Sunday')},
       }
     },
     getDefaultPeriod(){

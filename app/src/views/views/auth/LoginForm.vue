@@ -7,8 +7,8 @@
                     @onFormReset="onResetLogin"
             >
                 <template v-slot:formFooter>
-                    <b-button type="submit" variant="success">{{$t("Sign in")}}</b-button>
-                    <a href="#" class="ml-2 forgot-password-link" @click.stop.prevent="showLoginForm=false;">{{$t('Forgot password?')}}</a>
+                    <b-button type="submit" variant="success">{{$t("views_auth.Sign in")}}</b-button>
+                    <a href="#" class="ml-2 forgot-password-link" @click.stop.prevent="showLoginForm=false;">{{$t('views_auth.Forgot password?')}}</a>
                 </template>
             </AppForm>
         </div>
@@ -19,7 +19,7 @@
                     @onFormReset="onResetRequest"
             >
                 <template v-slot:formFooter>
-                    <b-button type="submit" variant="success">{{$t("Reset password")}}</b-button>
+                    <b-button type="submit" variant="success">{{$t("views_auth.Reset password")}}</b-button>
                 </template>
             </AppForm>
         </div>
@@ -46,19 +46,19 @@
               }, {
                 username: new AppFormInput(
                     "email",
-                    this.$t('Email:'),
-                    this.$t('Enter email'),
+                    this.$t('views_auth.Email:'),
+                    this.$t('views_auth.Enter email'),
                     {
-                      required: this.$t('This value should not be blank'),
+                      required: this.$t('views_auth.This value should not be blank'),
                     }
                 ),
                 password: new AppFormInput(
                     "password",
-                    this.$t('Password:'),
-                    this.$t('Enter password'),
+                    this.$t('views_auth.Password:'),
+                    this.$t('views_auth.Enter password'),
                     {
-                      required: this.$t('This value should not be blank'),
-                      minLength: this.$t('This field must be at least {limit} characters long', {limit: minPasswordLength})
+                      required: this.$t('views_auth.This value should not be blank'),
+                      minLength: this.$t('views_auth.This field must be at least {limit} characters long', {limit: minPasswordLength})
                     }
                 ),
               }, {
@@ -81,11 +81,11 @@
               }, {
                 email: new AppFormInput(
                     "email",
-                    this.$t('Email:'),
-                    this.$t('Enter email'),
+                    this.$t('views_auth.Email:'),
+                    this.$t('views_auth.Enter email'),
                     {
-                      email: this.$t('Incorrect email format'),
-                      required: this.$t('This value should not be blank'),
+                      email: this.$t('views_auth.Incorrect email format'),
+                      required: this.$t('views_auth.his value should not be blank'),
                     }
                 ),
               }, {
@@ -113,7 +113,7 @@
                 {
                   data: formModel.model,
                   successCallback: () => {
-                    this.$root.$bvToast.toast(this.$t('Successfully authenticated'), {
+                    this.$root.$bvToast.toast(this.$t('views_auth.Successfully authenticated'), {
                       toaster: 'b-toaster-bottom-left',
                       appendToast: true,
                       autoHideDelay: 4000

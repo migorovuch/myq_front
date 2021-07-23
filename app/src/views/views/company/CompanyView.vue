@@ -30,7 +30,7 @@
           <b-form-select :options="scheduleOptions" @change="changeSelectedSchedule" :model="selectedSchedule" :value="selectedSchedule"></b-form-select>
         </div>
         <div :class="(scheduleOptions.length>1?'text-right offset-lg-6':'offset-lg-9 offset-6') + ' col-6 col-lg-3 mt-3 mb-3 text-right'">
-          <b-button v-b-modal.modal-booking variant="success">{{ $t('Time booking') }}</b-button>
+          <b-button v-b-modal.modal-booking variant="success">{{ $t('views_company.Time booking') }}</b-button>
         </div>
       </div>
     </div>
@@ -39,7 +39,7 @@
         <CompanyCalendar :with-events="false" v-on:cell-click="createBooking" v-on:load-availability-callback="loadAvailabilityCallback"/>
       </div>
     </div>
-    <b-modal id="modal-booking" hide-footer :title="$t('Time booking')">
+    <b-modal id="modal-booking" hide-footer :title="$t('views_company.Time booking')">
       <CreateBooking :booking-start="bookingStart"/>
     </b-modal>
   </div>

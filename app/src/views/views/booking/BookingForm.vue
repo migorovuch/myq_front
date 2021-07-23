@@ -3,10 +3,10 @@
     <div class="form-group">
       <div class="row">
         <div class="col-12">
-          {{ $t("User name") }}: {{ selectedBooking.hasOwnProperty('user') ? selectedBooking.user.fullName : selectedBooking.userName }}
+          {{ $t("views_booking.User name") }}: {{ selectedBooking.hasOwnProperty('user') ? selectedBooking.user.fullName : selectedBooking.userName }}
         </div>
         <div class="col-12">
-          {{ $t("User phone") }}: <a :href="'tel:'+(selectedBooking.hasOwnProperty('user') ? selectedBooking.user.phone : selectedBooking.userPhone)">{{ selectedBooking.hasOwnProperty('user') ? selectedBooking.user.phone : selectedBooking.userPhone }}</a>
+          {{ $t("views_booking.User phone") }}: <a :href="'tel:'+(selectedBooking.hasOwnProperty('user') ? selectedBooking.user.phone : selectedBooking.userPhone)">{{ selectedBooking.hasOwnProperty('user') ? selectedBooking.user.phone : selectedBooking.userPhone }}</a>
         </div>
       </div>
       {{selectedBooking.customerComment}}
@@ -16,7 +16,7 @@
         @onFormSubmit="$emit('onFormSubmit', formModel)"
     >
       <template v-slot:formFooter>
-        <b-button type="submit" variant="success">{{$t("Save changes")}}</b-button>
+        <b-button type="submit" variant="success">{{$t("views_booking.Save changes")}}</b-button>
       </template>
     </AppForm>
   </div>
@@ -37,9 +37,9 @@ export default {
   },
   data() {
     let statusList = {
-      0: this.$t('New'),
-      1: this.$t('Accepted'),
-      2: this.$t('Declined')
+      0: this.$t('views_booking.New'),
+      1: this.$t('views_booking.Accepted'),
+      2: this.$t('views_booking.Declined')
     };
     let scheduleList = [];
     if (this.selectedBooking.hasOwnProperty('scheduleList')) {
@@ -49,12 +49,12 @@ export default {
       formModel: new AppFormModel(
           this.selectedBooking,
           {
-            title: new AppFormInput('text', this.$t('Title'), this.$t('Title'), {required: this.$t('This value should not be blank'),}),
-            scheduleId: new AppFormSelect('select', this.$t('Schedule'), this.$t('Schedule'), {required: this.$t('This value should not be blank'),}, null, scheduleList),
-            status: new AppFormSelect('select', this.$t('Status'), this.$t('Status'), {required: this.$t('This value should not be blank'),}, null, statusList),
-            startDate: new AppFormInput('datepicker', this.$t('Date start'), this.$t('Date start'), {required: this.$t('This value should not be blank'),}),
-            startTime: new AppFormInput('timepicker', this.$t('Time start'), this.$t('Time start'), {required: this.$t('This value should not be blank'),}),
-            endTime: new AppFormInput('timepicker', this.$t('Time end'), this.$t('Time end'), {required: this.$t('This value should not be blank'),}),
+            title: new AppFormInput('text', this.$t('views_booking.Title'), this.$t('views_booking.Title'), {required: this.$t('views_booking.This value should not be blank'),}),
+            scheduleId: new AppFormSelect('select', this.$t('views_booking.Schedule'), this.$t('views_booking.Schedule'), {required: this.$t('views_booking.This value should not be blank'),}, null, scheduleList),
+            status: new AppFormSelect('select', this.$t('views_booking.Status'), this.$t('views_booking.Status'), {required: this.$t('views_booking.This value should not be blank'),}, null, statusList),
+            startDate: new AppFormInput('datepicker', this.$t('views_booking.Date start'), this.$t('views_booking.Date start'), {required: this.$t('views_booking.This value should not be blank'),}),
+            startTime: new AppFormInput('timepicker', this.$t('views_booking.Time start'), this.$t('views_booking.Time start'), {required: this.$t('views_booking.This value should not be blank'),}),
+            endTime: new AppFormInput('timepicker', this.$t('views_booking.Time end'), this.$t('views_booking.Time end'), {required: this.$t('views_booking.This value should not be blank'),}),
           },
           null,
           {
