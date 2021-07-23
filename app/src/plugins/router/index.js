@@ -91,17 +91,19 @@ router.beforeEach((to, from, next) => {
 router.beforeEach(
     async (to, from, next) => {
       // Set locale based on url
-      i18n.locale = to.params.locale || i18n.locale;
-
+      if (!to.params.locale && supportedLocales.includes(navigator.language)) {
+        i18n.locale = navigator.language;
+      } else if (to.params.locale) {
+        i18n.locale = to.params.locale;
+      }
       // Redirect to locale url based on from
       if (
           i18n.locale
           && !to.params.locale
       ) {
         try {
-          await router.push({ 'path': '/' + i18n.locale + to.fullPath})
+          await router.push({'path': '/' + i18n.locale + to.fullPath})
         } catch (error) {
-          console.log('error - ', error);
           if (error.name === 'NavigationDuplicated') {
             // Do nothing
           } else {
