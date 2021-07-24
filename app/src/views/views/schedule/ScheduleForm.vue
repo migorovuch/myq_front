@@ -90,7 +90,7 @@
               ),
               available: new AppFormInput(
                   "checkbox",
-                  this.$t('views_schedule.Always availabl:'),
+                  this.$t('views_schedule.Always availabl(24/7):'),
                   null,
                   {},
                   {wrapClass: 'col-lg-6'}
@@ -143,14 +143,14 @@
               acceptBookingTime: new AppFormInput(
                   "number",
                   this.$t('views_schedule.Accept booking time:'),
-                  'minutes',
+                  this.$t('views_schedule.minutes'),
                   {},
                   {wrapClass: 'col-lg-3'}
               ),
               timeBetweenBookings: new AppFormInput(
                   "number",
                   this.$t('views_schedule.Time between bookings:'),
-                  'minutes',
+                  this.$t('views_schedule.minutes'),
                   {},
                   {wrapClass: 'col-lg-3'}
               ),

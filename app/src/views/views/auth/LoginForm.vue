@@ -85,7 +85,7 @@
                     this.$t('views_auth.Enter email'),
                     {
                       email: this.$t('views_auth.Incorrect email format'),
-                      required: this.$t('views_auth.his value should not be blank'),
+                      required: this.$t('views_auth.This value should not be blank'),
                     }
                 ),
               }, {

@@ -25,7 +25,7 @@
                           <b-nav-item v-b-modal.modal-registration>{{$t("layouts_main.Sign up")}}</b-nav-item>
                         </template>
                         <template v-else>
-                          <b-nav-item @click="logout">{{$t("layouts_main.Logout")}}</b-nav-item>
+                          <b-nav-item @click="logoutAction">{{$t("layouts_main.Logout")}}</b-nav-item>
                         </template>
                       <LanguageSelect/>
                     </b-navbar-nav>
@@ -74,6 +74,10 @@
         ...mapGetters('account', {
           isUserLogged: 'isUserLogged'
         }),
+        logoutAction() {
+          this.logout();
+          this.$router.push({name: 'home'});
+        }
       },
       mounted() {
         if (this.$route.name === 'reset-password') {
