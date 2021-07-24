@@ -26,7 +26,6 @@
         "Enter password": "Enter password",
         "This field must be at least {limit} characters long": "This field must be at least {limit} characters long",
         "Incorrect email format": "Incorrect email format",
-        "his value should not be blank": "his value should not be blank",
         "Successfully authenticated": "Successfully authenticated",
         "Sign up": "Sign up",
         "Name:": "Name:",
@@ -138,7 +137,7 @@
         "Enter name": "Enter name",
         "This value should not be blank": "This value should not be blank",
         "Available for booking:": "Available for booking:",
-        "Always availabl:": "Always availabl:",
+        "Always availabl(24/7):": "Always availabl(24/7):",
         "Booking duration:": "Booking duration:",
         "Min Booking time:": "Min Booking time:",
         "Max Booking time:": "Max Booking time:",
@@ -151,6 +150,7 @@
         "Accept only from approved users": "Accept only from approved users",
         "Accept only after pay advance": "Accept only after pay advance",
         "Accept booking time:": "Accept booking time:",
+        "minutes": "хвилин",
         "Time between bookings:": "Time between bookings:",
         "Description:": "Description:",
         "Enter description": "Enter description",
@@ -162,6 +162,11 @@
         "Title": "Title",
         "Availability": "Availability",
         "Booking duration": "Booking duration",
+        "Select availability": "Select availability",
+        "Save": "Save",
+        "min": "min"
+    },
+    "views_specialHours": {
         "Extended configuration": "Extended configuration",
         "Add special hours": "Add special hours",
         "Save availability": "Save availability",
@@ -176,9 +181,6 @@
         "Thursday": "Thursday",
         "Friday": "Friday",
         "Saturday": "Saturday",
-        "Sunday": "Sunday",
-        "Select availability": "Select availability",
-        "Save": "Save",
-        "min": "min"
+        "Sunday": "Sunday"
     }
 }
