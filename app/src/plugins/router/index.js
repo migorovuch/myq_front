@@ -18,9 +18,9 @@ const routes = [
       {path: '', name: 'home', component: () => import('../../views/views/Home.vue')},
       {path: 'about', name: 'about', component: () => import('../../views/views/About.vue')},
       {path: 'my_company', name: 'my_company', meta: {middleware: [myCompanyMiddleware]}},
-      {path: 'reset-password/:token', component: () => import('../../views/views/Home.vue'), name: 'reset-password'},
+      {path: '/reset-password/:token', component: () => import('../../views/views/Home.vue'), name: 'reset-password'},
       {
-        path: 'approve-email/:id/:token',
+        path: '/approve-email/:id/:token',
         component: () => import('../../views/views/Home.vue'),
         name: 'approve-email',
         meta: {
@@ -64,6 +64,11 @@ const routes = [
         }},
       {path: 'q/:id', name: 'schedule_vue', component: () => import('../../views/views/schedule/ScheduleView')},
       {path: 'company/:id', name: 'company_vue', component: () => import('../../views/views/company/CompanyView')},
+      {
+        path: '*',
+        name:'404',
+        // component: Components.Error404
+      }
     ]
   }
 ];
@@ -72,9 +77,41 @@ const router = new VueRouter({
   routes
 })
 
+let redirectToLang = (to, from, next) => {
+  const newPath = '/' + i18n.locale + to.fullPath;
+  const link = router.resolve(newPath);
+  // Redirect to locale url based on from
+  if (
+      i18n.locale &&
+      !to.params.locale &&
+      link.route.name !== '404'
+  ) {
+    try {
+      return next({'path': newPath})
+    } catch (error) {
+      if (error.name === 'NavigationDuplicated') {
+        // Do nothing
+      } else {
+        throw error;
+      }
+    }
+    return;
+  }
+
+  return next();
+}
+
 router.beforeEach((to, from, next) => {
+  // Set locale based on url
+  if (!to.params.locale && from.params.locale) {
+    i18n.locale = from.params.locale;
+  } else if (!to.params.locale && supportedLocales.includes(navigator.language)) {
+    i18n.locale = navigator.language;
+  } else if (to.params.locale) {
+    i18n.locale = to.params.locale;
+  }
   if (!to.meta.middleware) {
-    return next()
+    return redirectToLang(to, from, next);
   }
   const middleware = to.meta.middleware
   const context = {
@@ -88,35 +125,5 @@ router.beforeEach((to, from, next) => {
     next: middlewarePipeline(context, middleware, 1)
   })
 });
-router.beforeEach(
-    async (to, from, next) => {
-      // Set locale based on url
-      if (!to.params.locale && from.params.locale) {
-        i18n.locale = from.params.locale;
-      } else if (!to.params.locale && supportedLocales.includes(navigator.language)) {
-        i18n.locale = navigator.language;
-      } else if (to.params.locale) {
-        i18n.locale = to.params.locale;
-      }
-      // Redirect to locale url based on from
-      if (
-          i18n.locale
-          && !to.params.locale
-      ) {
-        try {
-          await router.push({'path': '/' + i18n.locale + to.fullPath})
-        } catch (error) {
-          if (error.name === 'NavigationDuplicated') {
-            // Do nothing
-          } else {
-            throw error;
-          }
-        }
-        return;
-      }
-
-      next();
-    }
-)
 
 export default router;
