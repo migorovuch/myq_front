@@ -47,6 +47,7 @@ export default class ApiProvider {
     }
 
     request(url, options = {}, successCallback = null, failCallback = null, errorCallback = function () {}) {
+        store.commit('loader/startLoading');
         (async () => {
             return await this.asyncRequest(url, options);
         })()
@@ -63,6 +64,7 @@ export default class ApiProvider {
                         response.json().then(data => {failCallback(this.camelObjectKeys(data))});
                     }
                 }
+                store.commit('loader/endLoading');
             })
             .catch(data => {errorCallback(this.camelObjectKeys(data))});
     }

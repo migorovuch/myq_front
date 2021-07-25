@@ -7,6 +7,7 @@ import account from "./modules/account";
 import company from "./modules/company";
 import availability from "./modules/availability";
 import client from "./modules/client";
+import loader from "./modules/loader";
 import AccountLocalStorageProvider from "../providers/localStorage/AccountLocalStorageProvider";
 
 let accountLocalStorageProvider = new AccountLocalStorageProvider();
@@ -26,7 +27,8 @@ export default new Vuex.Store({
         account,
         company,
         availability,
-        client
+        client,
+        loader
     },
     getters: {
         isUserLogged: state => state.isUserLogged,
