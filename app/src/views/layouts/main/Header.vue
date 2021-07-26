@@ -25,6 +25,7 @@
                           <b-nav-item v-b-modal.modal-registration>{{$t("layouts_main.Sign up")}}</b-nav-item>
                         </template>
                         <template v-else>
+                          <b-nav-item :to="{name: 'account'}">{{$t('layouts_main.Account')}}</b-nav-item>
                           <b-nav-item @click="logoutAction">{{$t("layouts_main.Logout")}}</b-nav-item>
                         </template>
                       <LanguageSelect/>

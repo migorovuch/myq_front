@@ -13,7 +13,8 @@
         "Logout": "Вийти",
         "Sign in form": "Форма входу",
         "Sign up form": "Форма реєстрації",
-        "Reset password": "Скинути пароль"
+        "Reset password": "Скинути пароль",
+        "Account": "Аккаунт"
     },
     "views_auth": {
         "Sign in": "Увійти",
@@ -29,14 +30,28 @@
         "Successfully authenticated": "Успішно автентифіковано",
         "Sign up": "Реєстрація",
         "Name:": "Ім'я",
-        "Enter name": "Введі ім'я",
+        "Enter name": "Введі Ім'я",
         "Account successfully registered": "Акаунт успішно зареєстровано",
         "Change password": "Змінити пароль",
         "Repeat password:": "Повторіть пароль:",
         "Repeat password": "Повторіть пароль",
         "This field should be the same as password": "В цьому паролі потрібно повторити пароль",
         "Password successfully changed": "Пароль успішно змінено",
-        "Authentication failed": "Помилка автентифікації"
+        "Authentication failed": "Помилка автентифікації",
+        "Save": "Зберегти",
+        "Nickname:": "Нік",
+        "Your login": "Ваш логін",
+        "Your name:": "Ваше Ім'я:",
+        "Enter your name": "Введіть ваше Ім'я",
+        "Enter your phone": "Введіть веш номер телефону",
+        "Phone number is not valid": "Невалідний номер телефону",
+        "Old password:": "Старий пароль",
+        "Enter your old password": "Введіть ваш старий пароль",
+        "New password:": "Новий пароль",
+        "Enter your new password": "Введіть новий пароль",
+        "Your phone:": "Ваш номер телефону:",
+        "Successfully saved": "Успішно збережено",
+        "This field should be the same as New password": "Це поле повинно містити таке ж значення як і Новий пароль"
     },
     "views_booking": {
         "User name": "Ім'я користувача",

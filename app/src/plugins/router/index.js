@@ -64,6 +64,11 @@ const routes = [
         }},
       {path: 'q/:id', name: 'schedule_vue', component: () => import('../../views/views/schedule/ScheduleView')},
       {path: 'company/:id', name: 'company_vue', component: () => import('../../views/views/company/CompanyView')},
+      {path: 'account', name: 'account', component: () => import('../../views/views/auth/AccountForm'), meta: {
+          middleware: [
+            authMiddleware
+          ]
+        }},
       {
         path: '*',
         name:'404',

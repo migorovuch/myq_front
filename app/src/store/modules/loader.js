@@ -8,11 +8,9 @@ export default {
     },
     mutations: {
         startLoading(state) {
-            console.log('startLoading');
             state.loading = true;
         },
         endLoading(state) {
-            console.log('endLoading');
             state.loading = false;
         },
     }

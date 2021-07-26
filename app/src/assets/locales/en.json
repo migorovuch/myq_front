@@ -13,7 +13,8 @@
         "Logout": "Logout",
         "Sign in form": "Sign in form",
         "Sign up form": "Sign up form",
-        "Reset password": "Reset password"
+        "Reset password": "Reset password",
+        "Account": "Account"
     },
     "views_auth": {
         "Sign in": "Sign in",
@@ -36,7 +37,21 @@
         "Repeat password": "Repeat password",
         "This field should be the same as password": "This field should be the same as password",
         "Password successfully changed": "Password successfully changed",
-        "Authentication failed": "Authentication failed"
+        "Authentication failed": "Authentication failed",
+        "Save": "Save",
+        "Nickname:": "Nickname:",
+        "Your login": "Your login",
+        "Your name:": "Your name:",
+        "Enter your name": "Enter your name",
+        "Enter your phone": "Enter your phone",
+        "Phone number is not valid": "Phone number is not valid",
+        "Old password:": "Old password:",
+        "Enter your old password": "Enter your old password",
+        "New password:": "New password:",
+        "Enter your new password": "Enter your new password",
+        "Your phone:": "Your phone:",
+        "Successfully saved": "Successfully saved",
+        "This field should be the same as New password": "This field should be the same as New password"
     },
     "views_booking": {
         "User name": "User name",

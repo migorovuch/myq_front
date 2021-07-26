@@ -26,6 +26,16 @@ export default {
                 failCallback
             );
         },
+        changeAccount(context, {data, successCallback, failCallback}) {
+            accountApiProvider.changeAccount(
+                data,
+                (response) => {
+                    context.commit('setUserData', response.data, { root: true })
+                    successCallback(response);
+                },
+                failCallback
+            );
+        },
         logout(context) {
             context.commit('setUserToken', null, { root: true })
         },
