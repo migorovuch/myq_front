@@ -14,10 +14,6 @@ import {BootstrapVue, BootstrapVueIcons} from 'bootstrap-vue'
 import VueTelInput from 'vue-tel-input';
 import 'vue-tel-input/dist/vue-tel-input.css';
 
-String.prototype.isEmpty = function() {
-  return (this.length === 0 || !this.trim());
-};
-
 Vue.config.productionTip = false
 
 Vue.use(BootstrapVue);

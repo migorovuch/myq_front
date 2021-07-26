@@ -306,6 +306,7 @@ input.apple-switch:checked:after {
   height: 5px;
   width: 100%;
   overflow: hidden;
+  z-index: 1041;
 }
 .loader .bar {
   position: relative;

@@ -21,8 +21,8 @@
                         </b-nav-item-dropdown>
                         <b-nav-item v-else v-b-modal.modal-login>{{$t('layouts_main.Company')}}</b-nav-item>
                         <template v-if="!isUserLogged()">
-                          <b-nav-item v-b-modal.modal-login>{{$t("layouts_main.Sign in")}}</b-nav-item>
-                          <b-nav-item v-b-modal.modal-registration>{{$t("layouts_main.Sign up")}}</b-nav-item>
+                          <b-nav-item @click="showLoginForm">{{$t("layouts_main.Sign in")}}</b-nav-item>
+                          <b-nav-item @click="showRegistrationForm">{{$t("layouts_main.Sign up")}}</b-nav-item>
                         </template>
                         <template v-else>
                           <b-nav-item :to="{name: 'account'}">{{$t('layouts_main.Account')}}</b-nav-item>
@@ -52,6 +52,7 @@
     import {mapActions, mapGetters} from "vuex";
     import Hamburger from "../../components/Hamburger";
     import LanguageSelect from "../../components/LanguageSelect";
+    import authMiddleware from "../../../plugins/router/authMiddleware";
 
     export default {
       name: "Header",
@@ -77,8 +78,24 @@
         }),
         logoutAction() {
           this.logout();
-          this.$router.push({name: 'home'});
-        }
+          if (this.$route.meta.middleware) {
+            let redirect = false;
+            for (let middleware of this.$route.meta.middleware) {
+              redirect = middleware.name === 'authMiddleware';
+            }
+            if (redirect) {
+              this.$router.push({name: 'home'});
+            }
+          }
+        },
+        showLoginForm()
+        {
+          this.$root.$emit('bv::show::modal', 'modal-login');
+        },
+        showRegistrationForm()
+        {
+          this.$root.$emit('bv::show::modal', 'modal-registration');
+        },
       },
       mounted() {
         if (this.$route.name === 'reset-password') {

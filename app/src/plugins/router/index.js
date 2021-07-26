@@ -95,7 +95,7 @@ let redirectToLang = (to, from, next) => {
       return next({'path': newPath})
     } catch (error) {
       if (error.name === 'NavigationDuplicated') {
-        // Do nothing
+        // Do nothing, because you are on right page
       } else {
         throw error;
       }
