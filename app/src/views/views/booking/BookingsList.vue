@@ -58,7 +58,7 @@ export default {
         let end = new Date(booking.end);
         let item = {
           id: booking.id,
-          subjectCompany: booking.userName + ' - ' + booking.schedule.name,
+          subjectCompany: (booking.client.pseudonym ? booking.client.pseudonym : booking.client.name) + ' - ' + booking.schedule.name,
           subjectClient: booking.schedule.company.name + ' - ' + booking.schedule.name,
           scheduleName: booking.schedule.name,
           user: booking.userName,

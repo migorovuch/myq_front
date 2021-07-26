@@ -16,7 +16,7 @@
         :time-cell-height="100"
     >
       <template v-slot:event="{ event, view }">
-        <div @click="$emit('event-click', event)">
+        <div @click="$emit('event-click', event)" class="event-body">
           <div class="vuecal__event-title" v-html="event.title" />
           <small class="vuecal__event-time">
             <span>{{ event.start.sformat("HH:MM") }}</span>-<span>{{ event.end.sformat("HH:MM") }}</span>
@@ -153,5 +153,7 @@ export default {
 </script>
 
 <style scoped>
-
+.event-body {
+  height: 100%;
+}
 </style>
