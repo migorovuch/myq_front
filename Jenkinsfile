@@ -1,11 +1,12 @@
 pipeline {
-  agent {
-    label 'MYQ'
-  }
+  agent any
 
   stages {
     stage('Build&Run front container') {
       steps {
+        withCredentials([file(credentialsId: 'myq_front', variable: 'SECRETS')]) {
+            writeFile file: './.env', text: readFile(SECRETS)
+        }
         sh 'docker build -t myq_node -f ./docker/node/prod/Dockerfile ./app'
         sh 'docker run --rm -t -d --name myq_node --env-file .env myq_node'
       }
