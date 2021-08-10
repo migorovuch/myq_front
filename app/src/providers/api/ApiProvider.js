@@ -149,7 +149,7 @@ export default class ApiProvider {
             .map(
                 key => {
                     let val = obj[key];
-                    if (typeof val === 'object') {
+                    if (typeof val === 'object' && val !== null) {
                         val = this.camelObjectKeys(val);
                     }
                     newObj[this.toCamel(key)] = val;
