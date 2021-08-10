@@ -1,5 +1,5 @@
 FROM node:12 AS node
 
-COPY . /app
+COPY ./app/. /app
 
 WORKDIR /app
