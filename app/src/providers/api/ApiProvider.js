@@ -21,8 +21,9 @@ export default class ApiProvider {
     }
 
     asyncRequest(url, options = {}) {
-        if (!process.env.VUE_APP_API_URL.includes(window.location.origin)) {
-            url = process.env.VUE_APP_API_URL + url;
+        let apiUrl = process.env.VUE_APP_API_URL.replaceAll("'", '');
+        if (!apiUrl.includes(window.location.origin)) {
+            url = apiUrl + url;
         }
         if ('body' in options && options.body && typeof options.body !== 'string' && !(options.body instanceof FormData)) {
             options.body = JSON.stringify(this.underscoreObjectKeys(options.body));
