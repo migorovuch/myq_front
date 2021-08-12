@@ -22,11 +22,10 @@ pipeline {
         sh 'docker exec myq_node npm run webpack:build'
       }
     }
-    stage('Copy & Stop') {
+    stage('Copy to nginx container') {
       steps {
         sh 'docker cp myq_node:/app/dist/. ./app/dist/'
-        sh 'docker cp ./app/dist/. myq_nginx:/var/www/project/public/front/'
-        sh 'docker stop myq_node'
+        sh 'docker cp ./app/dist/. myq_nginx:/var/www/html/public/front/'
       }
     }
   }
