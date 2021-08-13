@@ -3,7 +3,7 @@ import ApiProvider from "./ApiProvider";
 export default class SpecialHoursApiProvider extends ApiProvider {
     getSpecialHours(filter, successCallback, failCallback) {
         this.get(
-            'special-hours/search',
+            'api/special-hours/search',
             {filter:filter},
             successCallback,
             failCallback
@@ -12,7 +12,7 @@ export default class SpecialHoursApiProvider extends ApiProvider {
 
     saveList(data, successCallback, failCallback) {
         this.put(
-            'special-hours/update-list',
+            'api/special-hours/update-list',
             data,
             successCallback,
             failCallback

@@ -4,7 +4,7 @@ export default class AccountApiProvider extends ApiProvider {
 
     login(data, successCallback, failCallback) {
         this.post(
-            'login_check',
+            'api/login_check',
             data,
             successCallback,
             failCallback
@@ -12,23 +12,23 @@ export default class AccountApiProvider extends ApiProvider {
     }
 
     registration(data, successCallback, failCallback) {
-        this.post('registration', data, successCallback, failCallback);
+        this.post('api/registration', data, successCallback, failCallback);
     }
 
     requestPassword(data, successCallback, failCallback) {
-        this.post('reset-password/request', data, successCallback, failCallback);
+        this.post('api/reset-password/request', data, successCallback, failCallback);
     }
 
     resetPassword(data, successCallback, failCallback) {
-        this.post('reset-password/reset', data, successCallback, failCallback);
+        this.post('api/reset-password/reset', data, successCallback, failCallback);
     }
 
     changeAccount(data, successCallback, failCallback) {
-        this.patch('account/', data, successCallback, failCallback);
+        this.patch('api/account/', data, successCallback, failCallback);
     }
 
     emailConfirmAsync(id, token) {
-        return this.asyncRequest('approve-email', {
+        return this.asyncRequest('api/approve-email', {
             'method': 'POST',
             'body': {
                 id,

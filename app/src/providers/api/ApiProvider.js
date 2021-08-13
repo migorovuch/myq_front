@@ -21,7 +21,10 @@ export default class ApiProvider {
     }
 
     asyncRequest(url, options = {}) {
-        url = process.env.VUE_APP_API_URL + url;
+        let apiUrl = process.env.VUE_APP_API_URL.replaceAll("'", '');
+        if (!apiUrl.includes(window.location.origin)) {
+            url = apiUrl + url;
+        }
         if ('body' in options && options.body && typeof options.body !== 'string' && !(options.body instanceof FormData)) {
             options.body = JSON.stringify(this.underscoreObjectKeys(options.body));
         }
@@ -146,7 +149,7 @@ export default class ApiProvider {
             .map(
                 key => {
                     let val = obj[key];
-                    if (typeof val === 'object') {
+                    if (typeof val === 'object' && val !== null) {
                         val = this.camelObjectKeys(val);
                     }
                     newObj[this.toCamel(key)] = val;

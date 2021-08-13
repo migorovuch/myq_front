@@ -58,11 +58,10 @@ export default {
   // The code for the span
   user-select: none;
   position: absolute;
-  margin: #{$margin-top} auto #{$margin} -#{$margin-left};
   text-indent: -999em;
   top: 50%;
   left: 50%;
-  margin-top: -#{$menu-height/2};
+  margin: -#{$menu-height/2} auto #{$margin-top};
   cursor: pointer;
 
   // Set styles to bars

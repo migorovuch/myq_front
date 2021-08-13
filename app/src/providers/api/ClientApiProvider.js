@@ -3,12 +3,12 @@ import ApiProvider from "./ApiProvider";
 export default class ClientApiProvider extends ApiProvider {
 
     getClient(id, successCallback, failCallback) {
-        this.get('clients/'+id+'/app', null, successCallback, failCallback);
+        this.get('api/clients/'+id+'/app', null, successCallback, failCallback);
     }
 
     getClientsList(filter, successCallback, failCallback) {
         this.get(
-            'clients/search',
+            'api/clients/search',
             {filter: filter},
             successCallback,
             failCallback
@@ -16,6 +16,6 @@ export default class ClientApiProvider extends ApiProvider {
     }
 
     change(id, data, successCallback, failCallback) {
-        this.patch('clients/' + id, data, successCallback, failCallback);
+        this.patch('api/clients/' + id, data, successCallback, failCallback);
     }
 }

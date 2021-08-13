@@ -3,7 +3,7 @@ import ApiProvider from "./ApiProvider";
 export default class ScheduleApiProvider extends ApiProvider {
     getMyScheduleList(filter, successCallback, failCallback) {
         this.get(
-            'schedule/search/my',
+            'api/schedule/search/my',
             {filter:filter},
             successCallback,
             failCallback
@@ -12,7 +12,7 @@ export default class ScheduleApiProvider extends ApiProvider {
 
     getScheduleList(filter, successCallback, failCallback) {
         this.get(
-            'schedule/search/app',
+            'api/schedule/search/app',
             {filter:filter},
             successCallback,
             failCallback
@@ -20,10 +20,10 @@ export default class ScheduleApiProvider extends ApiProvider {
     }
 
     update(id, data, successCallback, failCallback) {
-        this.put('schedule/' + id, data, successCallback, failCallback);
+        this.put('api/schedule/' + id, data, successCallback, failCallback);
     }
 
     create(data, successCallback, failCallback) {
-        this.post('schedule/', data, successCallback, failCallback);
+        this.post('api/schedule/', data, successCallback, failCallback);
     }
 }

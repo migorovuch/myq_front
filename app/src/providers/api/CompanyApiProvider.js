@@ -3,24 +3,24 @@ import store from "../../store/store";
 
 export default class CompanyApiProvider extends ApiProvider {
     create(data,successCallback, failCallback) {
-        this.post('companies/', data, successCallback, failCallback);
+        this.post('api/companies/', data, successCallback, failCallback);
     }
 
     update(id, data, successCallback, failCallback) {
-        this.put('companies/' + id, data, successCallback, failCallback);
+        this.put('api/companies/' + id, data, successCallback, failCallback);
     }
 
     getMyCompany(successCallback, failCallback) {
-        this.get('companies/my', null, successCallback, failCallback);
+        this.get('api/companies/my', null, successCallback, failCallback);
     }
 
     getMyCompanyAsync() {
-        return this.asyncRequest('companies/my');
+        return this.asyncRequest('api/companies/my');
     }
 
     getCompanyList(filter, successCallback, failCallback) {
         this.get(
-            'companies/search/app',
+            'api/companies/search/app',
             {filter:filter},
             successCallback,
             failCallback
@@ -31,7 +31,7 @@ export default class CompanyApiProvider extends ApiProvider {
         let formData = new FormData();
         formData.append(`logo`, logo, logo.name);
         this.request(
-            'companies/logo/' + id,
+            'api/companies/logo/' + id,
             {
                 method: 'POST',
                 body: formData,

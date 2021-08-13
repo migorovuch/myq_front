@@ -8,5 +8,7 @@ services:
       - './logs/npm:/root/.npm/_logs/'
     ports:
       - '8085:8080'
+    env_file:
+      - .env
     stdin_open: true
     tty: true
