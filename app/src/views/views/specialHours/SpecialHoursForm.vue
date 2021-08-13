@@ -210,6 +210,12 @@ export default {
           let firstSpecialHours = this.specialHours[Object.keys(this.specialHours)[0]];
           this.selectedPeriodKey = this.periodKeyFromSpecialHours(firstSpecialHours);
           this.specialHoursForCurrentView = this.specialHoursToPeriods(this.specialHours);
+        } else {
+          let defaultPeriod= this.getDefaultPeriod();
+          let periodKey = this.periodKeyFromSpecialHours(defaultPeriod);
+          this.specialHours[periodKey] = defaultPeriod;
+          this.selectedPeriodKey = periodKey;
+          this.specialHoursForCurrentView = this.specialHoursToPeriods(this.specialHours);
         }
       }
     });

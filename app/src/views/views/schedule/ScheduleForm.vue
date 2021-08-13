@@ -5,7 +5,7 @@
         @onFormSubmit="onSubmit"
     >
       <template v-slot:available>
-        <div class="row" v-if="idSchedule">
+        <div class="row">
           <div class="mt-2 pt-lg-4 col-lg-6 col-xs-12 form-group">
             <input
                 type="checkbox"
@@ -15,7 +15,7 @@
                 v-model="formModel.model.available"/>
             <label :for="'input-available'">{{formModel.form.available.label}}</label>
           </div>
-          <div class="col-lg-6 col-xs-12 pt-lg-4 form-group">
+          <div class="col-lg-6 col-xs-12 pt-lg-4 form-group" v-if="idSchedule && idSchedule != 0">
             <b-button v-if="!formModel.model.available" variant="success" v-b-modal.modal-specal-hours>
               <b-icon icon="clock" class="mr-2"/>
               {{ $t('views_schedule.Select availability') }}
@@ -29,7 +29,6 @@
         </div>
       </template>
     </AppForm>
-    {{idSchedule}}
     <CompanyCalendar
         v-if="idSchedule"
         :with-events="false"/>
