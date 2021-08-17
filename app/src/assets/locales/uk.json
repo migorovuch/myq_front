@@ -197,5 +197,47 @@
         "Friday": "П'ятниця",
         "Saturday": "Субота",
         "Sunday": "Неділя"
+    },
+    "view_user_dashboard": {
+        "Hide": "__STRING_NOT_TRANSLATED__",
+        "Show": "__STRING_NOT_TRANSLATED__",
+        "Email": "__STRING_NOT_TRANSLATED__",
+        "Nickname": "__STRING_NOT_TRANSLATED__",
+        "Created": "__STRING_NOT_TRANSLATED__",
+        "Updated": "__STRING_NOT_TRANSLATED__",
+        "Inactive": "__STRING_NOT_TRANSLATED__",
+        "Active": "__STRING_NOT_TRANSLATED__",
+        "Roles": "__STRING_NOT_TRANSLATED__",
+        "Edit": "__STRING_NOT_TRANSLATED__",
+        "Users list": "__STRING_NOT_TRANSLATED__",
+        "Successfully saved": "__STRING_NOT_TRANSLATED__"
+    },
+    "layouts_dashboard": {
+        "Dashboard": "__STRING_NOT_TRANSLATED__",
+        "Users": "__STRING_NOT_TRANSLATED__"
+    },
+    "edit_user_dashboard": {
+        "Full name:": "__STRING_NOT_TRANSLATED__",
+        "Enter company name": "__STRING_NOT_TRANSLATED__",
+        "This value should not be blank": "__STRING_NOT_TRANSLATED__",
+        "Email:": "__STRING_NOT_TRANSLATED__",
+        "Enter email": "__STRING_NOT_TRANSLATED__",
+        "Value is not valid": "__STRING_NOT_TRANSLATED__",
+        "Nickname:": "__STRING_NOT_TRANSLATED__",
+        "Enter nickname": "__STRING_NOT_TRANSLATED__",
+        "Phone:": "__STRING_NOT_TRANSLATED__",
+        "Phone number": "__STRING_NOT_TRANSLATED__",
+        "Phone number is not valid": "__STRING_NOT_TRANSLATED__",
+        "New password:": "__STRING_NOT_TRANSLATED__",
+        "Enter new password": "__STRING_NOT_TRANSLATED__",
+        "Repeat password:": "__STRING_NOT_TRANSLATED__",
+        "Repeat password": "__STRING_NOT_TRANSLATED__",
+        "Status:": "__STRING_NOT_TRANSLATED__",
+        "Inactive": "__STRING_NOT_TRANSLATED__",
+        "Active": "__STRING_NOT_TRANSLATED__",
+        "Roles:": "__STRING_NOT_TRANSLATED__",
+        "This field must be at least {limit} characters long": "__STRING_NOT_TRANSLATED__",
+        "This field should be the same as New password": "__STRING_NOT_TRANSLATED__",
+        "Save": "__STRING_NOT_TRANSLATED__"
     }
 }

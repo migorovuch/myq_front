@@ -75,6 +75,13 @@ const routes = [
         // component: Components.Error404
       }
     ]
+  },
+  {
+    path: '/dashboard', name: 'dashboard', component: () => import('../../views/layouts/dashboard/TheContainer'), children: [
+      {path: '', name: 'dashboard_home', component: () => import('../../views/views/DashboardHome.vue')},
+      {path: 'users', name: 'dashboard_users', component: () => import('../../views/views/user/UsersList.vue')},
+      {path: 'users/:id', name: 'dashboard_user_edit', component: () => import('../../views/views/user/UserEdit')},
+    ]
   }
 ];
 

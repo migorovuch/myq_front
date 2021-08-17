@@ -197,5 +197,47 @@
         "Friday": "Friday",
         "Saturday": "Saturday",
         "Sunday": "Sunday"
+    },
+    "view_user_dashboard": {
+        "Hide": "Hide",
+        "Show": "Show",
+        "Email": "Email",
+        "Nickname": "Nickname",
+        "Created": "Created",
+        "Updated": "Updated",
+        "Inactive": "Inactive",
+        "Active": "Active",
+        "Roles": "Roles",
+        "Edit": "Edit",
+        "Users list": "Users list",
+        "Successfully saved": "Successfully saved"
+    },
+    "layouts_dashboard": {
+        "Dashboard": "Dashboard",
+        "Users": "Users"
+    },
+    "edit_user_dashboard": {
+        "Full name:": "Full name:",
+        "Enter company name": "Enter company name",
+        "This value should not be blank": "This value should not be blank",
+        "Email:": "Email:",
+        "Enter email": "Enter email",
+        "Value is not valid": "Value is not valid",
+        "Nickname:": "Nickname:",
+        "Enter nickname": "Enter nickname",
+        "Phone:": "Phone:",
+        "Phone number": "Phone number",
+        "Phone number is not valid": "Phone number is not valid",
+        "New password:": "New password:",
+        "Enter new password": "Enter new password",
+        "Repeat password:": "Repeat password:",
+        "Repeat password": "Repeat password",
+        "Status:": "Status:",
+        "Inactive": "Inactive",
+        "Active": "Active",
+        "Roles:": "Roles:",
+        "This field must be at least {limit} characters long": "This field must be at least {limit} characters long",
+        "This field should be the same as New password": "This field should be the same as New password",
+        "Save": "Save"
     }
 }

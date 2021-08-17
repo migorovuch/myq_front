@@ -1,0 +1,83 @@
+<template>
+  <CHeader fixed with-subheader light>
+    <CToggler
+      in-header
+      class="ml-3 d-lg-none"
+      @click="toggleSidebarMobile"
+    />
+    <CToggler
+      in-header
+      class="ml-3 d-md-down-none"
+      @click="toggleSidebarDesktop"
+    />
+    <CHeaderBrand class="mx-auto d-lg-none" to="/">
+      <CIcon name="logo" height="48" alt="Logo"/>
+    </CHeaderBrand>
+    <CHeaderNav class="d-md-down-none mr-auto">
+      <CHeaderNavItem class="px-3">
+        <CHeaderNavLink to="/dashboard">
+          Dashboard
+        </CHeaderNavLink>
+      </CHeaderNavItem>
+      <CHeaderNavItem class="px-3">
+        <CHeaderNavLink to="/users" exact>
+          Users
+        </CHeaderNavLink>
+      </CHeaderNavItem>
+      <CHeaderNavItem class="px-3">
+        <CHeaderNavLink>
+          Settings
+        </CHeaderNavLink>
+      </CHeaderNavItem>
+    </CHeaderNav>
+    <CHeaderNav class="mr-4">
+      <CHeaderNavItem class="d-md-down-none mx-2">
+        <CHeaderNavLink>
+          <CIcon name="cil-bell"/>
+        </CHeaderNavLink>
+      </CHeaderNavItem>
+      <CHeaderNavItem class="d-md-down-none mx-2">
+        <CHeaderNavLink>
+          <CIcon name="cil-list"/>
+        </CHeaderNavLink>
+      </CHeaderNavItem>
+      <CHeaderNavItem class="d-md-down-none mx-2">
+        <CHeaderNavLink>
+          <CIcon name="cil-envelope-open"/>
+        </CHeaderNavLink>
+      </CHeaderNavItem>
+      <TheHeaderDropdownAccnt/>
+    </CHeaderNav>
+    <CSubheader class="px-3">
+      <CBreadcrumb :items="getBreadcrumbItems()" class="border-0 mb-0"/>
+    </CSubheader>
+  </CHeader>
+</template>
+
+<script>
+import TheHeaderDropdownAccnt from './TheHeaderDropdownAccnt'
+import {CHeader, CToggler, CHeaderBrand, CHeaderNav, CHeaderNavItem, CHeaderNavLink, CIcon, CSubheader, CBreadcrumb} from '@coreui/vue';
+import {mapMutations, mapActions, mapGetters} from "vuex";
+import i18n from "../../../plugins/i18n";
+
+export default {
+  name: 'TheHeader',
+  components: {
+    TheHeaderDropdownAccnt,
+    CHeader, CToggler, CHeaderBrand, CHeaderNav, CHeaderNavItem, CHeaderNavLink, CIcon, CSubheader, CBreadcrumb
+  },
+  created() {
+    i18n.locale = 'en';
+  },
+  methods: {
+
+    ...mapMutations('dashboard', {
+      toggleSidebarDesktop: 'toggleSidebarDesktop',
+      toggleSidebarMobile: 'toggleSidebarMobile'
+    }),
+    ...mapGetters('dashboard', {
+      getBreadcrumbItems: 'getBreadcrumbItems'
+    }),
+  }
+}
+</script>
