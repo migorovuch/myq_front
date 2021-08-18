@@ -5,10 +5,12 @@ export default {
     namespaced: true,
     state: {
         list: [],
+        listTotal: 0,
         model: null
     },
     getters: {
         getList: state => state.list,
+        getListTotal: state => state.listTotal,
         getModel: state => state.model,
     },
     actions: {
@@ -16,7 +18,8 @@ export default {
             companyApiProvider.getCompanyList(
                 filter,
                 (data) => {
-                    context.commit('load', data);
+                    context.commit('load', data.data);
+                    context.commit('setListTotal', data.total);
                     if (successCallback) {
                         successCallback(data);
                     }
@@ -28,8 +31,35 @@ export default {
             companyApiProvider.getCompanyList(
                 {id: id},
                 (data) => {
-                    if (data.length) {
-                        context.commit('loadOne', data[0]);
+                    if ('data' in data && data.data.length) {
+                        context.commit('loadOne', data.data[0]);
+                        if (successCallback) {
+                            successCallback(data);
+                        }
+                    }
+                },
+                failCallback
+            );
+        },
+        loadPublic(context, {filter, successCallback, failCallback}) {
+            companyApiProvider.getPublicCompanyList(
+                filter,
+                (data) => {
+                    context.commit('load', data.data);
+                    context.commit('setListTotal', data.total);
+                    if (successCallback) {
+                        successCallback(data);
+                    }
+                },
+                failCallback
+            );
+        },
+        loadPublicOne(context, {id, successCallback, failCallback}) {
+            companyApiProvider.getPublicCompanyList(
+                {id: id},
+                (data) => {
+                    if ('data' in data && data.data.length) {
+                        context.commit('loadOne', data.data[0]);
                         if (successCallback) {
                             successCallback(data);
                         }
@@ -104,6 +134,9 @@ export default {
         },
         loadLogo(state, payload) {
             state.model.logo = payload;
+        },
+        setListTotal(state, payload) {
+            state.listTotal = payload;
         }
     }
 };

@@ -46,7 +46,7 @@
   import AppForm from "../../components/AppForm";
   import SpecialHoursForm from "../specialHours/SpecialHoursForm";
   import CompanyCalendar from "../../components/CompanyCalendar";
-  import {mapActions, mapGetters} from "vuex";
+  import {mapActions, mapGetters, mapMutations} from "vuex";
   import {required} from "vuelidate/lib/validators";
   import AppFormSelect from "../../../models/AppFormSelect";
   import Vue from 'vue'
@@ -177,6 +177,9 @@
           id: this.idSchedule,
           successCallback: (data) => {
             Vue.set(this.formModel, 'model', data);
+            let breadcrumbItems = this.getBreadcrumbItems();
+            breadcrumbItems.push({text: data.name});
+            this.setBreadcrumbItems(breadcrumbItems);
           }
         });
       }
@@ -195,6 +198,12 @@
       }),
       ...mapGetters('availability', {
         getCalendarCurrentView: 'getCalendarCurrentView'
+      }),
+      ...mapGetters('dashboard', {
+        getBreadcrumbItems: 'getBreadcrumbItems'
+      }),
+      ...mapMutations('dashboard', {
+        setBreadcrumbItems: 'setBreadcrumbItems',
       }),
       onSubmit(formModel) {
         if (this.idSchedule && this.idSchedule != 0) {

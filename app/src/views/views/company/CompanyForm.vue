@@ -47,21 +47,23 @@
 
   export default {
     name: "CompanyForm",
+    props: {
+      companyModel: Object
+    },
+    watch: {
+      companyModel (newValue) {
+        if (newValue.logo) {
+          this.previewUrl = process.env.VUE_APP_API_URL.replaceAll("'", '') + '/media/' + newValue.logo + '?' + Date.now();
+        }
+        this.formModel.model = newValue;
+      }
+    },
     components: {AppForm},
     data: function() {
       return {
         previewUrl: null,
         formModel: new AppFormModel(
-            {
-              name: '',
-              email: '',
-              phone: '',
-              logo: [],
-              address: '',
-              addressLink: '',
-              description: '',
-              photos: [],
-            },
+            this.companyModel,
             {
               name: new AppFormInput(
                   "text",
@@ -135,7 +137,6 @@
       ...mapActions('company', {
         createCompany: 'create',
         updateCompany: 'update',
-        loadMyCompany: 'loadMyCompany',
         uploadCompanyLogo: 'uploadLogo'
       }),
       ...mapActions('schedule', {
@@ -182,21 +183,7 @@
       }
     },
     mounted() {
-      this.loadMyCompany({
-        successCallback: (data) => {
-          if (Object.keys(data).length !== 0) {
-            if (data.logo) {
-              this.previewUrl = 'http://q.localhost/media/' + data.logo+'?'+Date.now();
-              data.logo = null;
-            }
-            this.formModel.model = Object.assign(this.formModel.model, data);
-            this.loadScheduleList({filter:{company: data.id}});
-          }
-        },
-        failCallback: (data) => {
-          // this.$router.push({ name: 'home' });
-        }
-      });
+
     },
   }
 </script>

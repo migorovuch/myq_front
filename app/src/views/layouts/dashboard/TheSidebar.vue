@@ -63,7 +63,19 @@ export default {
             {
               _name: 'CSidebarNavItem',
               name: this.$t('layouts_dashboard.Users'),
-              to: this.$router.resolve({name: 'dashboard_users'}).href,
+              to: this.$router.resolve({name: 'dashboard_users'}).route.path,
+              icon: 'cil-list',
+            },
+            {
+              _name: 'CSidebarNavItem',
+              name: this.$t('layouts_dashboard.Companies'),
+              to: this.$router.resolve({name: 'dashboard_companies'}).route.path,
+              icon: 'cil-list',
+            },
+            {
+              _name: 'CSidebarNavItem',
+              name: this.$t('layouts_dashboard.Schedules'),
+              to: this.$router.resolve({name: 'dashboard_schedules'}).route.path,
               icon: 'cil-list',
             },
           ]

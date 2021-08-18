@@ -14,6 +14,17 @@ let supportedLocales = process.env.VUE_APP_I18N_SUPPORTED_LOCALE.split(',');
 
 const routes = [
   {
+    path: '/:locale(' + supportedLocales.join('|')+')/dashboard', name: 'dashboard', component: () => import('../../views/layouts/dashboard/TheContainer'), children: [
+      {path: '', name: 'dashboard_home', component: () => import('../../views/views/DashboardHome.vue')},
+      {path: 'users', name: 'dashboard_users', component: () => import('../../views/views/user/UsersList.vue')},
+      {path: 'users/:id', name: 'dashboard_user_edit', component: () => import('../../views/views/user/UserEdit')},
+      {path: 'companies', name: 'dashboard_companies', component: () => import('../../views/views/company/DashboardCompanyList')},
+      {path: 'companies/:id', name: 'dashboard_companies_edit', component: () => import('../../views/views/company/DashboardCompanyEdit')},
+      {path: 'schedules', name: 'dashboard_schedules', component: () => import('../../views/views/schedule/DashboardScheduleList')},
+      {path: 'schedules/:id', name: 'dashboard_schedule_edit', component: () => import('../../views/views/schedule/ScheduleForm')},
+    ]
+  },
+  {
     path: '/:locale(' + supportedLocales.join('|')+')', name: 'root', component: BaseLayout, children: [
       {path: '', name: 'home', component: () => import('../../views/views/Home.vue')},
       {path: 'about', name: 'about', component: () => import('../../views/views/About.vue')},
@@ -75,19 +86,12 @@ const routes = [
         // component: Components.Error404
       }
     ]
-  },
-  {
-    path: '/dashboard', name: 'dashboard', component: () => import('../../views/layouts/dashboard/TheContainer'), children: [
-      {path: '', name: 'dashboard_home', component: () => import('../../views/views/DashboardHome.vue')},
-      {path: 'users', name: 'dashboard_users', component: () => import('../../views/views/user/UsersList.vue')},
-      {path: 'users/:id', name: 'dashboard_user_edit', component: () => import('../../views/views/user/UserEdit')},
-    ]
   }
 ];
 
 const router = new VueRouter({
   routes
-})
+});
 
 let redirectToLang = (to, from, next) => {
   const newPath = '/' + i18n.locale + to.fullPath;

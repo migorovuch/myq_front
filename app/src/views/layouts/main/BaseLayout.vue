@@ -5,7 +5,7 @@
                 <Header />
             </slot>
         </header>
-        <main>
+        <main id="main">
           <b-container>
             <router-view></router-view>
           </b-container>

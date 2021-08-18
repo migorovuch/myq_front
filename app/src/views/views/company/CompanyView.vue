@@ -65,7 +65,7 @@ export default {
       id: this.$route.params.id,
       successCallback: (data) => {
         this.loadScheduleList({
-          filter: {company:data[0].id},
+          filter: {company:data.data[0].id},
           successCallback: (data) => {
             if (data.length) {
               this.selectedSchedule = data[0].id;
@@ -108,7 +108,7 @@ export default {
       getCompany: 'getModel',
     }),
     ...mapActions('company', {
-      loadCompany: 'loadOne'
+      loadCompany: 'loadPublicOne'
     }),
     ...mapGetters('availability', {
       getSpecialHoursForCurrentView: 'getSpecialHoursForCurrentView',

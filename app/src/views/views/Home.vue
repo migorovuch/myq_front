@@ -27,7 +27,7 @@ export default {
       getCompanies: 'getList',
     }),
     ...mapActions('company', {
-      loadCompanies: 'load'
+      loadCompanies: 'loadPublic'
     }),
   }
 }

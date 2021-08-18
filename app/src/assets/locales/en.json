@@ -145,7 +145,12 @@
         "Description:": "Description:",
         "Enter description": "Enter description",
         "Successfully saved": "Successfully saved",
-        "Time booking": "Time booking"
+        "Time booking": "Time booking",
+        "Name": "Name",
+        "Created at": "Created at",
+        "Phone": "Phone",
+        "Status": "Status",
+        "Id": "Id"
     },
     "views_schedule": {
         "Name:": "Name:",
@@ -214,7 +219,9 @@
     },
     "layouts_dashboard": {
         "Dashboard": "Dashboard",
-        "Users": "Users"
+        "Users": "Users",
+        "Companies": "Companies",
+        "Schedules": "Schedules"
     },
     "edit_user_dashboard": {
         "Full name:": "Full name:",
@@ -239,5 +246,21 @@
         "This field must be at least {limit} characters long": "This field must be at least {limit} characters long",
         "This field should be the same as New password": "This field should be the same as New password",
         "Save": "Save"
+    },
+    "views_company_dashboard": {
+        "Inactive": "Inactive",
+        "Active": "Active",
+        "Companies list": "Companies list"
+    },
+    "views_schedule_dashboard": {
+        "Add schedule": "Add schedule",
+        "Schedule available 24/7": "Schedule available 24/7",
+        "Schedule available only at special hours": "Schedule available only at special hours",
+        "Schedule is not available for booking": "Schedule is not available for booking",
+        "min": "min",
+        "Title": "Title",
+        "Availability": "Availability",
+        "Booking duration": "Booking duration",
+        "Schedules list": "Schedules list"
     }
 }

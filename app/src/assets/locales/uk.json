@@ -145,7 +145,12 @@
         "Description:": "Опис:",
         "Enter description": "Введіть опис",
         "Successfully saved": "Успішно збережено",
-        "Time booking": "Бронювання часу"
+        "Time booking": "Бронювання часу",
+        "Name": "__STRING_NOT_TRANSLATED__",
+        "Created at": "__STRING_NOT_TRANSLATED__",
+        "Phone": "__STRING_NOT_TRANSLATED__",
+        "Status": "__STRING_NOT_TRANSLATED__",
+        "Id": "__STRING_NOT_TRANSLATED__"
     },
     "views_schedule": {
         "Name:": "Назва",
@@ -214,7 +219,9 @@
     },
     "layouts_dashboard": {
         "Dashboard": "__STRING_NOT_TRANSLATED__",
-        "Users": "__STRING_NOT_TRANSLATED__"
+        "Users": "__STRING_NOT_TRANSLATED__",
+        "Companies": "__STRING_NOT_TRANSLATED__",
+        "Schedules": "__STRING_NOT_TRANSLATED__"
     },
     "edit_user_dashboard": {
         "Full name:": "__STRING_NOT_TRANSLATED__",
@@ -239,5 +246,21 @@
         "This field must be at least {limit} characters long": "__STRING_NOT_TRANSLATED__",
         "This field should be the same as New password": "__STRING_NOT_TRANSLATED__",
         "Save": "__STRING_NOT_TRANSLATED__"
+    },
+    "views_company_dashboard": {
+        "Inactive": "__STRING_NOT_TRANSLATED__",
+        "Active": "__STRING_NOT_TRANSLATED__",
+        "Companies list": "__STRING_NOT_TRANSLATED__"
+    },
+    "views_schedule_dashboard": {
+        "Add schedule": "__STRING_NOT_TRANSLATED__",
+        "Schedule available 24/7": "__STRING_NOT_TRANSLATED__",
+        "Schedule available only at special hours": "__STRING_NOT_TRANSLATED__",
+        "Schedule is not available for booking": "__STRING_NOT_TRANSLATED__",
+        "min": "__STRING_NOT_TRANSLATED__",
+        "Title": "__STRING_NOT_TRANSLATED__",
+        "Availability": "__STRING_NOT_TRANSLATED__",
+        "Booking duration": "__STRING_NOT_TRANSLATED__",
+        "Schedules list": "__STRING_NOT_TRANSLATED__"
     }
 }
