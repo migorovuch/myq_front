@@ -14,7 +14,8 @@
         "Sign in form": "Форма входу",
         "Sign up form": "Форма реєстрації",
         "Reset password": "Скинути пароль",
-        "Account": "Аккаунт"
+        "Account": "Аккаунт",
+        "Admin panel": "__STRING_NOT_TRANSLATED__"
     },
     "views_auth": {
         "Sign in": "Увійти",
@@ -51,7 +52,9 @@
         "Enter your new password": "Введіть новий пароль",
         "Your phone:": "Ваш номер телефону:",
         "Successfully saved": "Успішно збережено",
-        "This field should be the same as New password": "Це поле повинно містити таке ж значення як і Новий пароль"
+        "This field should be the same as New password": "Це поле повинно містити таке ж значення як і Новий пароль",
+        "Your email": "__STRING_NOT_TRANSLATED__",
+        "After email change your account will be deactivated! A confirmation account email will be sent to you": "__STRING_NOT_TRANSLATED__"
     },
     "views_booking": {
         "User name": "Ім'я користувача",
@@ -76,8 +79,8 @@
         "Filter from": "Фільтр від",
         "Filter to": "Фільтр до",
         "Comment": "Коментар",
-        "Less filters": "Згорнути фільтрів",
-        "More filters": "Розгорнути фільтр",
+        "Less filters": "Менше",
+        "More filters": "Більше",
         "Reset filter": "Скинути фільтр",
         "List": "Список",
         "Calendar": "Календар",
@@ -110,7 +113,8 @@
         "Enter additional details": "Введіть додаткові деталі",
         "Booking successfully created": "Бронювання успішно створено",
         "You have no bookings or try to sign in!": "У вас немає бронювань або спробуйте увійти",
-        "Time start": "Час початку"
+        "Time start": "Час початку",
+        "Company": "__STRING_NOT_TRANSLATED__"
     },
     "views_client": {
         "Enter client pseudonym": "Введіть псевдонім клієнта",
@@ -221,7 +225,8 @@
         "Dashboard": "__STRING_NOT_TRANSLATED__",
         "Users": "__STRING_NOT_TRANSLATED__",
         "Companies": "__STRING_NOT_TRANSLATED__",
-        "Schedules": "__STRING_NOT_TRANSLATED__"
+        "Schedules": "__STRING_NOT_TRANSLATED__",
+        "Bookings": "__STRING_NOT_TRANSLATED__"
     },
     "edit_user_dashboard": {
         "Full name:": "__STRING_NOT_TRANSLATED__",
