@@ -27,7 +27,7 @@ export default {
   created() {
     if (this.isUserLogged()) {
       this.loadEvents({
-        filter: {sort: {start: 'DESC'}},
+        filter: {sort: {start: 'DESC'}, user: this.getUserData().id},
         successCallback: (data) => {
           this.items = data.data;
         }
@@ -62,6 +62,7 @@ export default {
   methods: {
     ...mapGetters('account', {
       isUserLogged: 'isUserLogged',
+      getUserData: 'getUserData'
     }),
     ...mapGetters('events', {
       getEventsList: 'getList',

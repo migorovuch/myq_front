@@ -78,6 +78,12 @@ export default {
               to: this.$router.resolve({name: 'dashboard_schedules'}).route.path,
               icon: 'cil-list',
             },
+            {
+              _name: 'CSidebarNavItem',
+              name: this.$t('layouts_dashboard.Bookings'),
+              to: this.$router.resolve({name: 'dashboard_bookings'}).route.path,
+              icon: 'cil-list',
+            },
           ]
         }
       ]
