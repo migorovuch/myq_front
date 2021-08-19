@@ -5,6 +5,9 @@
         @onFormSubmit="onSubmit"
     >
       <template v-slot:formFooter>
+        <div class="email-warning text-danger" v-if="originalEmail !== formModel.model.email">
+          {{$t("views_auth.After email change your account will be deactivated! A confirmation account email will be sent to you")}}
+        </div>
         <div class="text-right">
           <b-button type="submit" variant="success">{{$t("views_auth.Save")}}</b-button>
         </div>
@@ -28,8 +31,10 @@ export default {
   components: {AppForm},
   data() {
     return {
+      originalEmail: null,
       formModel: new AppFormModel(
           {
+            email:'',
             nickname:'',
             fullName:'',
             phone:'',
@@ -38,6 +43,15 @@ export default {
             repeatPassword:'',
           },
           {
+            email: new AppFormInput(
+                "text",
+                this.$t('views_auth.Email:'),
+                this.$t('views_auth.Your email'),
+                {
+                  required: this.$t('views_auth.This value should not be blank'),
+                },
+                {wrapClass: 'col-lg-3 col-sm-6'}
+            ),
             nickname: new AppFormInput(
                 "text",
                 this.$t('views_auth.Nickname:'),
@@ -45,7 +59,7 @@ export default {
                 {
                   required: this.$t('views_auth.This value should not be blank'),
                 },
-                {wrapClass: 'col-lg-4 col-sm-6'}
+                {wrapClass: 'col-lg-3 col-sm-6'}
             ),
             fullName: new AppFormInput(
                 "text",
@@ -54,7 +68,7 @@ export default {
                 {
                   required: this.$t('views_auth.This value should not be blank'),
                 },
-                {wrapClass: 'col-lg-4 col-sm-6'}
+                {wrapClass: 'col-lg-3 col-sm-6'}
             ),
             phone: new AppFormPhone(
                 "phone",
@@ -64,7 +78,7 @@ export default {
                   required: this.$t('views_auth.This value should not be blank'),
                   phone: this.$t('views_auth.Phone number is not valid'),
                 },
-                {wrapClass: 'col-lg-4 col-sm-6'}
+                {wrapClass: 'col-lg-3 col-sm-6'}
             ),
             password: new AppFormInput(
                 "password",
@@ -73,7 +87,7 @@ export default {
                 {
                   required: this.$t('views_auth.This value should not be blank'),
                 },
-                {wrapClass: 'col-lg-4 col-sm-6'}
+                {wrapClass: 'col-lg-3 col-sm-6'}
             ),
             newPassword: new AppFormInput(
                 "password",
@@ -83,7 +97,7 @@ export default {
                   required: this.$t('views_auth.This value should not be blank'),
                   minLength: this.$t('views_auth.This field must be at least {limit} characters long', {limit: minPasswordLength})
                 },
-                {wrapClass: 'col-lg-4 col-sm-6'}
+                {wrapClass: 'col-lg-3 col-sm-6'}
             ),
             repeatPassword: new AppFormInput(
                 "password",
@@ -94,10 +108,11 @@ export default {
                   minLength: this.$t('views_auth.This field must be at least {limit} characters long', {limit: minPasswordLength}),
                   sameAsPassword: this.$t('views_auth.This field should be the same as New password'),
                 },
-                {wrapClass: 'col-lg-4 col-sm-6'}
+                {wrapClass: 'col-lg-3 col-sm-6'}
             ),
           }, null, {
             model: {
+              email: {required},
               nickname: {required},
               fullName: {required},
               phone: {required},
@@ -120,6 +135,7 @@ export default {
   },
   created() {
     Object.assign(this.formModel.model, this.getUserData());
+    this.originalEmail = this.formModel.model.email;
   },
   methods: {
     ...mapGetters('account', {
@@ -129,11 +145,15 @@ export default {
     ...mapActions('account', {
       changeAccount: 'changeAccount',
     }),
+    changeEmail(value) {
+      this.warningMessage ='';
+    },
     onSubmit(formModel) {
       if (!formModel.errors.invalid) {
         this.changeAccount({
           data: formModel.model,
           successCallback: () => {
+
             this.$root.$bvToast.toast(this.$t('views_auth.Successfully saved'), {
               toaster: 'b-toaster-bottom-left',
               appendToast: true,

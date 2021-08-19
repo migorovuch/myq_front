@@ -24,7 +24,7 @@ export default class AccountApiProvider extends ApiProvider {
     }
 
     changeAccount(data, successCallback, failCallback) {
-        this.patch('api/account/', data, successCallback, failCallback);
+        this.put('api/account/', data, successCallback, failCallback);
     }
 
     emailConfirmAsync(id, token) {

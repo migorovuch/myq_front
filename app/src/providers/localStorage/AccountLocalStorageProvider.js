@@ -1,3 +1,5 @@
+import JWTHelper from "../../helpers/JWTHelper";
+
 export default class AccountLocalStorageProvider {
 
     getUserToken() {
@@ -5,7 +7,7 @@ export default class AccountLocalStorageProvider {
         if (userToken && userToken != 'null' && userToken != 'undefined') {
             //check token expiration time
             let currentTime = Math.floor(Date.now() / 1000);
-            let decodedUserToken = this.parseJwt(userToken);
+            let decodedUserToken = JWTHelper.parseJwt(userToken);
             if (currentTime < decodedUserToken.exp) {
                 return userToken;
             }
@@ -33,15 +35,5 @@ export default class AccountLocalStorageProvider {
 
     isUserLogged() {
         return null !== this.getUserToken();
-    }
-
-    parseJwt (token) {
-        let base64Url = token.split('.')[1];
-        let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(''));
-
-        return JSON.parse(jsonPayload);
     }
 }
