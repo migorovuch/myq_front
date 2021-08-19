@@ -46,6 +46,7 @@
           <CIcon name="cil-envelope-open"/>
         </CHeaderNavLink>
       </CHeaderNavItem>
+      <LanguageSelect />
       <TheHeaderDropdownAccnt/>
     </CHeaderNav>
     <CSubheader class="px-3">
@@ -59,10 +60,12 @@ import TheHeaderDropdownAccnt from './TheHeaderDropdownAccnt'
 import {CHeader, CToggler, CHeaderBrand, CHeaderNav, CHeaderNavItem, CHeaderNavLink, CIcon, CSubheader, CBreadcrumb} from '@coreui/vue';
 import {mapMutations, mapActions, mapGetters} from "vuex";
 import i18n from "../../../plugins/i18n";
+import LanguageSelect from "../../components/LanguageSelect";
 
 export default {
   name: 'TheHeader',
   components: {
+    LanguageSelect,
     TheHeaderDropdownAccnt,
     CHeader, CToggler, CHeaderBrand, CHeaderNav, CHeaderNavItem, CHeaderNavLink, CIcon, CSubheader, CBreadcrumb
   },
