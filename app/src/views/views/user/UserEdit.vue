@@ -37,7 +37,7 @@ export default {
             nickname: '',
             phone: '',
             roles: [],
-            password: '',
+            newPassword: '',
             passwordRepeat: '',
             status: 0,
           },
@@ -92,13 +92,12 @@ export default {
                 true,
                 2
             ),
-            password: new AppFormInput(
+            newPassword: new AppFormInput(
                 "password",
                 this.$t('edit_user_dashboard.New password:'),
                 this.$t('edit_user_dashboard.Enter new password'),
                 {
                   minLength: this.$t('edit_user_dashboard.This field must be at least {limit} characters long', {limit: minPasswordLength}),
-                  sameAsPassword: this.$t('edit_user_dashboard.This field should be the same as New password'),
                 },
                 {wrapClass: 'col-lg-3'}
             ),
@@ -108,7 +107,7 @@ export default {
                 this.$t('edit_user_dashboard.Repeat password'),
                 {
                   minLength: this.$t('edit_user_dashboard.This field must be at least {limit} characters long', {limit: minPasswordLength}),
-                  sameAsPassword: this.$t('edit_user_dashboard.This field should be the same as New password'),
+                  sameAsPassword: this.$t('edit_user_dashboard.This field should be the same as password'),
                 },
                 {wrapClass: 'col-lg-3'}
             ),
@@ -128,13 +127,13 @@ export default {
               fullName: {required,},
               nickname: {required,},
               email: {required, email},
-              password: {
-                required: requiredIf((model) => !model.password.isEmpty() || !model.passwordRepeat.isEmpty())
+              newPassword: {
+                required: requiredIf((model) => model.passwordRepeat && !model.passwordRepeat.isEmpty())
               },
               passwordRepeat: {
-                required: requiredIf((model) => !model.password.isEmpty() || !model.passwordRepeat.isEmpty()),
+                required: requiredIf((model) => (model.newPassword && !model.newPassword.isEmpty())),
                 minLength: minLength(minPasswordLength),
-                sameAsPassword: sameAs('password')
+                sameAsPassword: sameAs('newPassword')
               },
             }
           }
@@ -179,7 +178,7 @@ export default {
       if (!formModel.errors.invalid) {
         this.updateUser({
           id: this.userId,
-          data: this.formModel.model,
+          data: formModel.model,
           successCallback: () => {
             this.$root.$bvToast.toast(this.$t('view_user_dashboard.Successfully saved'), {
               toaster: 'b-toaster-bottom-left',
