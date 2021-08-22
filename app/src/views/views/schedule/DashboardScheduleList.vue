@@ -4,7 +4,7 @@
       <b-button
           type="submit"
           variant="success"
-          @click="$router.push({name: 'company_schedule_item', params: {id: 0}})">
+          @click="$router.push({name: 'dashboard_schedule_edit', params: {id: 0}})">
         <b-icon icon="calendar2-plus" aria-hidden="true"></b-icon>
         {{$t("views_schedule_dashboard.Add schedule")}}
       </b-button>

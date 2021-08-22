@@ -1,7 +1,6 @@
 {
     "layouts_main": {
         "Home": "Home",
-        "About": "About",
         "My bookings": "My bookings",
         "Company": "Company",
         "My Company": "My Company",
@@ -249,8 +248,8 @@
         "Active": "Active",
         "Roles:": "Roles:",
         "This field must be at least {limit} characters long": "This field must be at least {limit} characters long",
-        "This field should be the same as New password": "This field should be the same as New password",
-        "Save": "Save"
+        "Save": "Save",
+        "This field should be the same as password": "This field should be the same as password"
     },
     "views_company_dashboard": {
         "Inactive": "Inactive",

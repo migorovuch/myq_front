@@ -1,7 +1,6 @@
 {
     "layouts_main": {
         "Home": "Головна",
-        "About": "Про нас",
         "My bookings": "Мої Бронювання",
         "Company": "Компанія",
         "My Company": "Моя Компанія",
@@ -249,8 +248,8 @@
         "Active": "__STRING_NOT_TRANSLATED__",
         "Roles:": "__STRING_NOT_TRANSLATED__",
         "This field must be at least {limit} characters long": "__STRING_NOT_TRANSLATED__",
-        "This field should be the same as New password": "__STRING_NOT_TRANSLATED__",
-        "Save": "__STRING_NOT_TRANSLATED__"
+        "Save": "__STRING_NOT_TRANSLATED__",
+        "This field should be the same as password": "__STRING_NOT_TRANSLATED__"
     },
     "views_company_dashboard": {
         "Inactive": "__STRING_NOT_TRANSLATED__",
