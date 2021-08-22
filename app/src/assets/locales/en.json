@@ -126,7 +126,9 @@
         "Unapproved": "Unapproved",
         "Approved": "Approved",
         "Deactivated": "Deactivated",
-        "Successfully saved": "Successfully saved"
+        "Successfully saved": "Successfully saved",
+        "Per page": "Per page",
+        "Company": "Company"
     },
     "views_company": {
         "Save": "Save",
@@ -187,7 +189,8 @@
         "Booking duration": "Booking duration",
         "Select availability": "Select availability",
         "Save": "Save",
-        "min": "min"
+        "min": "min",
+        "New schedule": "New schedule"
     },
     "views_specialHours": {
         "Extended configuration": "Extended configuration",
@@ -225,7 +228,8 @@
         "Users": "Users",
         "Companies": "Companies",
         "Schedules": "Schedules",
-        "Bookings": "Bookings"
+        "Bookings": "Bookings",
+        "Clients": "Clients"
     },
     "edit_user_dashboard": {
         "Full name:": "Full name:",

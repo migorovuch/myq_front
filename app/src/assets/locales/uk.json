@@ -126,7 +126,9 @@
         "Approved": "Підтверджено",
         "Deactivated": "Деактивовано",
         "Successfully saved": "Успішно збережено",
-        "Name": "Ім'я"
+        "Name": "Ім'я",
+        "Per page": "__STRING_NOT_TRANSLATED__",
+        "Company": "__STRING_NOT_TRANSLATED__"
     },
     "views_company": {
         "Save": "Зберегти",
@@ -187,7 +189,8 @@
         "Booking duration": "Тривалість бронювання",
         "Select availability": "Обрати графік",
         "Save": "Зберегти",
-        "min": "мін"
+        "min": "мін",
+        "New schedule": "__STRING_NOT_TRANSLATED__"
     },
     "views_specialHours": {
         "Extended configuration": "Розширені налаштування",
@@ -225,7 +228,8 @@
         "Users": "__STRING_NOT_TRANSLATED__",
         "Companies": "__STRING_NOT_TRANSLATED__",
         "Schedules": "__STRING_NOT_TRANSLATED__",
-        "Bookings": "__STRING_NOT_TRANSLATED__"
+        "Bookings": "__STRING_NOT_TRANSLATED__",
+        "Clients": "__STRING_NOT_TRANSLATED__"
     },
     "edit_user_dashboard": {
         "Full name:": "__STRING_NOT_TRANSLATED__",

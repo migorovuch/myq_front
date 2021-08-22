@@ -24,6 +24,7 @@ const routes = [
       {path: 'schedules', name: 'dashboard_schedules', component: () => import('../../views/views/schedule/DashboardScheduleList'), meta: {middleware: [adminMiddleware]}},
       {path: 'schedules/:id', name: 'dashboard_schedule_edit', component: () => import('../../views/views/schedule/ScheduleForm'), meta: {middleware: [adminMiddleware]}},
       {path: 'bookings', name: 'dashboard_bookings', component: () => import('../../views/views/booking/DashboardBookings'), meta: {middleware: [adminMiddleware]}},
+      {path: 'clients', name: 'dashboard_clients', component: () => import('../../views/views/client/DashboardClientsList'), meta: {middleware: [adminMiddleware]}},
     ]
   },
   {
