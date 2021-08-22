@@ -4,7 +4,7 @@
       <b-button
           type="submit"
           variant="success"
-          @click="$router.push({name: 'company_schedule_item', params: {id: 0}})">
+          :to="{name: 'company_schedule_item', params: {id: 0}}">
         <b-icon icon="calendar2-plus" aria-hidden="true"></b-icon>
         {{$t("views_schedule.Add schedule")}}
       </b-button>

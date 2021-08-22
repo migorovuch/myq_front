@@ -18,9 +18,18 @@ export default class CompanyApiProvider extends ApiProvider {
         return this.asyncRequest('api/companies/my');
     }
 
-    getCompanyList(filter, successCallback, failCallback) {
+    getPublicCompanyList(filter, successCallback, failCallback) {
         this.get(
             'api/companies/search/app',
+            {filter:filter},
+            successCallback,
+            failCallback
+        );
+    }
+
+    getCompanyList(filter, successCallback, failCallback) {
+        this.get(
+            'api/companies/search/all',
             {filter:filter},
             successCallback,
             failCallback

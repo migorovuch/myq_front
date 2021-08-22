@@ -46,7 +46,7 @@
   import AppForm from "../../components/AppForm";
   import SpecialHoursForm from "../specialHours/SpecialHoursForm";
   import CompanyCalendar from "../../components/CompanyCalendar";
-  import {mapActions, mapGetters} from "vuex";
+  import {mapActions, mapGetters, mapMutations} from "vuex";
   import {required} from "vuelidate/lib/validators";
   import AppFormSelect from "../../../models/AppFormSelect";
   import Vue from 'vue'
@@ -58,6 +58,7 @@
       return {
         formModel: new AppFormModel(
             {
+              company: null,
               acceptBookingCondition: 0,
               available: false,
               bookingCondition: 0,
@@ -176,14 +177,37 @@
         this.loadSchedule({
           id: this.idSchedule,
           successCallback: (data) => {
+            data.company = data.company.id;
             Vue.set(this.formModel, 'model', data);
+            let breadcrumbItems = this.getBreadcrumbItems();
+            breadcrumbItems.push({text: data.name});
+            this.setBreadcrumbItems(breadcrumbItems);
           }
         });
+      } else if (this.getCompany()) {
+        let data = this.formModel.model;
+        data.company = this.getCompany().id;
+        Vue.set(this.formModel, 'model', data);
+        let breadcrumbItems = this.getBreadcrumbItems();
+        breadcrumbItems.push({text: this.$t('views_schedule.New schedule')});
+        this.setBreadcrumbItems(breadcrumbItems);
+      } else {
+        if (this.isAdmin()) {
+          this.$router.push({name: 'dashboard_companies'});
+        } else {
+          this.$router.push({name: 'my_company'});
+        }
       }
     },
     methods: {
+      ...mapGetters('account', {
+        isAdmin: 'isAdmin'
+      }),
       ...mapGetters('schedule', {
         getSchedule: 'getModel',
+      }),
+      ...mapGetters('company', {
+        getCompany: 'getModel',
       }),
       ...mapActions('schedule', {
         loadSchedule: 'loadMyOne',
@@ -195,6 +219,12 @@
       }),
       ...mapGetters('availability', {
         getCalendarCurrentView: 'getCalendarCurrentView'
+      }),
+      ...mapGetters('dashboard', {
+        getBreadcrumbItems: 'getBreadcrumbItems'
+      }),
+      ...mapMutations('dashboard', {
+        setBreadcrumbItems: 'setBreadcrumbItems',
       }),
       onSubmit(formModel) {
         if (this.idSchedule && this.idSchedule != 0) {
@@ -217,8 +247,13 @@
             data: formModel.model,
             successCallback: (data) => {
               this.idSchedule = data.id;
+              data.company = data.company.id;
               Vue.set(this.formModel, 'model', data);
-              this.$router.push({name: 'company_schedule_item', params: {id: data.id}})
+              if (this.isAdmin()) {
+                this.$router.push({name: 'dashboard_companies_edit', params: {id: data.company}})
+              } else {
+                this.$router.push({name: 'company_schedule_item', params: {id: data.id}})
+              }
               this.$root.$bvToast.toast(this.$t('views_schedule.Successfully saved'), {
                 toaster: 'b-toaster-bottom-left',
                 appendToast: true,

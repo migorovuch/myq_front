@@ -24,9 +24,12 @@ Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
 Vue.use(VueTelInput);
 
+import { cilList, cilBell, cilEnvelopeOpen } from '@coreui/icons'
+
 new Vue({
   i18n,
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
+  icons: {cilList, cilBell, cilEnvelopeOpen}
 }).$mount('#app')

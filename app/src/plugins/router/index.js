@@ -7,12 +7,26 @@ import middlewarePipeline from "./middlewarePipeline";
 import store from "../../store/store";
 import myCompanyMiddleware from "./myCompanyMiddleware";
 import approveEmailMiddleware from "./approveEmailMiddleware";
+import adminMiddleware from "./adminMiddleware";
 
 Vue.use(VueRouter)
 
 let supportedLocales = process.env.VUE_APP_I18N_SUPPORTED_LOCALE.split(',');
 
 const routes = [
+  {
+    path: '/:locale(' + supportedLocales.join('|')+')/dashboard', name: 'dashboard', component: () => import('../../views/layouts/dashboard/TheContainer'), children: [
+      {path: '', name: 'dashboard_home', component: () => import('../../views/views/DashboardHome.vue'), meta: {middleware: [adminMiddleware]}},
+      {path: 'users', name: 'dashboard_users', component: () => import('../../views/views/user/UsersList.vue'), meta: {middleware: [adminMiddleware]}},
+      {path: 'users/:id', name: 'dashboard_user_edit', component: () => import('../../views/views/user/UserEdit'), meta: {middleware: [adminMiddleware]}},
+      {path: 'companies', name: 'dashboard_companies', component: () => import('../../views/views/company/DashboardCompanyList'), meta: {middleware: [adminMiddleware]}},
+      {path: 'companies/:id', name: 'dashboard_companies_edit', component: () => import('../../views/views/company/DashboardCompanyEdit'), meta: {middleware: [adminMiddleware]}},
+      {path: 'schedules', name: 'dashboard_schedules', component: () => import('../../views/views/schedule/DashboardScheduleList'), meta: {middleware: [adminMiddleware]}},
+      {path: 'schedules/:id', name: 'dashboard_schedule_edit', component: () => import('../../views/views/schedule/ScheduleForm'), meta: {middleware: [adminMiddleware]}},
+      {path: 'bookings', name: 'dashboard_bookings', component: () => import('../../views/views/booking/DashboardBookings'), meta: {middleware: [adminMiddleware]}},
+      {path: 'clients', name: 'dashboard_clients', component: () => import('../../views/views/client/DashboardClientsList'), meta: {middleware: [adminMiddleware]}},
+    ]
+  },
   {
     path: '/:locale(' + supportedLocales.join('|')+')', name: 'root', component: BaseLayout, children: [
       {path: '', name: 'home', component: () => import('../../views/views/Home.vue')},
@@ -80,7 +94,7 @@ const routes = [
 
 const router = new VueRouter({
   routes
-})
+});
 
 let redirectToLang = (to, from, next) => {
   const newPath = '/' + i18n.locale + to.fullPath;

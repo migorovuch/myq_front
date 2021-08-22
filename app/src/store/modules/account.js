@@ -1,4 +1,5 @@
 import AccountApiProvider from "../../providers/api/AccountApiProvider";
+import JWTHelper from "../../helpers/JWTHelper";
 let accountApiProvider = new AccountApiProvider();
 
 export default {
@@ -6,6 +7,17 @@ export default {
     getters: {
         isUserLogged(state, getters, rootState, rootGetters) {
             return rootGetters.isUserLogged;
+        },
+        isAdmin(state, getters, rootState, rootGetters) {
+            if (rootGetters.isUserLogged) {
+                let token = rootGetters.getUserToken;
+                token = JWTHelper.parseJwt(token);
+                if (token.roles.includes("ROLE_ADMIN")) {
+                    return true;
+                }
+            }
+
+            return false;
         },
         getUserToken(state, getters, rootState, rootGetters) {
             return rootGetters.getUserToken;
@@ -30,7 +42,7 @@ export default {
             accountApiProvider.changeAccount(
                 data,
                 (response) => {
-                    context.commit('setUserData', response.data, { root: true })
+                    context.commit('setUserData', response, { root: true })
                     successCallback(response);
                 },
                 failCallback

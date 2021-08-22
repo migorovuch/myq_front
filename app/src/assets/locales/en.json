@@ -1,7 +1,6 @@
 {
     "layouts_main": {
         "Home": "Home",
-        "About": "About",
         "My bookings": "My bookings",
         "Company": "Company",
         "My Company": "My Company",
@@ -14,7 +13,8 @@
         "Sign in form": "Sign in form",
         "Sign up form": "Sign up form",
         "Reset password": "Reset password",
-        "Account": "Account"
+        "Account": "Account",
+        "Admin panel": "Admin panel"
     },
     "views_auth": {
         "Sign in": "Sign in",
@@ -51,7 +51,9 @@
         "Enter your new password": "Enter your new password",
         "Your phone:": "Your phone:",
         "Successfully saved": "Successfully saved",
-        "This field should be the same as New password": "This field should be the same as New password"
+        "This field should be the same as New password": "This field should be the same as New password",
+        "Your email": "Your email",
+        "After email change your account will be deactivated! A confirmation account email will be sent to you": "After email change your account will be deactivated! A confirmation account email will be sent to you"
     },
     "views_booking": {
         "User name": "User name",
@@ -110,7 +112,8 @@
         "Enter additional details": "Enter additional details",
         "Booking successfully created": "Booking successfully created",
         "You have no bookings or try to sign in!": "You have no bookings or try to sign in!",
-        "Time start": "Time start"
+        "Time start": "Time start",
+        "Company": "Company"
     },
     "views_client": {
         "Enter client pseudonym": "Enter client pseudonym",
@@ -123,7 +126,9 @@
         "Unapproved": "Unapproved",
         "Approved": "Approved",
         "Deactivated": "Deactivated",
-        "Successfully saved": "Successfully saved"
+        "Successfully saved": "Successfully saved",
+        "Per page": "Per page",
+        "Company": "Company"
     },
     "views_company": {
         "Save": "Save",
@@ -145,7 +150,12 @@
         "Description:": "Description:",
         "Enter description": "Enter description",
         "Successfully saved": "Successfully saved",
-        "Time booking": "Time booking"
+        "Time booking": "Time booking",
+        "Name": "Name",
+        "Created at": "Created at",
+        "Phone": "Phone",
+        "Status": "Status",
+        "Id": "Id"
     },
     "views_schedule": {
         "Name:": "Name:",
@@ -179,7 +189,8 @@
         "Booking duration": "Booking duration",
         "Select availability": "Select availability",
         "Save": "Save",
-        "min": "min"
+        "min": "min",
+        "New schedule": "New schedule"
     },
     "views_specialHours": {
         "Extended configuration": "Extended configuration",
@@ -197,5 +208,67 @@
         "Friday": "Friday",
         "Saturday": "Saturday",
         "Sunday": "Sunday"
+    },
+    "view_user_dashboard": {
+        "Hide": "Hide",
+        "Show": "Show",
+        "Email": "Email",
+        "Nickname": "Nickname",
+        "Created": "Created",
+        "Updated": "Updated",
+        "Inactive": "Inactive",
+        "Active": "Active",
+        "Roles": "Roles",
+        "Edit": "Edit",
+        "Users list": "Users list",
+        "Successfully saved": "Successfully saved"
+    },
+    "layouts_dashboard": {
+        "Dashboard": "Dashboard",
+        "Users": "Users",
+        "Companies": "Companies",
+        "Schedules": "Schedules",
+        "Bookings": "Bookings",
+        "Clients": "Clients"
+    },
+    "edit_user_dashboard": {
+        "Full name:": "Full name:",
+        "Enter company name": "Enter company name",
+        "This value should not be blank": "This value should not be blank",
+        "Email:": "Email:",
+        "Enter email": "Enter email",
+        "Value is not valid": "Value is not valid",
+        "Nickname:": "Nickname:",
+        "Enter nickname": "Enter nickname",
+        "Phone:": "Phone:",
+        "Phone number": "Phone number",
+        "Phone number is not valid": "Phone number is not valid",
+        "New password:": "New password:",
+        "Enter new password": "Enter new password",
+        "Repeat password:": "Repeat password:",
+        "Repeat password": "Repeat password",
+        "Status:": "Status:",
+        "Inactive": "Inactive",
+        "Active": "Active",
+        "Roles:": "Roles:",
+        "This field must be at least {limit} characters long": "This field must be at least {limit} characters long",
+        "Save": "Save",
+        "This field should be the same as password": "This field should be the same as password"
+    },
+    "views_company_dashboard": {
+        "Inactive": "Inactive",
+        "Active": "Active",
+        "Companies list": "Companies list"
+    },
+    "views_schedule_dashboard": {
+        "Add schedule": "Add schedule",
+        "Schedule available 24/7": "Schedule available 24/7",
+        "Schedule available only at special hours": "Schedule available only at special hours",
+        "Schedule is not available for booking": "Schedule is not available for booking",
+        "min": "min",
+        "Title": "Title",
+        "Availability": "Availability",
+        "Booking duration": "Booking duration",
+        "Schedules list": "Schedules list"
     }
 }

@@ -5,11 +5,11 @@
         @onFormSubmit="onSubmit"
         @onFormReset="onReset"
     >
-      <template v-slot:logo>
+      <template v-slot:logoFormModel>
 
         <b-form-group
             :id="'logo-input-group'"
-            :label="formModel.form.logo.label"
+            :label="formModel.form.logoFormModel.label"
             :label-for="'input-logo'"
             :key="'form-group-logo'"
         >
@@ -18,10 +18,10 @@
                 v-show="!previewUrl"
                 :id="'input-logo'"
                 accept="image/jpeg, image/png"
-                v-model="formModel.model.logo"
+                v-model="formModel.model.logoFormModel"
                 :class="('logo' in formModel.errors?'is-invalid':'')"
                 @change="loadPreview"
-                :placeholder="((formModel.form.logo.placeholder !== '')?formModel.form.logo.placeholder:formModel.form.logo.label)"
+                :placeholder="((formModel.form.logoFormModel.placeholder !== '')?formModel.form.logoFormModel.placeholder:formModel.form.logoFormModel.label)"
             ></b-form-file>
             <img v-if="previewUrl" class="w-100" :src="previewUrl" />
           </label>
@@ -47,21 +47,23 @@
 
   export default {
     name: "CompanyForm",
+    props: {
+      companyModel: Object
+    },
+    watch: {
+      companyModel (newValue) {
+        this.formModel.model = newValue;
+        if (!newValue.logoFormModel && typeof newValue.logo === 'string') {
+          this.previewUrl = process.env.VUE_APP_API_URL.replaceAll("'", '') + '/media/' + newValue.logo + '?' + Date.now();
+        }
+      }
+    },
     components: {AppForm},
     data: function() {
       return {
         previewUrl: null,
         formModel: new AppFormModel(
-            {
-              name: '',
-              email: '',
-              phone: '',
-              logo: [],
-              address: '',
-              addressLink: '',
-              description: '',
-              photos: [],
-            },
+            this.companyModel,
             {
               name: new AppFormInput(
                   "text",
@@ -91,13 +93,6 @@
                   },
                   {wrapClass: 'col-lg-3'}
               ),
-              logo: new AppFormInput(
-                  "file",
-                  this.$t('views_company.Logo:'),
-                  this.$t('views_company.Select logo'),
-                  {},
-                  {wrapClass: 'col-lg-3'}
-              ),
               address: new AppFormInput(
                   "text",
                   this.$t('views_company.Address:'),
@@ -109,6 +104,13 @@
                   "text",
                   this.$t('views_company.Address link:'),
                   this.$t('views_company.Enter address link'),
+                  {},
+                  {wrapClass: 'col-lg-3'}
+              ),
+              logoFormModel: new AppFormInput(
+                  "file",
+                  this.$t('views_company.Logo:'),
+                  this.$t('views_company.Select logo'),
                   {},
                   {wrapClass: 'col-lg-3'}
               ),
@@ -135,7 +137,6 @@
       ...mapActions('company', {
         createCompany: 'create',
         updateCompany: 'update',
-        loadMyCompany: 'loadMyCompany',
         uploadCompanyLogo: 'uploadLogo'
       }),
       ...mapActions('schedule', {
@@ -147,8 +148,10 @@
       },
       onSubmit(formModel) {
         if (!formModel.errors.invalid) {
-          let logo = formModel.model.logo;
-          formModel.model.logo = null;
+          let logo = formModel.model.logoFormModel;
+          if (logo && Object.keys(logo).length !== 0 && typeof logo !== 'string') {
+            formModel.model.logo = null;
+          }
           let successCallback = (data) => {
             if (logo && Object.keys(logo).length !== 0) {
               this.uploadCompanyLogo({
@@ -182,21 +185,7 @@
       }
     },
     mounted() {
-      this.loadMyCompany({
-        successCallback: (data) => {
-          if (Object.keys(data).length !== 0) {
-            if (data.logo) {
-              this.previewUrl = 'http://q.localhost/media/' + data.logo+'?'+Date.now();
-              data.logo = null;
-            }
-            this.formModel.model = Object.assign(this.formModel.model, data);
-            this.loadScheduleList({filter:{company: data.id}});
-          }
-        },
-        failCallback: (data) => {
-          // this.$router.push({ name: 'home' });
-        }
-      });
+
     },
   }
 </script>

@@ -1,47 +1,52 @@
 <template>
   <div>
-      <div class="row">
-        <div class="col-lg-4 col-xs-12" v-if="scheduleOptions.length>1">
-          <b-form-group :label="$t('views_booking.Schedule')">
-            <b-form-select :options="scheduleOptions || []" @change="changeSelectedSchedule" :model="filter.schedule" :value="filter.schedule"></b-form-select>
-          </b-form-group>
-        </div>
-        <div class="col-lg-4 col-xs-12">
-          <b-form-group :label="$t('views_booking.Filter from')">
-            <b-form-datepicker
-                v-model="filter.filterFrom"
-                @input="applyBookingsFilter"
-                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-            ></b-form-datepicker>
-          </b-form-group>
-        </div>
-        <div class="col-lg-4 col-xs-12">
-          <b-form-group :label="$t('views_booking.Filter to')">
-            <b-form-datepicker
-                v-model="filter.filterTo"
-                @input="applyBookingsFilter"
-                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-            ></b-form-datepicker>
-          </b-form-group>
-        </div>
+    <div class="row">
+      <div class="col-lg-3 col-xs-12">
+        <b-form-group :label="$t('views_booking.Schedule')">
+          <b-form-input type="text" v-model="filter.scheduleName" @change="applyBookingsFilter"/>
+        </b-form-group>
       </div>
-      <div class="row" v-if="moreFilters">
-        <div class="col-lg-4 col-xs-12">
-          <b-form-group :label="$t('views_booking.Title')">
-            <b-form-input type="text" v-model="filter.title" @change="applyBookingsFilter" />
-          </b-form-group>
-        </div>
-        <div class="col-lg-4 col-xs-12">
-          <b-form-group :label="$t('views_booking.User name')">
-            <b-form-input type="text" v-model="filter.userName" @change="applyBookingsFilter" />
-          </b-form-group>
-        </div>
-        <div class="col-lg-4 col-xs-12">
-          <b-form-group :label="$t('views_booking.Comment')">
-            <b-form-input type="text" v-model="filter.customerComment" @change="applyBookingsFilter"/>
-          </b-form-group>
-        </div>
+      <div class="col-lg-3 col-xs-12">
+        <b-form-group :label="$t('views_booking.Company')">
+          <b-form-input type="text" v-model="filter.companyName" @change="applyBookingsFilter"/>
+        </b-form-group>
       </div>
+      <div class="col-lg-3 col-xs-12">
+        <b-form-group :label="$t('views_booking.Filter from')">
+          <b-form-datepicker
+              v-model="filter.filterFrom"
+              @input="applyBookingsFilter"
+              :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+          ></b-form-datepicker>
+        </b-form-group>
+      </div>
+      <div class="col-lg-3 col-xs-12">
+        <b-form-group :label="$t('views_booking.Filter to')">
+          <b-form-datepicker
+              v-model="filter.filterTo"
+              @input="applyBookingsFilter"
+              :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+          ></b-form-datepicker>
+        </b-form-group>
+      </div>
+    </div>
+    <div class="row" v-if="moreFilters">
+      <div class="col-lg-4 col-xs-12">
+        <b-form-group :label="$t('views_booking.Title')">
+          <b-form-input type="text" v-model="filter.title" @change="applyBookingsFilter" />
+        </b-form-group>
+      </div>
+      <div class="col-lg-4 col-xs-12">
+        <b-form-group :label="$t('views_booking.User name')">
+          <b-form-input type="text" v-model="filter.userName" @change="applyBookingsFilter" />
+        </b-form-group>
+      </div>
+      <div class="col-lg-4 col-xs-12">
+        <b-form-group :label="$t('views_booking.Comment')">
+          <b-form-input type="text" v-model="filter.customerComment" @change="applyBookingsFilter"/>
+        </b-form-group>
+      </div>
+    </div>
     <div class="row form-group">
       <div class="col-8">
         <b-form-checkbox v-model="moreFilters" size="sm" button>
@@ -143,7 +148,7 @@ import CompanyCalendar from "../../components/CompanyCalendar";
 import BookingForm from "./BookingForm";
 
 export default {
-  name: "CompanyBookings",
+  name: "DashboardBookings",
   components: {BookingForm, CompanyCalendar, BookingsList},
   data() {
     let sortOptions = [
@@ -163,7 +168,9 @@ export default {
       selectedBooking: null,
       moreFilters: false,
       filter: {
+        companyName: null,
         company: null,
+        scheduleName: null,
         schedule: null,
         title: null,
         userName: null,
@@ -181,37 +188,11 @@ export default {
       totalRows: 100
     };
   },
-  computed: {
-    scheduleOptions() {
-      let options = [];
-      for (let schedule of this.getScheduleList()) {
-        options.push({value: schedule.id, text: schedule.name, selected: this.filter.schedule === schedule.id});
-      }
-
-      return options;
-    },
-  },
   created() {
     if (this.$route.query && 'client' in this.$route.query) {
       this.filter.client = this.$route.query.client;
     }
-    this.loadMyCompany({
-      successCallback: (company) => {
-        if (Object.keys(company).length !== 0) {
-          this.filter.company = company.id;
-          this.loadScheduleList({
-            filter: {company:company.id},
-            successCallback: (data) => {
-              if (data.length) {
-                this.filter.schedule = data[0].id;
-                this.selectSchedule(data[0]);
-                this.applyBookingsFilter();
-              }
-            }
-          });
-        }
-      }
-    });
+    this.applyBookingsFilter();
   },
   methods: {
     ...mapGetters('company', {
@@ -281,18 +262,6 @@ export default {
       };
 
       return filter;
-    },
-    changeSelectedSchedule(value) {
-      let eventSchedule = null;
-      for (let schedule of this.getScheduleList()) {
-        if (schedule.id === value) {
-          eventSchedule = schedule;
-          break;
-        }
-      }
-      this.selectSchedule(eventSchedule);
-      this.filter.schedule = value;
-      this.applyBookingsFilter();
     },
     applyBookingsFilter() {
       this.loadEvents({

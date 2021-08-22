@@ -57,6 +57,8 @@
                           v-else-if="input.type==='select'"
                           v-model="appFormModel.model[inputName]"
                           :class="(inputName in formModel.errors?'is-invalid':'')"
+                          :multiple="input.multiple"
+                          :select-size="input.selectSize"
                           :options="input.options"
                       ></b-form-select>
                       <vue-tel-input

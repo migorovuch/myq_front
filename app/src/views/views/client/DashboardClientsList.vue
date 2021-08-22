@@ -1,17 +1,22 @@
 <template>
   <div>
     <div class="row">
-      <div class="col-lg-4 col-sm-6 col-xs-12">
+      <div class="col-lg-3 col-sm-6 col-xs-12">
         <b-form-group :label="$t('views_client.Name')">
           <b-form-input type="text" v-model="filter.name" @change="applyListFilter" />
         </b-form-group>
       </div>
-      <div class="col-lg-4 col-sm-6 col-xs-12">
+      <div class="col-lg-3 col-sm-6 col-xs-12">
         <b-form-group :label="$t('views_client.Phone')">
           <b-form-input type="text" v-model="filter.phone" @change="applyListFilter" />
         </b-form-group>
       </div>
-      <div class="col-lg-4 col-sm-6 col-xs-12">
+      <div class="col-lg-3 col-sm-6 col-xs-12">
+        <b-form-group :label="$t('views_client.Company')">
+          <b-form-input type="text" v-model="filter.companyName" @change="applyListFilter"/>
+        </b-form-group>
+      </div>
+      <div class="col-lg-3 col-sm-6 col-xs-12">
         <b-form-group :label="$t('views_client.Status')">
           <b-form-select :options="statusOptions" @change="changeStatusFilter" :model="filter.status" :value="filter.status"></b-form-select>
         </b-form-group>
@@ -28,6 +33,9 @@
       </template>
       <template #cell(phone)="data">
         <a :href="'tel:'+data.item.phone">{{ data.item.phone }}</a>
+      </template>
+      <template #cell(company)="data">
+        <router-link :to="{name:'dashboard_companies_edit', params: {id:data.item.company.id}}">{{ data.item.company.name }}</router-link>
       </template>
       <template #cell(name)="data">
         <span v-if="data.item.name === data.item.pseudonym || !data.item.pseudonym || (data.item.pseudonym && !data.item.pseudonym.trim())">{{data.item.name}}</span>
@@ -46,7 +54,7 @@
             </b-input-group>
           </div>
           <div class="col-12 col-sm-4 pb-3 pb-sm-0 pt-3 pt-sm-2">
-            <router-link :to="{name: 'company_bookings', query:{client: row.item.id}}">
+            <router-link :to="{name: 'dashboard_bookings', query:{client: row.item.id}}">
               {{$t("views_client.Number of bookings")+': '+row.item.numberOfBookings}}
             </router-link>
           </div>
@@ -102,28 +110,22 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 import Vue from "vue";
 
 export default {
-  name: "ClientsList",
+  name: "DashboardClientsList",
   created() {
-    this.loadMyCompany({
-      successCallback: (company) => {
-        if (Object.keys(company).length !== 0) {
-          this.filter.company = company.id;
-          this.applyListFilter();
-        }
-      }
-    });
+    this.applyListFilter();
   },
   data() {
     return {
       tableFields: [
         {key: 'name', label: this.$t('views_client.Name')},
-        {key: 'Phone', label: this.$t('views_client.Phone')},
+        {key: 'phone', label: this.$t('views_client.Phone')},
+        {key: 'company', label: this.$t('views_client.Company')},
         {key: 'status', label: this.$t('views_client.Status')}
       ],
       filter: {
         name: '',
         phone: '',
-        company: '',
+        companyName: '',
         status: '',
       },
       statusOptions: [
@@ -140,12 +142,6 @@ export default {
     };
   },
   methods: {
-    ...mapGetters('company', {
-      getCompany: 'getModel'
-    }),
-    ...mapActions('company', {
-      loadMyCompany: 'loadMyCompany',
-    }),
     ...mapGetters('client', {
       getClients: 'getList'
     }),
@@ -173,10 +169,6 @@ export default {
 
       return labels[status];
     },
-    changeStatusFilter(value) {
-      this.filter.status = value;
-      this.applyListFilter();
-    },
     rowClicked(item, index, event) {
       Vue.set(item, '_showDetails', !item._showDetails);
       this.$emit('row-clicked',item, index, event);
@@ -200,12 +192,14 @@ export default {
         }
       })
     },
+    changeStatusFilter(value) {
+      this.filter.status = value;
+      this.applyListFilter();
+    },
     applyListFilter() {
-      let filter = {
-        company: this.filter.company
-      };
+      let filter = {};
       for (let filterKey in this.filter) {
-        if (this.filter[filterKey] && this.filter[filterKey] !== '' && filterKey !== 'status' && filterKey !== 'company') {
+        if (this.filter[filterKey] && this.filter[filterKey] != '' && filterKey !== 'status') {
           filter[filterKey] = '%' + this.filter[filterKey] + '%';
         }
       }
