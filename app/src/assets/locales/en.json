@@ -155,7 +155,10 @@
         "Created at": "Created at",
         "Phone": "Phone",
         "Status": "Status",
-        "Id": "Id"
+        "Id": "Id",
+        "Access token": "Access token",
+        "Copy access token": "Copy access token",
+        "Access token copied to clipboard": "Access token copied to clipboard"
     },
     "views_schedule": {
         "Name:": "Name:",

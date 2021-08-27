@@ -155,7 +155,10 @@
         "Created at": "__STRING_NOT_TRANSLATED__",
         "Phone": "__STRING_NOT_TRANSLATED__",
         "Status": "__STRING_NOT_TRANSLATED__",
-        "Id": "__STRING_NOT_TRANSLATED__"
+        "Id": "__STRING_NOT_TRANSLATED__",
+        "Access token": "__STRING_NOT_TRANSLATED__",
+        "Copy access token": "__STRING_NOT_TRANSLATED__",
+        "Access token copied to clipboard": "__STRING_NOT_TRANSLATED__"
     },
     "views_schedule": {
         "Name:": "Назва",
