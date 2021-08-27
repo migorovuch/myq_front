@@ -358,19 +358,7 @@ export default {
       let start = new Date(formModel.model.startDate + ' ' + formModel.model.startTime);
       let end = new Date(formModel.model.startDate + ' ' + formModel.model.endTime);
       let duration = (end.valueOf() - start.valueOf()) / 60000;
-      if (
-          formModel.model.duration !== duration &&
-          !(
-              (
-                  formModel.model.schedule.bookingDuration &&
-                  formModel.model.schedule.bookingDuration === duration
-              ) ||
-              (
-                  formModel.model.schedule.minBookingTime <= duration &&
-                  formModel.model.schedule.maxBookingTime >= duration
-              )
-          )
-      ) {
+      if (end.valueOf() < start.valueOf()) {
         formModel.errors.endTime = this.$t('views_booking.Booking duration is not valid');
         formModel.errors.invalid = true;
         return;

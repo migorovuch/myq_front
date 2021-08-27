@@ -165,6 +165,8 @@
               autoHideDelay: 4000
             });
           };
+          formModel.model.timezoneoffset = new Date().getTimezoneOffset() * 60;
+          formModel.model.timezoneoffset = formModel.model.timezoneoffset * -1;
           if (!this.getCompany()) {
             this.createCompany({
               data: formModel.model,
