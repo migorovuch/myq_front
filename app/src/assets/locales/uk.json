@@ -193,7 +193,8 @@
         "Select availability": "Обрати графік",
         "Save": "Зберегти",
         "min": "мін",
-        "New schedule": "__STRING_NOT_TRANSLATED__"
+        "New schedule": "__STRING_NOT_TRANSLATED__",
+        "Defined duration": "__STRING_NOT_TRANSLATED__"
     },
     "views_specialHours": {
         "Extended configuration": "Розширені налаштування",

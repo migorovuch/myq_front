@@ -23,6 +23,72 @@
           </div>
         </div>
       </template>
+      <template v-slot:bookingDuration>
+        <div class="row">
+          <div :class="(definedDuration ? 'col-sm-6' : 'col-sm-12')+' col-12 col-lg-3 mt-2 pt-lg-4 '">
+            <input
+                type="checkbox"
+                id="input-defined-duration"
+                class="apple-switch"
+                min="0"
+                :key="'form-checkbox-available'"
+                v-model="definedDuration"/>
+            <label for="input-defined-duration">{{ $t('views_schedule.Defined duration') }}</label>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3" v-if="definedDuration">
+            <b-form-group
+                id="bookingDuration-input-group"
+                :label="formModel.form.bookingDuration.label"
+                label-for="input-bookingDuration"
+            >
+              <b-form-input
+                  id="input-bookingDuration"
+                  v-model="formModel.model.bookingDuration"
+                  :type="formModel.form.bookingDuration.type"
+                  min="0"
+                  :class="('bookingDuration' in formModel.errors?'is-invalid':'')"
+                  :placeholder="((formModel.form.bookingDuration.placeholder !== '')?formModel.form.bookingDuration.placeholder:formModel.form.bookingDuration.label)"
+              ></b-form-input>
+              <div class="invalid-feedback" v-if="('bookingDuration' in formModel.errors)">{{formModel.errors.bookingDuration}}</div>
+            </b-form-group>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3" v-if="!definedDuration">
+            <b-form-group
+                id="minBookingTime-input-group"
+                :label="formModel.form.minBookingTime.label"
+                label-for="input-minBookingTime"
+            >
+              <b-form-input
+                  id="input-minBookingTime"
+                  v-model="formModel.model.minBookingTime"
+                  :type="formModel.form.minBookingTime.type"
+                  min="0"
+                  :class="('minBookingTime' in formModel.errors?'is-invalid':'')"
+                  :placeholder="((formModel.form.minBookingTime.placeholder !== '')?formModel.form.minBookingTime.placeholder:formModel.form.minBookingTime.label)"
+              ></b-form-input>
+              <div class="invalid-feedback" v-if="('minBookingTime' in formModel.errors)">{{formModel.errors.minBookingTime}}</div>
+            </b-form-group>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3" v-if="!definedDuration">
+            <b-form-group
+                id="maxBookingTime-input-group"
+                :label="formModel.form.maxBookingTime.label"
+                label-for="input-maxBookingTime"
+            >
+              <b-form-input
+                  id="input-maxBookingTime"
+                  v-model="formModel.model.maxBookingTime"
+                  :type="formModel.form.maxBookingTime.type"
+                  :class="('maxBookingTime' in formModel.errors?'is-invalid':'')"
+                  :placeholder="((formModel.form.maxBookingTime.placeholder !== '')?formModel.form.maxBookingTime.placeholder:formModel.form.maxBookingTime.label)"
+              ></b-form-input>
+              <div class="invalid-feedback" v-if="('maxBookingTime' in formModel.errors)">{{formModel.errors.maxBookingTime}}</div>
+            </b-form-group>
+          </div>
+        </div>
+      </template>
+      <template v-slot:minBookingTime></template>
+      <template v-slot:maxBookingTime></template>
       <template v-slot:formFooter>
         <div class="form-group text-right">
           <b-button type="submit" variant="success">{{$t("views_schedule.Save")}}</b-button>
@@ -56,6 +122,7 @@
     components: {AppForm, CompanyCalendar, SpecialHoursForm},
     data() {
       return {
+        definedDuration: true,
         formModel: new AppFormModel(
             {
               company: null,
@@ -100,21 +167,21 @@
                   this.$t('views_schedule.Booking duration:'),
                   'seconds',
                   {},
-                  {wrapClass: 'col-lg-3'}
+                  {wrapClass: 'col-lg-12'}
               ),
               minBookingTime: new AppFormInput(
                   "number",
                   this.$t('views_schedule.Min Booking time:'),
                   'seconds',
                   {},
-                  {wrapClass: 'col-lg-3'}
+                  {wrapClass: 'd-none'}
               ),
               maxBookingTime: new AppFormInput(
                   "number",
                   this.$t('views_schedule.Max Booking time:'),
                   'seconds',
                   {},
-                  {wrapClass: 'col-lg-3'}
+                  {wrapClass: 'd-none'}
               ),
               bookingCondition: new AppFormSelect(
                   "select",
@@ -177,6 +244,7 @@
         this.loadSchedule({
           id: this.idSchedule,
           successCallback: (data) => {
+            this.definedDuration = data.bookingDuration !== 0 && data.bookingDuration > 0 && data.maxBookingTime > data.minBookingTime;
             data.company = data.company.id;
             Vue.set(this.formModel, 'model', data);
             let breadcrumbItems = this.getBreadcrumbItems();
