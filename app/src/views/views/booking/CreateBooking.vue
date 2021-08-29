@@ -82,6 +82,7 @@ export default {
               required: this.$t('views_booking.This value should not be blank'),
             },
             null,
+            null,
             durationOptions
         );
         this.formModel.model.duration = minDuration;

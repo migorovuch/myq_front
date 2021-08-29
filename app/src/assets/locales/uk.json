@@ -158,17 +158,15 @@
         "Id": "__STRING_NOT_TRANSLATED__",
         "Access token": "__STRING_NOT_TRANSLATED__",
         "Copy access token": "__STRING_NOT_TRANSLATED__",
-        "Access token copied to clipboard": "__STRING_NOT_TRANSLATED__"
+        "Access token copied to clipboard": "__STRING_NOT_TRANSLATED__",
+        "Google map link": "__STRING_NOT_TRANSLATED__"
     },
     "views_schedule": {
         "Name:": "Назва",
         "Enter name": "Введіть назву",
         "This value should not be blank": "Це значення не повинно бути порожнім",
         "Available for booking:": "Доступний для бронювання",
-        "Always availabl(24/7):": "Доступний завжди(24/7)",
         "Booking duration:": "Тривалість бронювання:",
-        "Min Booking time:": "Мін. тривалість бронювання:",
-        "Max Booking time:": "Макс. тривалість бронювання:",
         "Booking condition:": "Умова бронювання:",
         "All users": "Усі користувачі",
         "Authorized only": "Тільки для авторизованих",
@@ -194,7 +192,20 @@
         "Save": "Зберегти",
         "min": "мін",
         "New schedule": "__STRING_NOT_TRANSLATED__",
-        "Defined duration": "__STRING_NOT_TRANSLATED__"
+        "Defined duration": "__STRING_NOT_TRANSLATED__",
+        "Preset specific booking duration or customer can select duration themself": "__STRING_NOT_TRANSLATED__",
+        "Disable or enable schedule": "__STRING_NOT_TRANSLATED__",
+        "Always available(24/7):": "__STRING_NOT_TRANSLATED__",
+        "Always available or only at special hours": "__STRING_NOT_TRANSLATED__",
+        "Booking duration in minutes": "__STRING_NOT_TRANSLATED__",
+        "Min Booking duration:": "__STRING_NOT_TRANSLATED__",
+        "Min booking duration in minutes": "__STRING_NOT_TRANSLATED__",
+        "Max Booking duration:": "__STRING_NOT_TRANSLATED__",
+        "Max booking duration in minutes": "__STRING_NOT_TRANSLATED__",
+        "Who can book your time": "__STRING_NOT_TRANSLATED__",
+        "Default booking status": "__STRING_NOT_TRANSLATED__",
+        "Advance booking in minutes": "__STRING_NOT_TRANSLATED__",
+        "Time between bookings in minutes": "__STRING_NOT_TRANSLATED__"
     },
     "views_specialHours": {
         "Extended configuration": "Розширені налаштування",
@@ -211,7 +222,11 @@
         "Thursday": "Четвер",
         "Friday": "П'ятниця",
         "Saturday": "Субота",
-        "Sunday": "Неділя"
+        "Sunday": "Неділя",
+        "The schedule is relevant in this period": "__STRING_NOT_TRANSLATED__",
+        "Remove special hours item": "__STRING_NOT_TRANSLATED__",
+        "Remove time range": "__STRING_NOT_TRANSLATED__",
+        "Add time range": "__STRING_NOT_TRANSLATED__"
     },
     "view_user_dashboard": {
         "Hide": "__STRING_NOT_TRANSLATED__",

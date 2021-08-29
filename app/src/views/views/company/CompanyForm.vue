@@ -128,7 +128,8 @@
                   this.$t('views_company.Address link:'),
                   this.$t('views_company.Enter address link'),
                   {},
-                  {wrapClass: 'col-lg-3'}
+                  {wrapClass: 'col-lg-3'},
+                  this.$t('views_company.Google map link'),
               ),
               logoFormModel: new AppFormInput(
                   "file",

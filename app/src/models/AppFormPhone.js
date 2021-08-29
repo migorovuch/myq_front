@@ -18,8 +18,8 @@ export default class AppFormPhone extends AppFormInput{
     };
     phoneObject = {};
 
-    constructor(type, label, placeholder, errorLabels, style, phoneProps = {}, phoneObject = {}) {
-        super(type, label, placeholder, errorLabels, style);
+    constructor(type, label, placeholder, errorLabels, style, title, phoneProps = {}, phoneObject = {}) {
+        super(type, label, placeholder, errorLabels, style, title);
         Object.assign(this.phoneProps, phoneProps);
     }
 }

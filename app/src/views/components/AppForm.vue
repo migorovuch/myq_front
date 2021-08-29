@@ -56,6 +56,7 @@
                       <b-form-select
                           v-else-if="input.type==='select'"
                           v-model="appFormModel.model[inputName]"
+                          :id="'input-'+inputName"
                           :class="(inputName in formModel.errors?'is-invalid':'')"
                           :multiple="input.multiple"
                           :select-size="input.selectSize"
@@ -64,6 +65,7 @@
                       <vue-tel-input
                           v-else-if="input.type==='phone'"
                           v-bind="input.phoneProps"
+                          :id="'input-'+inputName"
                           v-model="appFormModel.model[inputName]"
                           :class="(inputName in formModel.errors?'is-invalid':'')"
                           @validate="(phoneObject) => {input.phoneObject = phoneObject}"
@@ -84,6 +86,9 @@
                               :placeholder="((input.placeholder !== '')?input.placeholder:input.label)"
                       ></b-form-input>
                       <div class="invalid-feedback" v-if="(inputName in appFormModel.errors)">{{appFormModel.errors[inputName]}}</div>
+                      <b-tooltip v-if="input.title" :target="'input-'+inputName" triggers="hover">
+                        {{input.title}}
+                      </b-tooltip>
                   </b-form-group>
                 </slot>
               </div>

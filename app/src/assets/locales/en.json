@@ -158,17 +158,15 @@
         "Id": "Id",
         "Access token": "Access token",
         "Copy access token": "Copy access token",
-        "Access token copied to clipboard": "Access token copied to clipboard"
+        "Access token copied to clipboard": "Access token copied to clipboard",
+        "Google map link": "Google map link"
     },
     "views_schedule": {
         "Name:": "Name:",
         "Enter name": "Enter name",
         "This value should not be blank": "This value should not be blank",
         "Available for booking:": "Available for booking:",
-        "Always availabl(24/7):": "Always availabl(24/7):",
         "Booking duration:": "Booking duration:",
-        "Min Booking time:": "Min Booking time:",
-        "Max Booking time:": "Max Booking time:",
         "Booking condition:": "Booking condition:",
         "All users": "All users",
         "Authorized only": "Authorized only",
@@ -194,7 +192,20 @@
         "Save": "Save",
         "min": "min",
         "New schedule": "New schedule",
-        "Defined duration": "Defined duration"
+        "Defined duration": "Defined duration",
+        "Preset specific booking duration or customer can select duration themself": "Preset specific booking duration or customer can select duration themself",
+        "Disable or enable schedule": "Disable or enable schedule",
+        "Always available(24/7):": "Always available(24/7):",
+        "Always available or only at special hours": "Always available or only at special hours",
+        "Booking duration in minutes": "Booking duration in minutes",
+        "Min Booking duration:": "Min Booking duration:",
+        "Min booking duration in minutes": "Min booking duration in minutes",
+        "Max Booking duration:": "Max Booking duration:",
+        "Max booking duration in minutes": "Max booking duration in minutes",
+        "Who can book your time": "Who can book your time",
+        "Default booking status": "Default booking status",
+        "Advance booking in minutes": "Advance booking in minutes",
+        "Time between bookings in minutes": "Time between bookings in minutes"
     },
     "views_specialHours": {
         "Extended configuration": "Extended configuration",
@@ -211,7 +222,11 @@
         "Thursday": "Thursday",
         "Friday": "Friday",
         "Saturday": "Saturday",
-        "Sunday": "Sunday"
+        "Sunday": "Sunday",
+        "The schedule is relevant in this period": "The schedule is relevant in this period",
+        "Remove special hours item": "Remove special hours item",
+        "Remove time range": "Remove time range",
+        "Add time range": "Add time range"
     },
     "view_user_dashboard": {
         "Hide": "Hide",

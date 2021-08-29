@@ -85,6 +85,7 @@ export default {
                 null,
                 {},
                 {wrapClass: 'col-lg-3'},
+                null,
                 {
                   'ROLE_USER': 'User',
                   'ROLE_ADMIN': 'Admin',
@@ -117,6 +118,7 @@ export default {
                 null,
                 {},
                 {wrapClass: 'col-lg-3'},
+                null,
                 {
                   0: this.$t('edit_user_dashboard.Inactive'),
                   1: this.$t('edit_user_dashboard.Active'),
