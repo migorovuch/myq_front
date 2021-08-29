@@ -37,9 +37,6 @@ export default {
     TheHeaderDropdownAccnt,
     CHeader, CToggler, CHeaderBrand, CHeaderNav, CHeaderNavItem, CHeaderNavLink, CIcon, CSubheader, CBreadcrumb
   },
-  created() {
-    i18n.locale = 'en';
-  },
   methods: {
 
     ...mapMutations('dashboard', {

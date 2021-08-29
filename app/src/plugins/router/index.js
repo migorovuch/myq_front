@@ -82,13 +82,13 @@ const routes = [
           middleware: [
             authMiddleware
           ]
-        }},
-      {
-        path: '*',
-        name:'404',
-        // component: Components.Error404
-      }
+        }}
     ]
+  },
+  {
+    path: '*',
+    name:'404',
+    component: () => import('../../views/views/404')
   }
 ];
 

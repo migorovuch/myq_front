@@ -21,6 +21,7 @@ export default {
     changeLang(selectedLang) {
       this.$i18n.locale = selectedLang;
       this.$router.replace({params: {locale: this.$i18n.locale}});
+      this.$router.go();
     }
   }
 }

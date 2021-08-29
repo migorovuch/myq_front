@@ -69,6 +69,18 @@
           showResetPassword: false,
         };
       },
+      computed: {
+        userLogged () {
+          return this.isUserLogged();
+        },
+      },
+      watch: {
+        userLogged (newValue) {
+          if (!newValue) {
+            this.showLoginForm();
+          }
+        }
+      },
       methods: {
         ...mapActions('account', {
           logout: 'logout'

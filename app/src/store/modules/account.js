@@ -4,7 +4,11 @@ let accountApiProvider = new AccountApiProvider();
 
 export default {
     namespaced: true,
+    state: {
+        afterLoginActions: [],
+    },
     getters: {
+        getAfterLoginActions: state => state.afterLoginActions,
         isUserLogged(state, getters, rootState, rootGetters) {
             return rootGetters.isUserLogged;
         },
@@ -61,4 +65,12 @@ export default {
             accountApiProvider.resetPassword(data, successCallback, failCallback);
         },
     },
+    mutations: {
+        addAfterLoginActions(state, payload) {
+            state.afterLoginActions.push(payload);
+        },
+        resetAfterLoginActions(state) {
+            state.afterLoginActions = [];
+        },
+    }
 };
