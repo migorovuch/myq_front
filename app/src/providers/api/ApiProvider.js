@@ -72,7 +72,7 @@ export default class ApiProvider {
                         });
                     }
                     if (typeof failCallback === "function") {
-                        response.json().then(data => {failCallback(this.camelObjectKeys(data))});
+                        response.json().then(data => {failCallback(this.camelObjectKeys(data), response.status)});
                     }
                 }
                 store.commit('loader/endLoading');

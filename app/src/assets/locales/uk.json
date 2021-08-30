@@ -159,7 +159,11 @@
         "Access token": "__STRING_NOT_TRANSLATED__",
         "Copy access token": "__STRING_NOT_TRANSLATED__",
         "Access token copied to clipboard": "__STRING_NOT_TRANSLATED__",
-        "Google map link": "__STRING_NOT_TRANSLATED__"
+        "Google map link": "__STRING_NOT_TRANSLATED__",
+        "Account misunderstanding": "__STRING_NOT_TRANSLATED__",
+        "Looks like you already have an account! Do you want to login and continue as existing user or book as new client?": "__STRING_NOT_TRANSLATED__",
+        "Sign in": "__STRING_NOT_TRANSLATED__",
+        "Continue as new client": "__STRING_NOT_TRANSLATED__"
     },
     "views_schedule": {
         "Name:": "Назва",

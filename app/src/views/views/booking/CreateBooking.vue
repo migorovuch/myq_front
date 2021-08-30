@@ -96,12 +96,23 @@ export default {
         this.formModel.model.startTime = this.bookingStart.sformat('HH:MM');
       }
     }
-    let clientId = clientLocalStorageProvider.getClientId();
-    if (clientId) {
-      clientApiProvider.getClient(clientId, (data) => {
-        this.formModel.model.userName = data.name;
-        this.formModel.model.userPhone = data.phone;
-      })
+    if (this.isUserLogged()) {
+      this.formModel.model.userName = this.getUserData().fullName;
+      this.formModel.model.userPhone = this.getUserData().phone;
+    } else {
+      let clientId = clientLocalStorageProvider.getCompanyClientId(this.getCompany().id);
+      if (clientId) {
+        clientApiProvider.getClient(
+            clientId,
+            (data) => {
+              this.formModel.model.userName = data.name;
+              this.formModel.model.userPhone = data.phone;
+            },
+            (data) => {
+              this.$emit('existing-client-exception', data);
+            }
+        )
+      }
     }
   },
   data: function () {
@@ -253,16 +264,19 @@ export default {
         let end = new Date(start.getTime() + bookingFormModel.model.duration * 60000);
         bookingFormModel.model.start = start.timestamp();
         bookingFormModel.model.end = end.timestamp();
-        let clientId = clientLocalStorageProvider.getClientId();
-        if (clientId) {
-          bookingFormModel.model.client = clientId;
+
+        if (!this.isUserLogged()) {
+          let clientId = clientLocalStorageProvider.getCompanyClientId(this.getCompany().id);
+          if (clientId) {
+            bookingFormModel.model.client = clientId;
+          }
         }
 
         this.createEvent({
           data: bookingFormModel.model,
           successCallback: (data) => {
             eventsLocalStorageProvider.addMyEvent(data);
-            clientLocalStorageProvider.setClientId(data.client.id);
+            clientLocalStorageProvider.setClientId(this.getCompany().id, data.client.id);
             this.$emit('onFormSubmit', data);
             this.$root.$bvToast.toast(this.$t('views_booking.Booking successfully created'), {
               toaster: 'b-toaster-bottom-left',
@@ -271,16 +285,20 @@ export default {
             });
             this.$root.$emit('bv::hide::modal', 'modal-booking');
           },
-          failCallback: (data) => {
-            if ('errors' in data) {
-              for (let error of data.errors) {
-                if (error.source === 'start') {
-                  data.errors.push({source: 'startDate', title: error.title});
-                  data.errors.push({source: 'startTime', title: error.title});
+          failCallback: (data, statusCode) => {
+            if (statusCode === 403 && !this.isUserLogged()) {
+              this.$emit('existing-client-exception', data);
+            } else {
+              if ('errors' in data) {
+                for (let error of data.errors) {
+                  if (error.source === 'start') {
+                    data.errors.push({source: 'startDate', title: error.title});
+                    data.errors.push({source: 'startTime', title: error.title});
+                  }
                 }
               }
+              bookingFormModel.handleResponseErrors(data);
             }
-            bookingFormModel.handleResponseErrors(data);
           }
         });
       }
