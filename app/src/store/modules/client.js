@@ -42,6 +42,9 @@ export default {
         },
         change(context, {id, data, successCallback, failCallback}) {
             clientApiProvider.change(id, data, successCallback, failCallback);
+        },
+        updateClients(context, {data, successCallback, failCallback}) {
+            clientApiProvider.updateClients({'clients': data}, successCallback, failCallback);
         }
     },
     mutations: {

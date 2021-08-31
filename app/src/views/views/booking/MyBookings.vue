@@ -33,10 +33,10 @@ export default {
         }
       });
     } else {
-      let clientId = clientLocalStorageProvider.getClientId();
-      if (clientId) {
+      let clientIds = clientLocalStorageProvider.getClientIdList();
+      if (clientIds) {
         this.loadEvents({
-          filter: {sort: {start: 'DESC'}, client: clientId},
+          filter: {sort: {start: 'DESC'}, clients: clientIds},
           successCallback: (data) => {
             this.items = data.data;
           },

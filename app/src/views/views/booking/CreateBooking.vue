@@ -102,14 +102,19 @@ export default {
     } else {
       let clientId = clientLocalStorageProvider.getCompanyClientId(this.getCompany().id);
       if (clientId) {
+        // Keep it as it is. Using this endpoint we can check if client has existing account
         clientApiProvider.getClient(
             clientId,
             (data) => {
               this.formModel.model.userName = data.name;
               this.formModel.model.userPhone = data.phone;
             },
-            (data) => {
-              this.$emit('existing-client-exception', data);
+            (data, statusCode) => {
+              if(statusCode === 403) {
+                this.$emit('existing-client-exception', data);
+              } else if(statusCode === 404) {
+                clientLocalStorageProvider.deleteCompanyClientId(this.getCompany().id);
+              }
             }
         )
       }
@@ -275,8 +280,10 @@ export default {
         this.createEvent({
           data: bookingFormModel.model,
           successCallback: (data) => {
-            eventsLocalStorageProvider.addMyEvent(data);
-            clientLocalStorageProvider.setClientId(this.getCompany().id, data.client.id);
+            if (!this.isUserLogged()) {
+              eventsLocalStorageProvider.addMyEvent(data);
+              clientLocalStorageProvider.setClientId(this.getCompany().id, data.client.id);
+            }
             this.$emit('onFormSubmit', data);
             this.$root.$bvToast.toast(this.$t('views_booking.Booking successfully created'), {
               toaster: 'b-toaster-bottom-left',
