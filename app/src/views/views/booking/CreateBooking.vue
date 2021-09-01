@@ -1,11 +1,14 @@
 <template>
-  <AppForm :formModel="formModel" @onFormSubmit="onSubmit">
-    <template v-slot:formFooter>
-      <b-button type="submit" variant="success">{{$t("views_booking.Checkout")}}</b-button>
-      <b-button type="button" @click="generateTimeLink" variant="secondary">{{$t("views_booking.Share time")}}</b-button>
+  <div>
+    <TimeLine :start="formModel.model.startTime" :end="bookingEnd" :availability="selectedDayAvailability" />
+    <AppForm :formModel="formModel" @onFormSubmit="onSubmit">
+      <template v-slot:formFooter>
+        <b-button type="submit" variant="success">{{$t("views_booking.Checkout")}}</b-button>
+        <b-button type="button" @click="generateTimeLink" variant="secondary">{{$t("views_booking.Share time")}}</b-button>
 
-    </template>
-  </AppForm>
+      </template>
+    </AppForm>
+  </div>
 </template>
 
 <script>
@@ -21,6 +24,7 @@ import AppFormPhone from "../../../models/AppFormPhone";
 import ClientLocalStorageProvider from "../../../providers/localStorage/ClientLocalStorageProvider";
 import ClientApiProvider from "../../../providers/api/ClientApiProvider";
 import Vue from 'vue'
+import TimeLine from "../../components/TimeLine";
 
 let eventsLocalStorageProvider = new EventsLocalStorageProvider();
 let clientLocalStorageProvider = new ClientLocalStorageProvider();
@@ -28,7 +32,7 @@ let clientApiProvider = new ClientApiProvider();
 
 export default {
   name: "CreateBooking",
-  components: {AppForm},
+  components: {TimeLine, AppForm},
   props: {
     bookingStart: Date
   },
@@ -120,8 +124,34 @@ export default {
       }
     }
   },
+  computed: {
+    selectedDayAvailability() {
+      let d = new Date(this.formModel.model.startDate);
+      let key = d.sformat('yyyy-mm-dd');
+      let availability = this.getAvailabilityList();
+      if (availability.hasOwnProperty(key)) {
+        return availability[key];
+      }
+      return [];
+    },
+    computedDuration() {
+      return this.formModel.model.duration;
+    },
+    computedStartTime() {
+      return this.formModel.model.startTime;
+    }
+  },
+  watch: {
+    computedStartTime() {
+      this.bookingEnd =  SpecialHoursHelper.minutesToTimeString(SpecialHoursHelper.timeStringToMinutes(this.formModel.model.startTime) + this.formModel.model.duration);
+    },
+    computedDuration() {
+      this.bookingEnd =  SpecialHoursHelper.minutesToTimeString(SpecialHoursHelper.timeStringToMinutes(this.formModel.model.startTime) + this.formModel.model.duration);
+    }
+  },
   data: function () {
     return {
+      bookingEnd:'',
       formModel: new AppFormModel(
           {
             startDate: '',
@@ -191,6 +221,9 @@ export default {
   methods: {
     ...mapGetters('company', {
       getCompany: 'getModel',
+    }),
+    ...mapGetters('availability', {
+      getAvailabilityList: 'getList',
     }),
     ...mapGetters('account', {
       isUserLogged: 'isUserLogged',
