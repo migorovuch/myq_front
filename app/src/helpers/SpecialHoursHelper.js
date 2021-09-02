@@ -9,7 +9,7 @@ export default class SpecialHoursHelper {
             let h = parseInt(minutes / 60);
             let m = parseInt(minutes % 60);
 
-            return h + ':' + m;
+            return h + ':' + (m < 10 ? '0' + m : m);
         }
 
         return minutes;
