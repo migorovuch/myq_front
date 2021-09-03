@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <b-container>
     <AppForm
         :formModel="formModel"
         @onFormSubmit="onSubmit"
@@ -115,7 +115,7 @@
              hide-footer :title="$t('views_schedule.Availability')">
       <SpecialHoursForm :id-schedule="idSchedule" v-on:form:save="refreshAvailability"></SpecialHoursForm>
     </b-modal>
-  </div>
+  </b-container>
 </template>
 
 <script>
@@ -206,7 +206,7 @@
                   '',
                   {},
                   {wrapClass: 'col-lg-3'},
-                  this.$t('views_schedule.Who can book your time'),
+                  this.$t('views_schedule.Who can book your time?<br>You can accept booking from all app users or only from registred with approved email'),
                   [
                     {value: 0, text: this.$t('views_schedule.All users')},
                     {value: 1, text: this.$t('views_schedule.Authorized only')},

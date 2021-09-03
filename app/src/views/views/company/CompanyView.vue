@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <b-container>
     <div v-if="getCompany()" class="text-left">
       <div class="row">
         <div class="col-2" v-if="getCompany().logo">
@@ -55,7 +55,7 @@
         </b-button>
       </div>
     </b-modal>
-  </div>
+  </b-container>
 </template>
 
 <script>

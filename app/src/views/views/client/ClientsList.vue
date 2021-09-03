@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <b-container>
     <div class="row">
       <div class="col-lg-4 col-sm-6 col-xs-12">
         <b-form-group :label="$t('views_client.Name')">
@@ -93,7 +93,7 @@
         ></b-pagination>
       </div>
     </div>
-  </div>
+  </b-container>
 </template>
 
 <script>

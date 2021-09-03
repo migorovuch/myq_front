@@ -12,7 +12,6 @@
                     <b-navbar-nav  class="ml-auto text-right">
                         <b-nav-item v-if="isAdmin()" :to="{name: 'dashboard_home'}">{{$t("layouts_main.Admin panel")}}</b-nav-item>
                         <b-nav-item :to="{name: 'home'}">{{$t("layouts_main.Home")}}</b-nav-item>
-                        <b-nav-item :to="{name: 'my_bookings'}">{{$t('layouts_main.My bookings')}}</b-nav-item>
                         <b-nav-item-dropdown :text="$t('layouts_main.Company')" v-if="isUserLogged()" menu-class="mt-lg-2" >
                           <b-dropdown-item :to="{name: 'my_company'}">{{$t('layouts_main.My Company')}}</b-dropdown-item>
                           <b-dropdown-item :to="{name: 'company'}">{{$t('layouts_main.Edit Company')}}</b-dropdown-item>
@@ -20,14 +19,17 @@
                           <b-dropdown-item :to="{name: 'company_clients'}">{{$t('layouts_main.Clients')}}</b-dropdown-item>
                         </b-nav-item-dropdown>
                         <b-nav-item v-else v-b-modal.modal-login>{{$t('layouts_main.Company')}}</b-nav-item>
-                        <template v-if="!isUserLogged()">
-                          <b-nav-item @click="showLoginForm">{{$t("layouts_main.Sign in")}}</b-nav-item>
-                          <b-nav-item @click="showRegistrationForm">{{$t("layouts_main.Sign up")}}</b-nav-item>
-                        </template>
-                        <template v-else>
-                          <b-nav-item :to="{name: 'account'}">{{$t('layouts_main.Account')}}</b-nav-item>
-                          <b-nav-item @click="logoutAction">{{$t("layouts_main.Logout")}}</b-nav-item>
-                        </template>
+                        <b-nav-item-dropdown :text="isUserLogged()?getUserData().fullName:$t('layouts_main.Account')" menu-class="mt-lg-2" >
+                          <b-dropdown-item :to="{name: 'my_bookings'}">{{$t('layouts_main.My bookings')}}</b-dropdown-item>
+                          <template v-if="!isUserLogged()">
+                            <b-dropdown-item @click="showLoginForm">{{$t("layouts_main.Sign in")}}</b-dropdown-item>
+                            <b-dropdown-item @click="showRegistrationForm">{{$t("layouts_main.Sign up")}}</b-dropdown-item>
+                          </template>
+                          <template v-else>
+                            <b-dropdown-item :to="{name: 'account'}">{{$t('layouts_main.Account')}}</b-dropdown-item>
+                            <b-dropdown-item @click="logoutAction">{{$t("layouts_main.Logout")}}</b-dropdown-item>
+                          </template>
+                        </b-nav-item-dropdown>
                       <LanguageSelect/>
                     </b-navbar-nav>
                 </b-collapse>
@@ -87,6 +89,7 @@
         }),
         ...mapGetters('account', {
           isUserLogged: 'isUserLogged',
+          getUserData: 'getUserData',
           isAdmin: 'isAdmin'
         }),
         logoutAction() {

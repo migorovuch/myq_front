@@ -206,10 +206,10 @@
         "Min booking duration in minutes": "Min booking duration in minutes",
         "Max Booking duration:": "Max Booking duration:",
         "Max booking duration in minutes": "Max booking duration in minutes",
-        "Who can book your time": "Who can book your time",
         "Default booking status": "Default booking status",
         "Advance booking in minutes": "Advance booking in minutes",
-        "Time between bookings in minutes": "Time between bookings in minutes"
+        "Time between bookings in minutes": "Time between bookings in minutes",
+        "Who can book your time?<br>You can accept booking from all app users or only from registred with approved email": "Who can book your time?<br>You can accept booking from all app users or only from registred with approved email"
     },
     "views_specialHours": {
         "Extended configuration": "Extended configuration",
@@ -293,5 +293,11 @@
         "Availability": "Availability",
         "Booking duration": "Booking duration",
         "Schedules list": "Schedules list"
+    },
+    "views_home": {
+        "Booking": "Booking",
+        "Clients": "Clients",
+        "Telegram bot": "Telegram bot",
+        "What is this?": "What is this?"
     }
 }

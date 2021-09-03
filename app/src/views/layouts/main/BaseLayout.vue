@@ -6,9 +6,7 @@
             </slot>
         </header>
         <main id="main">
-          <b-container>
             <router-view></router-view>
-          </b-container>
         </main>
         <footer>
             <slot name="footer">

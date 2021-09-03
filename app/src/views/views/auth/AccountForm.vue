@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <b-container>
     <AppForm
         :formModel="formModel"
         @onFormSubmit="onSubmit"
@@ -13,7 +13,7 @@
         </div>
       </template>
     </AppForm>
-  </div>
+    </b-container>
 </template>
 
 <script>

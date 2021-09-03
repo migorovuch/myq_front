@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <b-container>
       <div class="row">
         <div class="col-lg-4 col-xs-12" v-if="scheduleOptions.length>1">
           <b-form-group :label="$t('views_booking.Schedule')">
@@ -133,7 +133,7 @@
     <b-modal id="modal-booking" hide-footer :title="$t('views_booking.Booking form')">
       <BookingForm v-on:onFormSubmit="onBookingFormSubmit" :selected-booking="selectedBooking"/>
     </b-modal>
-  </div>
+  </b-container>
 </template>
 
 <script>

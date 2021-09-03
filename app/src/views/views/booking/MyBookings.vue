@@ -1,5 +1,7 @@
 <template>
-  <BookingsList :items="items" :fields="fields" />
+  <b-container>
+    <BookingsList :items="items" :fields="fields" />
+  </b-container>
 </template>
 
 <script>
