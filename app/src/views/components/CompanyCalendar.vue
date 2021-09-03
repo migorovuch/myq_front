@@ -85,7 +85,7 @@ export default {
         Object.keys(this.getEventsList()).forEach(itemKey => {
           let item = this.getEventsList()[itemKey];
           let event = {
-            title: item.title,
+            title: item.title ? item.title : ('client' in item ? item.client.name : ''),
             start: new Date(item.start).sformat('yyyy-mm-dd HH:MM:ss'),
             end: new Date(item.end).sformat('yyyy-mm-dd HH:MM:ss'),
             bookingData: item

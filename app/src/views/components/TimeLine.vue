@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="time-range-widget">
+    <div class="time-range-widget mb-3">
       <div class="time-line">
         <div class="time-line-point-wrap">
           <div class="time-line-point" v-for="(timePoint, key) in timePoints" :key="key" :style="timePoint.style">
