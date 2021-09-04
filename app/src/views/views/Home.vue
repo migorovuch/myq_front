@@ -4,46 +4,20 @@
       <div class="general-description pt-5 pb-3">
         <div class="h1">{{ $t('views_home.What is this?') }}</div>
         <p>
-          Інструмент для бізнесу, процеси якого прив'язані до часових рамок/графіку
-          Система онлайн для бізнесу, процеси якого прив'язані до часових рамок/графіку,
+          Інструмент для бізнесу, процеси якого прив'язані до часових рамок/графіку,
           яка допоможе відповісти вашим клієнтам в режимі реального часу
           на такі питання як: ваш графік роботи, доступний для бронювання час та контакти, а також дасть можливість
           забронювати час вашого сервісу, іншими словами - ваш особистий Менеджер Часу
         </p>
       </div>
 
-    <hr class="featurette-divider">
-
-      <!-- Three columns of text below the carousel -->
-      <div class="row pt-5">
-        <div class="col-lg-4">
-          <div class="text-center">
-            <img src="@/assets/img/home/icons/online-booking.svg" alt="Generic placeholder image" width="140" height="140">
-            <h2>{{ $t('views_home.Booking') }}</h2>
-          </div>
-          <p>можливість отримувати онлайн бронювання</p>
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-          <div class="text-center">
-            <img src="@/assets/img/home/icons/clients.svg" alt="Generic placeholder image" width="140" height="140">
-            <h2>{{ $t('views_home.Clients') }}</h2>
-          </div>
-          <p>Зберігайте список своїх клієнтів і їх контакти в зручному форматі</p>
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-          <div class="text-center">
-            <img src="@/assets/img/home/icons/telegram.svg" alt="Generic placeholder image" width="140" height="140">
-            <h2>{{ $t('views_home.Telegram bot') }}</h2>
-          </div>
-          <p>Налаштуйте особисти телеграм бот, який буде інформувати вас про нові бронювання</p>
-        </div><!-- /.col-lg-4 -->
-      </div><!-- /.row -->
-
       <!-- START THE FEATURETTES -->
 
       <hr class="featurette-divider">
+      <CompanySearch />
+      <hr class="featurette-divider">
 
-      <div class="row featurette pt-5">
+      <div class="row featurette pt-4">
         <div class="col-md-7">
           <h2 class="featurette-heading mb-5">Значення для бізнесу</h2>
           <p>Автоматизуйте наповнення робочого часу</p>
@@ -57,7 +31,7 @@
 
       <hr class="featurette-divider">
 
-      <div class="row featurette pt-5">
+      <div class="row featurette pt-4">
         <div class="col-md-7 order-md-2">
           <h2 class="featurette-heading mb-5">Для ваших клієнтів</h2>
           <p class="lead">
@@ -71,13 +45,41 @@
 
       <hr class="featurette-divider">
 
+      <!-- Three columns of text below the carousel -->
+      <h2 class="text-center">{{ $t('views_home.Key features') }}</h2>
+      <div class="row pt-4">
+        <div class="col-sm-4">
+          <div class="text-center">
+            <img src="@/assets/img/home/icons/online-booking.svg" alt="Generic placeholder image" width="140" height="140">
+            <h2>{{ $t('views_home.Booking') }}</h2>
+          </div>
+          <p>Можливість отримувати онлайн бронювання</p>
+        </div><!-- /.col-lg-4 -->
+        <div class="col-sm-4">
+          <div class="text-center">
+            <img src="@/assets/img/home/icons/clients.svg" alt="Generic placeholder image" width="140" height="140">
+            <h2>{{ $t('views_home.Clients') }}</h2>
+          </div>
+          <p>Зберігайте список своїх клієнтів і їх контакти в зручному форматі</p>
+        </div><!-- /.col-lg-4 -->
+        <div class="col-sm-4">
+          <div class="text-center">
+            <img src="@/assets/img/home/icons/telegram.svg" alt="Generic placeholder image" width="140" height="140">
+            <h2>{{ $t('views_home.Telegram bot') }}</h2>
+          </div>
+          <p>Налаштуйте особисти телеграм бот, який буде інформувати вас про нові бронювання</p>
+        </div><!-- /.col-lg-4 -->
+      </div><!-- /.row -->
+
       <!-- /END THE FEATURETTES -->
 
     </div><!-- /.container -->
 
+    <hr class="featurette-divider">
+
     <b-carousel
         id="carousel-home"
-        :interval="4000"
+        :interval="4000000"
         controls
         indicators
         background="#ababab"
@@ -122,14 +124,6 @@
         </p>
       </b-carousel-slide>
     </b-carousel>
-
-    <div class="container">
-      <div class="row">
-        <div class="col-3" v-for="(company, key) in getCompanies()" :key="key">
-          <router-link :to="{name: 'company_vue', params:{id: company.id}}">{{company.name}}</router-link>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -137,14 +131,13 @@
 // @ is an alias to /src
 import HelloWorld from './HelloWorld.vue'
 import {mapActions, mapGetters, mapMutations} from "vuex";
+import CompanySearch from "../components/CompanySearch";
 
 export default {
   name: 'Home',
   components: {
+    CompanySearch,
     HelloWorld
-  },
-  created() {
-    this.loadCompanies({filter:{}});
   },
   methods: {
     ...mapGetters('company', {

@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container class="pt-3">
     <BookingsList :items="items" :fields="fields" />
   </b-container>
 </template>

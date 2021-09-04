@@ -78,6 +78,7 @@ const routes = [
         }},
       {path: 'q/:id', name: 'schedule_vue', component: () => import('../../views/views/schedule/ScheduleView')},
       {path: 'company/:id', name: 'company_vue', component: () => import('../../views/views/company/CompanyView')},
+      {path: 'favorite/companies', name: 'favorite_companies', component: () => import('../../views/views/company/FavoriteCompanies')},
       {path: 'account', name: 'account', component: () => import('../../views/views/auth/AccountForm'), meta: {
           middleware: [
             authMiddleware

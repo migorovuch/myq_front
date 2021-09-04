@@ -14,7 +14,8 @@
         "Sign up form": "Sign up form",
         "Reset password": "Reset password",
         "Account": "Account",
-        "Admin panel": "Admin panel"
+        "Admin panel": "Admin panel",
+        "Favorite services": "Favorite services"
     },
     "views_auth": {
         "Sign in": "Sign in",
@@ -298,6 +299,10 @@
         "Booking": "Booking",
         "Clients": "Clients",
         "Telegram bot": "Telegram bot",
-        "What is this?": "What is this?"
+        "What is this?": "What is this?",
+        "Key features": "Key features"
+    },
+    "components_search": {
+        "Find service": "Find service"
     }
 }

@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container class="pt-3">
       <div class="row">
         <div class="col-lg-4 col-xs-12" v-if="scheduleOptions.length>1">
           <b-form-group :label="$t('views_booking.Schedule')">

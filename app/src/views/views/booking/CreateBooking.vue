@@ -25,7 +25,9 @@ import ClientLocalStorageProvider from "../../../providers/localStorage/ClientLo
 import ClientApiProvider from "../../../providers/api/ClientApiProvider";
 import Vue from 'vue'
 import TimeLine from "../../components/TimeLine";
+import CompanyLocalStorageProvider from "../../../providers/localStorage/CompanyLocalStorageProvider";
 
+let companyLocalStorageProvider = new CompanyLocalStorageProvider();
 let eventsLocalStorageProvider = new EventsLocalStorageProvider();
 let clientLocalStorageProvider = new ClientLocalStorageProvider();
 let clientApiProvider = new ClientApiProvider();
@@ -317,6 +319,7 @@ export default {
               eventsLocalStorageProvider.addMyEvent(data);
               clientLocalStorageProvider.setClientId(this.getCompany().id, data.client.id);
             }
+            companyLocalStorageProvider.addFavoriteCompanies(this.getCompany());
             this.$emit('onFormSubmit', data);
             this.$root.$bvToast.toast(this.$t('views_booking.Booking successfully created'), {
               toaster: 'b-toaster-bottom-left',

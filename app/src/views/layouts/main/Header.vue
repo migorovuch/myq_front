@@ -2,7 +2,7 @@
     <div>
         <div class="container-fluid">
             <b-navbar fixed="top" variant="light" toggleable="lg">
-                <b-navbar-brand href="#"><img src="../../../assets/myQ_logo.png" class="logo"></b-navbar-brand>
+                <b-navbar-brand :to="{'name':'home'}"><img src="../../../assets/myQ_logo.png" class="logo"></b-navbar-brand>
                 <b-navbar-toggle target="nav-collapse">
                   <template #default="{ expanded }">
                     <Hamburger :expanded="expanded" />
@@ -21,6 +21,7 @@
                         <b-nav-item v-else v-b-modal.modal-login>{{$t('layouts_main.Company')}}</b-nav-item>
                         <b-nav-item-dropdown :text="isUserLogged()?getUserData().fullName:$t('layouts_main.Account')" menu-class="mt-lg-2" >
                           <b-dropdown-item :to="{name: 'my_bookings'}">{{$t('layouts_main.My bookings')}}</b-dropdown-item>
+                          <b-dropdown-item :to="{name: 'favorite_companies'}">{{$t('layouts_main.Favorite services')}}</b-dropdown-item>
                           <template v-if="!isUserLogged()">
                             <b-dropdown-item @click="showLoginForm">{{$t("layouts_main.Sign in")}}</b-dropdown-item>
                             <b-dropdown-item @click="showRegistrationForm">{{$t("layouts_main.Sign up")}}</b-dropdown-item>

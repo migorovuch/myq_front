@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container class="pt-3">
     <div v-if="getCompany()" class="text-left">
       <div class="row">
         <div class="col-2" v-if="getCompany().logo">

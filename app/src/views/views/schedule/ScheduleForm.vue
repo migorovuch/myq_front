@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container class="pt-3">
     <AppForm
         :formModel="formModel"
         @onFormSubmit="onSubmit"
@@ -35,7 +35,7 @@
                 v-model="definedDuration"/>
             <label for="input-defined-duration">{{ $t('views_schedule.Defined duration') }}</label>
             <b-tooltip target='input-defined-duration' triggers="hover">
-              {{$t('views_schedule.Preset specific booking duration or customer can select duration themself')}}
+              {{$t('views_schedule.Preset specific booking duration or define time range and customer can select duration themself')}}
             </b-tooltip>
           </div>
           <div class="col-12 col-sm-6 col-lg-3" v-if="definedDuration">
@@ -206,7 +206,7 @@
                   '',
                   {},
                   {wrapClass: 'col-lg-3'},
-                  this.$t('views_schedule.Who can book your time?<br>You can accept booking from all app users or only from registred with approved email'),
+                  this.$t('views_schedule.Who can book your time? You can accept booking from all app users or only from registered with approved email'),
                   [
                     {value: 0, text: this.$t('views_schedule.All users')},
                     {value: 1, text: this.$t('views_schedule.Authorized only')},
@@ -240,7 +240,7 @@
                   this.$t('views_schedule.minutes'),
                   {},
                   {wrapClass: 'col-lg-3'},
-                  this.$t('views_schedule.Time between bookings in minutes')
+                  this.$t('views_schedule.Time between bookings in minutes (eg - you need to prepare your work place)')
               ),
               description: new AppFormInput(
                   "textarea",
