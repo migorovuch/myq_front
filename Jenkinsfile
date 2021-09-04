@@ -9,6 +9,7 @@ pipeline {
         }
         sh 'docker build -t myq_node -f ./docker/node/prod/Dockerfile .'
         sh 'docker stop myq_node || true'
+        sh 'docker rm myq_node'
         sh 'docker run -t -d --name myq_node --env-file .env myq_node'
       }
     }
