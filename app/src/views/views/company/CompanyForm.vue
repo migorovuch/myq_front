@@ -6,32 +6,55 @@
         @onFormReset="onReset"
     >
       <template v-slot:logoFormModel>
-
-        <b-form-group
-            :id="'logo-input-group'"
-            :label="formModel.form.logoFormModel.label"
-            :label-for="'input-logo'"
-            :key="'form-group-logo'"
-        >
-          <label>
-            <b-form-file
-                v-show="!previewUrl"
-                :id="'input-logo'"
-                accept="image/jpeg, image/png"
-                v-model="formModel.model.logoFormModel"
-                :class="('logo' in formModel.errors?'is-invalid':'')"
-                @change="loadPreview"
-                :placeholder="((formModel.form.logoFormModel.placeholder !== '')?formModel.form.logoFormModel.placeholder:formModel.form.logoFormModel.label)"
-            ></b-form-file>
-            <img v-if="previewUrl" class="w-100" :src="previewUrl" />
-          </label>
-          <div class="invalid-feedback" v-if="('logo' in formModel.errors)">{{formModel.errors.logo}}</div>
-        </b-form-group>
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <b-form-group
+                :id="'logo-input-group'"
+                :label="formModel.form.logoFormModel.label"
+                :label-for="'input-logo'"
+                :key="'form-group-logo'"
+            >
+              <label>
+                <b-form-file
+                    v-show="!previewUrl"
+                    :id="'input-logo'"
+                    accept="image/jpeg, image/png"
+                    v-model="formModel.model.logoFormModel"
+                    :class="('logo' in formModel.errors?'is-invalid':'')"
+                    @change="loadPreview"
+                    :placeholder="((formModel.form.logoFormModel.placeholder !== '')?formModel.form.logoFormModel.placeholder:formModel.form.logoFormModel.label)"
+                ></b-form-file>
+                <img v-if="previewUrl" class="w-100" :src="previewUrl" />
+              </label>
+              <div class="invalid-feedback" v-if="('logo' in formModel.errors)">{{formModel.errors.logo}}</div>
+            </b-form-group>
+          </div>
+          <div class="col-12 col-sm-6">
+            <b-form-group
+                :id="'access-token-input-group'"
+                :label='$t("views_company.Access token")'
+                label-for='access-token-input'
+            >
+              <b-input-group class="mb-2">
+                <b-form-input type="text" id="access-token-input" :value="formModel.model.accessToken" :placeholder='$t("views_company.Access token")'></b-form-input>
+                <b-input-group-append>
+                  <b-button @click="copyAccessToken" :title='$t("views_company.Copy access token")'><b-icon icon="front"></b-icon></b-button>
+                </b-input-group-append>
+              </b-input-group>
+            </b-form-group>
+          </div>
+        </div>
       </template>
       <template v-slot:formFooter>
-        <div class="text-right">
-          <b-button type="submit" variant="success">{{$t("views_company.Save")}}</b-button>
+        <div class="row">
+          <div class="col-12 col-sm-6 col-lg-3">
+
+          </div>
+          <div class="col-12 col-sm-6 col-lg-9 text-right">
+              <b-button type="submit" variant="success">{{$t("views_company.Save")}}</b-button>
+          </div>
         </div>
+
       </template>
     </AppForm>
   </div>
@@ -105,14 +128,15 @@
                   this.$t('views_company.Address link:'),
                   this.$t('views_company.Enter address link'),
                   {},
-                  {wrapClass: 'col-lg-3'}
+                  {wrapClass: 'col-lg-3'},
+                  this.$t('views_company.Google map link'),
               ),
               logoFormModel: new AppFormInput(
                   "file",
                   this.$t('views_company.Logo:'),
                   this.$t('views_company.Select logo'),
                   {},
-                  {wrapClass: 'col-lg-3'}
+                  {wrapClass: 'col-lg-6 col-sm-12 col-12'}
               ),
               description: new AppFormInput(
                   "textarea",
@@ -184,6 +208,24 @@
       },
       onReset() {
 
+      },
+      copyAccessToken() {
+        let testingCodeToCopy = document.querySelector('#access-token-input')
+        testingCodeToCopy.select()
+
+        try {
+          if (document.execCommand('copy')) {
+            this.$root.$bvToast.toast(this.$t('views_company.Access token copied to clipboard'), {
+              toaster: 'b-toaster-bottom-left',
+              appendToast: true,
+              autoHideDelay: 4000
+            });
+          }
+        } catch (err) {
+          console.error('Oops, unable to copy');
+        }
+
+        window.getSelection().removeAllRanges()
       }
     },
     mounted() {

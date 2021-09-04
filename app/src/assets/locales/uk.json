@@ -14,7 +14,8 @@
         "Sign up form": "Форма реєстрації",
         "Reset password": "Скинути пароль",
         "Account": "Аккаунт",
-        "Admin panel": "__STRING_NOT_TRANSLATED__"
+        "Admin panel": "Адмін панель",
+        "Favorite services": "Улюблені сервіси"
     },
     "views_auth": {
         "Sign in": "Увійти",
@@ -52,8 +53,8 @@
         "Your phone:": "Ваш номер телефону:",
         "Successfully saved": "Успішно збережено",
         "This field should be the same as New password": "Це поле повинно містити таке ж значення як і Новий пароль",
-        "Your email": "__STRING_NOT_TRANSLATED__",
-        "After email change your account will be deactivated! A confirmation account email will be sent to you": "__STRING_NOT_TRANSLATED__"
+        "Your email": "Ваш email",
+        "After email change your account will be deactivated! A confirmation account email will be sent to you": "Пізля зміни email ваш акаунт буде деактивовано! Вам буде надіслано лист для підтвердження акаунту"
     },
     "views_booking": {
         "User name": "Ім'я користувача",
@@ -113,7 +114,7 @@
         "Booking successfully created": "Бронювання успішно створено",
         "You have no bookings or try to sign in!": "У вас немає бронювань або спробуйте увійти",
         "Time start": "Час початку",
-        "Company": "__STRING_NOT_TRANSLATED__"
+        "Company": "Компанія"
     },
     "views_client": {
         "Enter client pseudonym": "Введіть псевдонім клієнта",
@@ -127,8 +128,8 @@
         "Deactivated": "Деактивовано",
         "Successfully saved": "Успішно збережено",
         "Name": "Ім'я",
-        "Per page": "__STRING_NOT_TRANSLATED__",
-        "Company": "__STRING_NOT_TRANSLATED__"
+        "Per page": "На сторінці",
+        "Company": "Компанія"
     },
     "views_company": {
         "Save": "Зберегти",
@@ -151,21 +152,26 @@
         "Enter description": "Введіть опис",
         "Successfully saved": "Успішно збережено",
         "Time booking": "Бронювання часу",
-        "Name": "__STRING_NOT_TRANSLATED__",
-        "Created at": "__STRING_NOT_TRANSLATED__",
-        "Phone": "__STRING_NOT_TRANSLATED__",
-        "Status": "__STRING_NOT_TRANSLATED__",
-        "Id": "__STRING_NOT_TRANSLATED__"
+        "Name": "Ім'я",
+        "Created at": "Створено",
+        "Phone": "Телефон",
+        "Status": "Статус",
+        "Id": "Ід",
+        "Access token": "Токен доступу",
+        "Copy access token": "Копіювати токен доступу",
+        "Access token copied to clipboard": "Токен доступу скопійовано до буферу обміну",
+        "Google map link": "Посилання Google map",
+        "Account misunderstanding": "Невизначений акаунт",
+        "Looks like you already have an account! Do you want to login and continue as existing user or book as new client?": "Схоже, що у вас вже є акаунт! Ви хочете увійти і продовжити як існуючий користувач чи бронювати як новий клієнт?",
+        "Sign in": "Увійти",
+        "Continue as new client": "Продовжити як новий клієнт"
     },
     "views_schedule": {
         "Name:": "Назва",
         "Enter name": "Введіть назву",
         "This value should not be blank": "Це значення не повинно бути порожнім",
         "Available for booking:": "Доступний для бронювання",
-        "Always availabl(24/7):": "Доступний завжди(24/7)",
         "Booking duration:": "Тривалість бронювання:",
-        "Min Booking time:": "Мін. тривалість бронювання:",
-        "Max Booking time:": "Макс. тривалість бронювання:",
         "Booking condition:": "Умова бронювання:",
         "All users": "Усі користувачі",
         "Authorized only": "Тільки для авторизованих",
@@ -190,7 +196,21 @@
         "Select availability": "Обрати графік",
         "Save": "Зберегти",
         "min": "мін",
-        "New schedule": "__STRING_NOT_TRANSLATED__"
+        "New schedule": "Новий графік",
+        "Defined duration": "Визначена тривалість",
+        "Preset specific booking duration or define time range and customer can select duration themself": "Визначте сталу тривалість бронювання або вкажіть відрізок часу і клієнт зможу обррати тривалість самостійно",
+        "Disable or enable schedule": "Вимкнути або увімкнути графік",
+        "Always available(24/7):": "Завжди доступний(24/7)",
+        "Always available or only at special hours": "Завжди доступний або тільки у спеціальний час",
+        "Booking duration in minutes": "Тривалість бронювання у хвилинах",
+        "Min Booking duration:": "Мін тривалість бронювання",
+        "Min booking duration in minutes": "Мін тривалість бронювання у хвилинах",
+        "Max Booking duration:": "Макс тривалість бронювання",
+        "Max booking duration in minutes": "Макс тривалість бронювання у хвилинах",
+        "Default booking status": "Статус бронювання за замовчуванням",
+        "Advance booking in minutes": "Попереднє бронювання у хвилинах",
+        "Time between bookings in minutes (eg - you need to prepare your work place)": "Час між бронюваннями у хвилинах (для прикладу - вам потрібно підготувати робоче місце)",
+        "Who can book your time? You can accept booking from all app users or only from registered with approved email": "Хто може бронювати ваш час? Ви можуту приймати бронювання відусіх користувачів системи або тільки від зареєстрованих з перевіреним email"
     },
     "views_specialHours": {
         "Extended configuration": "Розширені налаштування",
@@ -207,68 +227,82 @@
         "Thursday": "Четвер",
         "Friday": "П'ятниця",
         "Saturday": "Субота",
-        "Sunday": "Неділя"
+        "Sunday": "Неділя",
+        "The schedule is relevant in this period": "Цей графік релевантний в цей період",
+        "Remove special hours item": "Видалити спеціальний час",
+        "Remove time range": "Видалити відрізок часу",
+        "Add time range": "Додати відрізок часу"
     },
     "view_user_dashboard": {
-        "Hide": "__STRING_NOT_TRANSLATED__",
-        "Show": "__STRING_NOT_TRANSLATED__",
-        "Email": "__STRING_NOT_TRANSLATED__",
-        "Nickname": "__STRING_NOT_TRANSLATED__",
-        "Created": "__STRING_NOT_TRANSLATED__",
-        "Updated": "__STRING_NOT_TRANSLATED__",
-        "Inactive": "__STRING_NOT_TRANSLATED__",
-        "Active": "__STRING_NOT_TRANSLATED__",
-        "Roles": "__STRING_NOT_TRANSLATED__",
-        "Edit": "__STRING_NOT_TRANSLATED__",
-        "Users list": "__STRING_NOT_TRANSLATED__",
-        "Successfully saved": "__STRING_NOT_TRANSLATED__"
+        "Hide": "Схвати",
+        "Show": "Розгорнути",
+        "Email": "Email",
+        "Nickname": "Нік",
+        "Created": "Створено",
+        "Updated": "Оновлено",
+        "Inactive": "Неактивний",
+        "Active": "Активний",
+        "Roles": "Ролі",
+        "Edit": "Редагувати",
+        "Users list": "Список користувачів",
+        "Successfully saved": "Успішно збережено"
     },
     "layouts_dashboard": {
-        "Dashboard": "__STRING_NOT_TRANSLATED__",
-        "Users": "__STRING_NOT_TRANSLATED__",
-        "Companies": "__STRING_NOT_TRANSLATED__",
-        "Schedules": "__STRING_NOT_TRANSLATED__",
-        "Bookings": "__STRING_NOT_TRANSLATED__",
-        "Clients": "__STRING_NOT_TRANSLATED__"
+        "Dashboard": "Панель керування",
+        "Users": "Користувачі",
+        "Companies": "Компанії",
+        "Schedules": "Графіки",
+        "Bookings": "Бронювання",
+        "Clients": "Клієнти"
     },
     "edit_user_dashboard": {
-        "Full name:": "__STRING_NOT_TRANSLATED__",
-        "Enter company name": "__STRING_NOT_TRANSLATED__",
-        "This value should not be blank": "__STRING_NOT_TRANSLATED__",
-        "Email:": "__STRING_NOT_TRANSLATED__",
-        "Enter email": "__STRING_NOT_TRANSLATED__",
-        "Value is not valid": "__STRING_NOT_TRANSLATED__",
-        "Nickname:": "__STRING_NOT_TRANSLATED__",
-        "Enter nickname": "__STRING_NOT_TRANSLATED__",
-        "Phone:": "__STRING_NOT_TRANSLATED__",
-        "Phone number": "__STRING_NOT_TRANSLATED__",
-        "Phone number is not valid": "__STRING_NOT_TRANSLATED__",
-        "New password:": "__STRING_NOT_TRANSLATED__",
-        "Enter new password": "__STRING_NOT_TRANSLATED__",
-        "Repeat password:": "__STRING_NOT_TRANSLATED__",
-        "Repeat password": "__STRING_NOT_TRANSLATED__",
-        "Status:": "__STRING_NOT_TRANSLATED__",
-        "Inactive": "__STRING_NOT_TRANSLATED__",
-        "Active": "__STRING_NOT_TRANSLATED__",
-        "Roles:": "__STRING_NOT_TRANSLATED__",
-        "This field must be at least {limit} characters long": "__STRING_NOT_TRANSLATED__",
-        "Save": "__STRING_NOT_TRANSLATED__",
-        "This field should be the same as password": "__STRING_NOT_TRANSLATED__"
+        "Full name:": "Повне Ім'я",
+        "Enter company name": "Введіть назву компанії",
+        "This value should not be blank": "Це значення не повинно бути порожнім",
+        "Email:": "Email:",
+        "Enter email": "Введіть Email",
+        "Value is not valid": "Значення невалідне",
+        "Nickname:": "Нік",
+        "Enter nickname": "Введіть нік",
+        "Phone:": "Телефон:",
+        "Phone number": "Номер телефону",
+        "Phone number is not valid": "Номер телефону невалідний",
+        "New password:": "Новий пароль:",
+        "Enter new password": "Введіть новий пароль",
+        "Repeat password:": "Повторіть пароль:",
+        "Repeat password": "Повторіть пароль",
+        "Status:": "Статус:",
+        "Inactive": "Неактивний",
+        "Active": "Активний",
+        "Roles:": "Ролі:",
+        "This field must be at least {limit} characters long": "Це значення повинно бути мінімум {limit} символів довжиною",
+        "Save": "Зберегти",
+        "This field should be the same as password": "Це значення повинно відповідати паролю"
     },
     "views_company_dashboard": {
-        "Inactive": "__STRING_NOT_TRANSLATED__",
-        "Active": "__STRING_NOT_TRANSLATED__",
-        "Companies list": "__STRING_NOT_TRANSLATED__"
+        "Inactive": "Неактивна",
+        "Active": "Активна",
+        "Companies list": "Список компаній"
     },
     "views_schedule_dashboard": {
-        "Add schedule": "__STRING_NOT_TRANSLATED__",
-        "Schedule available 24/7": "__STRING_NOT_TRANSLATED__",
-        "Schedule available only at special hours": "__STRING_NOT_TRANSLATED__",
-        "Schedule is not available for booking": "__STRING_NOT_TRANSLATED__",
-        "min": "__STRING_NOT_TRANSLATED__",
-        "Title": "__STRING_NOT_TRANSLATED__",
-        "Availability": "__STRING_NOT_TRANSLATED__",
-        "Booking duration": "__STRING_NOT_TRANSLATED__",
-        "Schedules list": "__STRING_NOT_TRANSLATED__"
+        "Add schedule": "Додати графік",
+        "Schedule available 24/7": "Графік доступний 24/7",
+        "Schedule available only at special hours": "Графік доступний тільки у спеціальний час",
+        "Schedule is not available for booking": "Графік не доступний для бронювання",
+        "min": "хв",
+        "Title": "Заголовок",
+        "Availability": "Доступний",
+        "Booking duration": "Тривалість бронювання",
+        "Schedules list": "Список графіків"
+    },
+    "views_home": {
+        "Booking": "Бронювання",
+        "Clients": "Клієнти",
+        "Telegram bot": "Телеграм бот",
+        "What is this?": "Що це?",
+        "Key features": "Ключові особливості"
+    },
+    "components_search": {
+        "Find service": "Знайти сервіс"
     }
 }

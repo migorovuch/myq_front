@@ -18,4 +18,8 @@ export default class ClientApiProvider extends ApiProvider {
     change(id, data, successCallback, failCallback) {
         this.patch('api/clients/' + id, data, successCallback, failCallback);
     }
+
+    updateClients(data, successCallback, failCallback) {
+        this.post('api/clients/update-clients', data, successCallback, failCallback);
+    }
 }

@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <b-container class="pt-3">
       <CompanyForm :companyModel="companyModel"/>
       <ScheduleList />
-  </div>
+  </b-container>
 </template>
 
 <script>

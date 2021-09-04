@@ -31,7 +31,10 @@
     import AppFormInput from "@/models/AppFormInput";
     import {minLength, required, email} from "vuelidate/lib/validators";
     import AppForm from "@/views/components/AppForm";
-    import {mapActions} from "vuex";
+    import {mapActions, mapMutations, mapGetters} from "vuex";
+    import ClientLocalStorageProvider from "../../../providers/localStorage/ClientLocalStorageProvider";
+
+    let clientLocalStorageProvider = new ClientLocalStorageProvider();
 
     const minPasswordLength = 6;
     export default {
@@ -107,6 +110,15 @@
           login: 'login',
           requestPassword: 'requestPassword',
         }),
+        ...mapMutations('account', {
+          resetAfterLoginActions: 'resetAfterLoginActions'
+        }),
+        ...mapGetters('account', {
+          getAfterLoginActions: 'getAfterLoginActions'
+        }),
+        ...mapActions('client', {
+          updateClients: 'updateClients',
+        }),
         onSubmitLogin(formModel) {
           if (!formModel.errors.invalid) {
             this.login(
@@ -119,6 +131,21 @@
                       autoHideDelay: 4000
                     });
                     this.$root.$emit('bv::hide::modal', 'modal-login');
+                    if (this.getAfterLoginActions().length) {
+                      for (let afterLoginAction of this.getAfterLoginActions()) {
+                        afterLoginAction.func(afterLoginAction.url, afterLoginAction.options, afterLoginAction.successCallback, afterLoginAction.failCallback, afterLoginAction.errorCallback);
+                      }
+                      this.resetAfterLoginActions();
+                    }
+                    let clients = clientLocalStorageProvider.getClientIdList();
+                    this.updateClients({
+                      data: clients,
+                      successCallback: () => {
+                        for (let listItemKey in clients) {
+                          clientLocalStorageProvider.deleteCompanyClientId(listItemKey);
+                        }
+                      }
+                    });
                   },
                   failCallback: (data) => {formModel.handleResponseErrors(data);}
                 });

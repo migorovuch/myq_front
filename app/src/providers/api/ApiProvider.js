@@ -62,9 +62,17 @@ export default class ApiProvider {
                 } else {
                     if (response.status === 401) {
                         store.dispatch('account/logout');
+                        store.commit('account/addAfterLoginActions', {
+                            func: this.request.bind(this),
+                            url,
+                            options,
+                            successCallback,
+                            failCallback,
+                            errorCallback
+                        });
                     }
                     if (typeof failCallback === "function") {
-                        response.json().then(data => {failCallback(this.camelObjectKeys(data))});
+                        response.json().then(data => {failCallback(this.camelObjectKeys(data), response.status)});
                     }
                 }
                 store.commit('loader/endLoading');

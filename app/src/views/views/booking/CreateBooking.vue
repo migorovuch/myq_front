@@ -1,11 +1,14 @@
 <template>
-  <AppForm :formModel="formModel" @onFormSubmit="onSubmit">
-    <template v-slot:formFooter>
-      <b-button type="submit" variant="success">{{$t("views_booking.Checkout")}}</b-button>
-      <b-button type="button" @click="generateTimeLink" variant="secondary">{{$t("views_booking.Share time")}}</b-button>
+  <div>
+    <TimeLine :start="formModel.model.startTime" :end="bookingEnd" :availability="selectedDayAvailability" />
+    <AppForm :formModel="formModel" @onFormSubmit="onSubmit">
+      <template v-slot:formFooter>
+        <b-button type="submit" variant="success">{{$t("views_booking.Checkout")}}</b-button>
+        <b-button type="button" @click="generateTimeLink" variant="secondary">{{$t("views_booking.Share time")}}</b-button>
 
-    </template>
-  </AppForm>
+      </template>
+    </AppForm>
+  </div>
 </template>
 
 <script>
@@ -21,14 +24,17 @@ import AppFormPhone from "../../../models/AppFormPhone";
 import ClientLocalStorageProvider from "../../../providers/localStorage/ClientLocalStorageProvider";
 import ClientApiProvider from "../../../providers/api/ClientApiProvider";
 import Vue from 'vue'
+import TimeLine from "../../components/TimeLine";
+import CompanyLocalStorageProvider from "../../../providers/localStorage/CompanyLocalStorageProvider";
 
+let companyLocalStorageProvider = new CompanyLocalStorageProvider();
 let eventsLocalStorageProvider = new EventsLocalStorageProvider();
 let clientLocalStorageProvider = new ClientLocalStorageProvider();
 let clientApiProvider = new ClientApiProvider();
 
 export default {
   name: "CreateBooking",
-  components: {AppForm},
+  components: {TimeLine, AppForm},
   props: {
     bookingStart: Date
   },
@@ -82,6 +88,7 @@ export default {
               required: this.$t('views_booking.This value should not be blank'),
             },
             null,
+            null,
             durationOptions
         );
         this.formModel.model.duration = minDuration;
@@ -95,16 +102,58 @@ export default {
         this.formModel.model.startTime = this.bookingStart.sformat('HH:MM');
       }
     }
-    let clientId = clientLocalStorageProvider.getClientId();
-    if (clientId) {
-      clientApiProvider.getClient(clientId, (data) => {
-        this.formModel.model.userName = data.name;
-        this.formModel.model.userPhone = data.phone;
-      })
+    if (this.isUserLogged()) {
+      this.formModel.model.userName = this.getUserData().fullName;
+      this.formModel.model.userPhone = this.getUserData().phone;
+    } else {
+      let clientId = clientLocalStorageProvider.getCompanyClientId(this.getCompany().id);
+      if (clientId) {
+        // Keep it as it is. Using this endpoint we can check if client has existing account
+        clientApiProvider.getClient(
+            clientId,
+            (data) => {
+              this.formModel.model.userName = data.name;
+              this.formModel.model.userPhone = data.phone;
+            },
+            (data, statusCode) => {
+              if(statusCode === 403) {
+                this.$emit('existing-client-exception', data);
+              } else if(statusCode === 404) {
+                clientLocalStorageProvider.deleteCompanyClientId(this.getCompany().id);
+              }
+            }
+        )
+      }
+    }
+  },
+  computed: {
+    selectedDayAvailability() {
+      let d = new Date(this.formModel.model.startDate);
+      let key = d.sformat('yyyy-mm-dd');
+      let availability = this.getAvailabilityList();
+      if (availability.hasOwnProperty(key)) {
+        return availability[key];
+      }
+      return [];
+    },
+    computedDuration() {
+      return this.formModel.model.duration;
+    },
+    computedStartTime() {
+      return this.formModel.model.startTime;
+    }
+  },
+  watch: {
+    computedStartTime() {
+      this.bookingEnd =  SpecialHoursHelper.minutesToTimeString(SpecialHoursHelper.timeStringToMinutes(this.formModel.model.startTime) + this.formModel.model.duration);
+    },
+    computedDuration() {
+      this.bookingEnd =  SpecialHoursHelper.minutesToTimeString(SpecialHoursHelper.timeStringToMinutes(this.formModel.model.startTime) + this.formModel.model.duration);
     }
   },
   data: function () {
     return {
+      bookingEnd:'',
       formModel: new AppFormModel(
           {
             startDate: '',
@@ -174,6 +223,9 @@ export default {
   methods: {
     ...mapGetters('company', {
       getCompany: 'getModel',
+    }),
+    ...mapGetters('availability', {
+      getAvailabilityList: 'getList',
     }),
     ...mapGetters('account', {
       isUserLogged: 'isUserLogged',
@@ -252,16 +304,22 @@ export default {
         let end = new Date(start.getTime() + bookingFormModel.model.duration * 60000);
         bookingFormModel.model.start = start.timestamp();
         bookingFormModel.model.end = end.timestamp();
-        let clientId = clientLocalStorageProvider.getClientId();
-        if (clientId) {
-          bookingFormModel.model.client = clientId;
+
+        if (!this.isUserLogged()) {
+          let clientId = clientLocalStorageProvider.getCompanyClientId(this.getCompany().id);
+          if (clientId) {
+            bookingFormModel.model.client = clientId;
+          }
         }
 
         this.createEvent({
           data: bookingFormModel.model,
           successCallback: (data) => {
-            eventsLocalStorageProvider.addMyEvent(data);
-            clientLocalStorageProvider.setClientId(data.client.id);
+            if (!this.isUserLogged()) {
+              eventsLocalStorageProvider.addMyEvent(data);
+              clientLocalStorageProvider.setClientId(this.getCompany().id, data.client.id);
+            }
+            companyLocalStorageProvider.addFavoriteCompanies(this.getCompany());
             this.$emit('onFormSubmit', data);
             this.$root.$bvToast.toast(this.$t('views_booking.Booking successfully created'), {
               toaster: 'b-toaster-bottom-left',
@@ -270,16 +328,20 @@ export default {
             });
             this.$root.$emit('bv::hide::modal', 'modal-booking');
           },
-          failCallback: (data) => {
-            if ('errors' in data) {
-              for (let error of data.errors) {
-                if (error.source === 'start') {
-                  data.errors.push({source: 'startDate', title: error.title});
-                  data.errors.push({source: 'startTime', title: error.title});
+          failCallback: (data, statusCode) => {
+            if (statusCode === 403 && !this.isUserLogged()) {
+              this.$emit('existing-client-exception', data);
+            } else {
+              if ('errors' in data) {
+                for (let error of data.errors) {
+                  if (error.source === 'start') {
+                    data.errors.push({source: 'startDate', title: error.title});
+                    data.errors.push({source: 'startTime', title: error.title});
+                  }
                 }
               }
+              bookingFormModel.handleResponseErrors(data);
             }
-            bookingFormModel.handleResponseErrors(data);
           }
         });
       }

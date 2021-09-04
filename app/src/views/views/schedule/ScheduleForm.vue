@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <b-container class="pt-3">
     <AppForm
         :formModel="formModel"
         @onFormSubmit="onSubmit"
@@ -23,6 +23,84 @@
           </div>
         </div>
       </template>
+      <template v-slot:bookingDuration>
+        <div class="row">
+          <div :class="(definedDuration ? 'col-sm-6' : 'col-sm-12')+' col-12 col-lg-3 mt-2 pt-lg-4 '">
+            <input
+                type="checkbox"
+                id="input-defined-duration"
+                class="apple-switch"
+                min="0"
+                :key="'form-checkbox-available'"
+                v-model="definedDuration"/>
+            <label for="input-defined-duration">{{ $t('views_schedule.Defined duration') }}</label>
+            <b-tooltip target='input-defined-duration' triggers="hover">
+              {{$t('views_schedule.Preset specific booking duration or define time range and customer can select duration themself')}}
+            </b-tooltip>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3" v-if="definedDuration">
+            <b-form-group
+                id="bookingDuration-input-group"
+                :label="formModel.form.bookingDuration.label"
+                label-for="input-bookingDuration"
+            >
+              <b-form-input
+                  id="input-bookingDuration"
+                  v-model="formModel.model.bookingDuration"
+                  :type="formModel.form.bookingDuration.type"
+                  min="0"
+                  :class="('bookingDuration' in formModel.errors?'is-invalid':'')"
+                  :placeholder="((formModel.form.bookingDuration.placeholder !== '')?formModel.form.bookingDuration.placeholder:formModel.form.bookingDuration.label)"
+              ></b-form-input>
+              <div class="invalid-feedback" v-if="('bookingDuration' in formModel.errors)">{{formModel.errors.bookingDuration}}</div>
+              <b-tooltip target='input-bookingDuration' triggers="hover">
+                {{formModel.form.bookingDuration.title}}
+              </b-tooltip>
+            </b-form-group>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3" v-if="!definedDuration">
+            <b-form-group
+                id="minBookingTime-input-group"
+                :label="formModel.form.minBookingTime.label"
+                label-for="input-minBookingTime"
+            >
+              <b-form-input
+                  id="input-minBookingTime"
+                  v-model="formModel.model.minBookingTime"
+                  :type="formModel.form.minBookingTime.type"
+                  min="0"
+                  :class="('minBookingTime' in formModel.errors?'is-invalid':'')"
+                  :placeholder="((formModel.form.minBookingTime.placeholder !== '')?formModel.form.minBookingTime.placeholder:formModel.form.minBookingTime.label)"
+              ></b-form-input>
+              <div class="invalid-feedback" v-if="('minBookingTime' in formModel.errors)">{{formModel.errors.minBookingTime}}</div>
+              <b-tooltip target='input-minBookingTime' triggers="hover">
+                {{formModel.form.minBookingTime.title}}
+              </b-tooltip>
+            </b-form-group>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3" v-if="!definedDuration">
+            <b-form-group
+                id="maxBookingTime-input-group"
+                :label="formModel.form.maxBookingTime.label"
+                label-for="input-maxBookingTime"
+            >
+              <b-form-input
+                  id="input-maxBookingTime"
+                  v-model="formModel.model.maxBookingTime"
+                  :type="formModel.form.maxBookingTime.type"
+                  :class="('maxBookingTime' in formModel.errors?'is-invalid':'')"
+                  :placeholder="((formModel.form.maxBookingTime.placeholder !== '')?formModel.form.maxBookingTime.placeholder:formModel.form.maxBookingTime.label)"
+              ></b-form-input>
+              <div class="invalid-feedback" v-if="('maxBookingTime' in formModel.errors)">{{formModel.errors.maxBookingTime}}</div>
+              <b-tooltip target='input-maxBookingTime' triggers="hover">
+                {{formModel.form.maxBookingTime.title}}
+              </b-tooltip>
+            </b-form-group>
+          </div>
+        </div>
+      </template>
+      <template v-slot:minBookingTime></template>
+      <template v-slot:maxBookingTime></template>
       <template v-slot:formFooter>
         <div class="form-group text-right">
           <b-button type="submit" variant="success">{{$t("views_schedule.Save")}}</b-button>
@@ -37,7 +115,7 @@
              hide-footer :title="$t('views_schedule.Availability')">
       <SpecialHoursForm :id-schedule="idSchedule" v-on:form:save="refreshAvailability"></SpecialHoursForm>
     </b-modal>
-  </div>
+  </b-container>
 </template>
 
 <script>
@@ -56,6 +134,7 @@
     components: {AppForm, CompanyCalendar, SpecialHoursForm},
     data() {
       return {
+        definedDuration: true,
         formModel: new AppFormModel(
             {
               company: null,
@@ -86,35 +165,40 @@
                   this.$t('views_schedule.Available for booking:'),
                   null,
                   {},
-                  {wrapClass: 'mt-2 pt-lg-4 col-lg-3'}
+                  {wrapClass: 'mt-2 pt-lg-4 col-lg-3'},
+                  this.$t('views_schedule.Disable or enable schedule')
               ),
               available: new AppFormInput(
                   "checkbox",
-                  this.$t('views_schedule.Always availabl(24/7):'),
+                  this.$t('views_schedule.Always available(24/7):'),
                   null,
                   {},
-                  {wrapClass: 'col-lg-6'}
+                  {wrapClass: 'col-lg-6'},
+                  this.$t('views_schedule.Always available or only at special hours')
               ),
               bookingDuration: new AppFormInput(
                   "number",
                   this.$t('views_schedule.Booking duration:'),
                   'seconds',
                   {},
-                  {wrapClass: 'col-lg-3'}
+                  {wrapClass: 'col-lg-12'},
+                  this.$t('views_schedule.Booking duration in minutes')
               ),
               minBookingTime: new AppFormInput(
                   "number",
-                  this.$t('views_schedule.Min Booking time:'),
+                  this.$t('views_schedule.Min Booking duration:'),
                   'seconds',
                   {},
-                  {wrapClass: 'col-lg-3'}
+                  {wrapClass: 'd-none'},
+                  this.$t('views_schedule.Min booking duration in minutes')
               ),
               maxBookingTime: new AppFormInput(
                   "number",
-                  this.$t('views_schedule.Max Booking time:'),
+                  this.$t('views_schedule.Max Booking duration:'),
                   'seconds',
                   {},
-                  {wrapClass: 'col-lg-3'}
+                  {wrapClass: 'd-none'},
+                  this.$t('views_schedule.Max booking duration in minutes')
               ),
               bookingCondition: new AppFormSelect(
                   "select",
@@ -122,6 +206,7 @@
                   '',
                   {},
                   {wrapClass: 'col-lg-3'},
+                  this.$t('views_schedule.Who can book your time? You can accept booking from all app users or only from registered with approved email'),
                   [
                     {value: 0, text: this.$t('views_schedule.All users')},
                     {value: 1, text: this.$t('views_schedule.Authorized only')},
@@ -133,6 +218,7 @@
                   '',
                   {},
                   {wrapClass: 'col-lg-3'},
+                  this.$t('views_schedule.Default booking status'),
                   [
                     {value: 0, text: this.$t('views_schedule.Mark bookings as New')},
                     {value: 1, text: this.$t('views_schedule.Accept all bookings')},
@@ -145,14 +231,16 @@
                   this.$t('views_schedule.Accept booking time:'),
                   this.$t('views_schedule.minutes'),
                   {},
-                  {wrapClass: 'col-lg-3'}
+                  {wrapClass: 'col-lg-3'},
+                  this.$t('views_schedule.Advance booking in minutes')
               ),
               timeBetweenBookings: new AppFormInput(
                   "number",
                   this.$t('views_schedule.Time between bookings:'),
                   this.$t('views_schedule.minutes'),
                   {},
-                  {wrapClass: 'col-lg-3'}
+                  {wrapClass: 'col-lg-3'},
+                  this.$t('views_schedule.Time between bookings in minutes (eg - you need to prepare your work place)')
               ),
               description: new AppFormInput(
                   "textarea",
@@ -177,6 +265,7 @@
         this.loadSchedule({
           id: this.idSchedule,
           successCallback: (data) => {
+            this.definedDuration = data.bookingDuration !== 0 && data.bookingDuration > 0 && data.maxBookingTime > data.minBookingTime;
             data.company = data.company.id;
             Vue.set(this.formModel, 'model', data);
             let breadcrumbItems = this.getBreadcrumbItems();

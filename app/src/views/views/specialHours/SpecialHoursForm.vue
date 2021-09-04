@@ -14,6 +14,8 @@
           <b-form-datepicker
               v-model="item.startDate"
               size="sm"
+              v-b-tooltip.hover
+              :title="$t('views_specialHours.The schedule is relevant in this period')"
               class="date-picker-min-width"
               :max="item.endDate"
               :disabled="!item.available"
@@ -24,6 +26,8 @@
           <b-form-datepicker
               v-model="item.endDate"
               size="sm"
+              v-b-tooltip.hover
+              :title="$t('views_specialHours.The schedule is relevant in this period')"
               class="date-picker-min-width"
               :min="item.endDate"
               :disabled="!item.available"
@@ -31,7 +35,9 @@
           ></b-form-datepicker>
         </div>
         <div class="col-2 form-group">
-          <b-icon class="mt-2" icon="trash-fill" aria-hidden="true" variant="danger" @click="removeSpecialHoursItem(item, specialHoursKey)"></b-icon>
+          <b-icon class="mt-2" icon="trash-fill" aria-hidden="true" variant="danger" @click="removeSpecialHoursItem(item, specialHoursKey)"
+                  v-b-tooltip.hover
+                  :title="$t('views_specialHours.Remove special hours item')"></b-icon>
           <label class="d-none">
             <b-icon v-if="item.available" class="mt-2" icon="square" aria-hidden="true" variant="danger"></b-icon>
             <b-icon v-else class="mt-2" icon="square" aria-hidden="true" variant="danger"></b-icon>
@@ -78,7 +84,9 @@
               ></b-form-timepicker>
             </div>
             <div class="col-2" v-if="rangeKey!==0">
-              <b-icon class="mt-2" @click="removeRangeFromItem(item, rangeKey)" icon="trash-fill" aria-hidden="true" variant="danger"></b-icon>
+              <b-icon class="mt-2" @click="removeRangeFromItem(item, rangeKey)" icon="trash-fill" aria-hidden="true" variant="danger"
+                      v-b-tooltip.hover
+                      :title="$t('views_specialHours.Remove time range')"></b-icon>
             </div>
           </div>
           <div class="row">
@@ -88,6 +96,8 @@
                   class="mt-2"
                   icon="patch-plus"
                   aria-hidden="true"
+                  v-b-tooltip.hover
+                  :title="$t('views_specialHours.Add time range')"
                   variant="success">
               </b-icon>
             </div>
@@ -95,7 +105,13 @@
         </div>
       </div>
       <b-button @click="addSpecialHoursItem" variant="outline-success">
-        <b-icon icon="calendar-plus" aria-hidden="true" class="mr-1"></b-icon><span>{{ $t('views_specialHours.Add special hours') }}</span>
+        <b-icon icon="calendar-plus"
+                aria-hidden="true"
+                class="mr-1"
+                v-b-tooltip.hover
+                :title="$t('views_specialHours.Add special hours')">
+        </b-icon>
+        <span>{{ $t('views_specialHours.Add special hours') }}</span>
       </b-button>
       <b-button @click="saveAvailabilitySpecialHours" variant="success">{{ $t('views_specialHours.Save availability') }}</b-button>
     </div>
@@ -105,6 +121,8 @@
           <b-form-datepicker
               @shown="selectedPeriodKey=periodKey"
               v-model="period.startDate"
+              v-b-tooltip.hover
+              :title="$t('views_specialHours.The schedule is relevant in this period')"
               :size="selectedPeriodKey===periodKey?'md':'sm'"
               :max="period.endDate"
               :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
@@ -114,6 +132,8 @@
           <b-form-datepicker
               @shown="selectedPeriodKey=periodKey"
               v-model="period.endDate"
+              v-b-tooltip.hover
+              :title="$t('views_specialHours.The schedule is relevant in this period')"
               :size="selectedPeriodKey===periodKey?'md':'sm'"
               :min="period.startDate"
               :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"

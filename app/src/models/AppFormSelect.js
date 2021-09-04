@@ -5,8 +5,8 @@ export default class AppFormSelect extends AppFormInput{
     multiple = false;
     selectSize = 1;
 
-    constructor(type, label, placeholder, errorLabels, style, options, multiple = false, selectSize = 1) {
-        super(type, label, placeholder, errorLabels, style);
+    constructor(type, label, placeholder, errorLabels, style, title, options, multiple = false, selectSize = 1) {
+        super(type, label, placeholder, errorLabels, style, title);
         this.options = options ? options : {};
         this.multiple = multiple;
         this.selectSize = selectSize;

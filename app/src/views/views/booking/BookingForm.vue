@@ -3,7 +3,7 @@
     <div class="form-group">
       <div class="row">
         <div class="col-12">
-          {{ $t("views_booking.User name") }}: {{ selectedBooking.client.name }}
+          {{ $t("views_booking.User name") }}: {{ 'pseudonym' in selectedBooking.client ? `${selectedBooking.client.pseudonym}(${selectedBooking.client.name})` : selectedBooking.client.name }}
         </div>
         <div class="col-12">
           {{ $t("views_booking.User phone") }}: <a :href="'tel:'+selectedBooking.client.phone">{{ selectedBooking.client.phone }}</a>
@@ -59,8 +59,8 @@ export default {
           this.selectedBooking,
           {
             title: new AppFormInput('text', this.$t('views_booking.Title'), this.$t('views_booking.Title'), {required: this.$t('views_booking.This value should not be blank'),}),
-            scheduleId: new AppFormSelect('select', this.$t('views_booking.Schedule'), this.$t('views_booking.Schedule'), {required: this.$t('views_booking.This value should not be blank'),}, null, []),
-            status: new AppFormSelect('select', this.$t('views_booking.Status'), this.$t('views_booking.Status'), {required: this.$t('views_booking.This value should not be blank'),}, null, statusList),
+            scheduleId: new AppFormSelect('select', this.$t('views_booking.Schedule'), this.$t('views_booking.Schedule'), {required: this.$t('views_booking.This value should not be blank'),}, null, null, []),
+            status: new AppFormSelect('select', this.$t('views_booking.Status'), this.$t('views_booking.Status'), {required: this.$t('views_booking.This value should not be blank'),}, null, null, statusList),
             startDate: new AppFormInput('datepicker', this.$t('views_booking.Date start'), this.$t('views_booking.Date start'), {required: this.$t('views_booking.This value should not be blank'),}),
             startTime: new AppFormInput('timepicker', this.$t('views_booking.Time start'), this.$t('views_booking.Time start'), {required: this.$t('views_booking.This value should not be blank'),}),
             endTime: new AppFormInput('timepicker', this.$t('views_booking.Time end'), this.$t('views_booking.Time end'), {required: this.$t('views_booking.This value should not be blank'),}),

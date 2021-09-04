@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <b-container class="pt-3">
     <div v-if="getCompany()" class="text-left">
       <div class="row">
         <div class="col-2" v-if="getCompany().logo">
@@ -40,15 +40,31 @@
       </div>
     </div>
     <b-modal id="modal-booking" hide-footer :title="$t('views_company.Time booking')">
-      <CreateBooking :booking-start="bookingStart"/>
+      <CreateBooking :booking-start="bookingStart" @existing-client-exception="existingClientException"/>
     </b-modal>
-  </div>
+    <b-modal id="modal-existing-account" hide-footer :title="$t('views_company.Account misunderstanding')">
+      <div class="d-block text-center text-danger">
+        {{$t('views_company.Looks like you already have an account! Do you want to login and continue as existing user or book as new client?')}}
+      </div>
+      <div class="text-right mt-4">
+        <b-button v-b-modal.modal-login variant="success">
+          <span>{{ $t('views_company.Sign in') }}</span>
+        </b-button>
+        <b-button @click="continueAsNewClient" variant="outline-success">
+          {{ $t('views_company.Continue as new client') }}
+        </b-button>
+      </div>
+    </b-modal>
+  </b-container>
 </template>
 
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import CompanyCalendar from "../../components/CompanyCalendar";
 import CreateBooking from "../booking/CreateBooking";
+import ClientLocalStorageProvider from "../../../providers/localStorage/ClientLocalStorageProvider";
+
+let clientLocalStorageProvider = new ClientLocalStorageProvider();
 
 export default {
   name: "CompanyView",
@@ -171,6 +187,15 @@ export default {
         }
       }
       this.selectSchedule(eventSchedule);
+    },
+    existingClientException(data) {
+      console.log('existingClientException', data);
+      this.$bvModal.hide('modal-booking');
+      this.$bvModal.show('modal-existing-account');
+    },
+    continueAsNewClient() {
+      clientLocalStorageProvider.deleteCompanyClientId(this.getCompany().id)
+      this.$bvModal.hide('modal-existing-account');
     }
   }
 }
