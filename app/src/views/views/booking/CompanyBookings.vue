@@ -1,12 +1,12 @@
 <template>
   <b-container class="pt-3">
       <div class="row">
-        <div class="col-lg-4 col-xs-12" v-if="scheduleOptions.length>1">
+        <div class="col-sm-4 col-xs-12" v-if="scheduleOptions.length>1">
           <b-form-group :label="$t('views_booking.Schedule')">
             <b-form-select :options="scheduleOptions || []" @change="changeSelectedSchedule" :model="filter.schedule" :value="filter.schedule"></b-form-select>
           </b-form-group>
         </div>
-        <div class="col-lg-4 col-xs-12">
+        <div class="col-sm-4 col-xs-12">
           <b-form-group :label="$t('views_booking.Filter from')">
             <b-form-datepicker
                 v-model="filter.filterFrom"
@@ -15,7 +15,7 @@
             ></b-form-datepicker>
           </b-form-group>
         </div>
-        <div class="col-lg-4 col-xs-12">
+        <div class="col-sm-4 col-xs-12">
           <b-form-group :label="$t('views_booking.Filter to')">
             <b-form-datepicker
                 v-model="filter.filterTo"
@@ -26,17 +26,17 @@
         </div>
       </div>
       <div class="row" v-if="moreFilters">
-        <div class="col-lg-4 col-xs-12">
+        <div class="col-sm-4 col-xs-12">
           <b-form-group :label="$t('views_booking.Title')">
             <b-form-input type="text" v-model="filter.title" @change="applyBookingsFilter" />
           </b-form-group>
         </div>
-        <div class="col-lg-4 col-xs-12">
+        <div class="col-sm-4 col-xs-12">
           <b-form-group :label="$t('views_booking.User name')">
             <b-form-input type="text" v-model="filter.userName" @change="applyBookingsFilter" />
           </b-form-group>
         </div>
-        <div class="col-lg-4 col-xs-12">
+        <div class="col-sm-4 col-xs-12">
           <b-form-group :label="$t('views_booking.Comment')">
             <b-form-input type="text" v-model="filter.customerComment" @change="applyBookingsFilter"/>
           </b-form-group>

@@ -1,17 +1,17 @@
 <template>
   <b-container class="pt-3">
     <div class="row">
-      <div class="col-lg-4 col-sm-6 col-xs-12">
+      <div class="col-sm-4 col-xs-12">
         <b-form-group :label="$t('views_client.Name')">
           <b-form-input type="text" v-model="filter.name" @change="applyListFilter" />
         </b-form-group>
       </div>
-      <div class="col-lg-4 col-sm-6 col-xs-12">
+      <div class="col-sm-4 col-xs-12">
         <b-form-group :label="$t('views_client.Phone')">
           <b-form-input type="text" v-model="filter.phone" @change="applyListFilter" />
         </b-form-group>
       </div>
-      <div class="col-lg-4 col-sm-6 col-xs-12">
+      <div class="col-sm-4 col-xs-12">
         <b-form-group :label="$t('views_client.Status')">
           <b-form-select :options="statusOptions" @change="changeStatusFilter" :model="filter.status" :value="filter.status"></b-form-select>
         </b-form-group>
