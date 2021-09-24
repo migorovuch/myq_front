@@ -37,7 +37,7 @@ export default {
             nickname: '',
             phone: '',
             roles: [],
-            newPassword: '',
+            password: '',
             passwordRepeat: '',
             status: 0,
           },
@@ -93,7 +93,7 @@ export default {
                 true,
                 2
             ),
-            newPassword: new AppFormInput(
+            password: new AppFormInput(
                 "password",
                 this.$t('edit_user_dashboard.New password:'),
                 this.$t('edit_user_dashboard.Enter new password'),
@@ -129,13 +129,13 @@ export default {
               fullName: {required,},
               nickname: {required,},
               email: {required, email},
-              newPassword: {
+              password: {
                 required: requiredIf((model) => model.passwordRepeat && !model.passwordRepeat.isEmpty())
               },
               passwordRepeat: {
-                required: requiredIf((model) => (model.newPassword && !model.newPassword.isEmpty())),
+                required: requiredIf((model) => (model.password && !model.password.isEmpty())),
                 minLength: minLength(minPasswordLength),
-                sameAsPassword: sameAs('newPassword')
+                sameAsPassword: sameAs('password')
               },
             }
           }

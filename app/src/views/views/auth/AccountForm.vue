@@ -38,8 +38,8 @@ export default {
             nickname:'',
             fullName:'',
             phone:'',
+            oldPassword:'',
             password:'',
-            newPassword:'',
             repeatPassword:'',
           },
           {
@@ -80,7 +80,7 @@ export default {
                 },
                 {wrapClass: 'col-lg-3 col-sm-6'}
             ),
-            password: new AppFormInput(
+            oldPassword: new AppFormInput(
                 "password",
                 this.$t('views_auth.Old password:'),
                 this.$t('views_auth.Enter your old password'),
@@ -89,7 +89,7 @@ export default {
                 },
                 {wrapClass: 'col-lg-3 col-sm-6'}
             ),
-            newPassword: new AppFormInput(
+            password: new AppFormInput(
                 "password",
                 this.$t('views_auth.New password:'),
                 this.$t('views_auth.Enter your new password'),
@@ -116,17 +116,17 @@ export default {
               nickname: {required},
               fullName: {required},
               phone: {required},
-              password: {
-                required: requiredIf((model) => !model.newPassword.isEmpty() || !model.repeatPassword.isEmpty())
+              oldPassword: {
+                required: requiredIf((model) => !model.password.isEmpty() || !model.repeatPassword.isEmpty())
               },
-              newPassword: {
-                required: requiredIf((model) => !model.password.isEmpty() || !model.repeatPassword.isEmpty()),
+              password: {
+                required: requiredIf((model) => !model.oldPassword.isEmpty() || !model.repeatPassword.isEmpty()),
                 minLength: minLength(minPasswordLength)
               },
               repeatPassword: {
-                required: requiredIf((model) => !model.password.isEmpty() || !model.newPassword.isEmpty()),
+                required: requiredIf((model) => !model.oldPassword.isEmpty() || !model.password.isEmpty()),
                 minLength: minLength(minPasswordLength),
-                sameAsPassword: sameAs('newPassword')
+                sameAsPassword: sameAs('password')
               },
             }
           }
