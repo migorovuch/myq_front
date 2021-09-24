@@ -86,7 +86,7 @@
           onSubmit(formModel) {
             if (!formModel.errors.invalid) {
               let model = Object.assign(formModel.model, {roles: ["ROLE_USER"]});
-              model.nickname = model.email.replace(/@.*$/, "") + Date.now();
+              model.nickname = model.email.replace(/@.*$/, "");
               this.registration({
                 data: model,
                 successCallback: () => {
