@@ -121,6 +121,7 @@ export default {
                         successCallback(response);
                     }
                 },
+                failCallback,
                 failCallback
             );
         }

@@ -77,7 +77,10 @@ export default class ApiProvider {
                 }
                 store.commit('loader/endLoading');
             })
-            .catch(data => {errorCallback(this.camelObjectKeys(data))});
+            .catch(data => {
+                store.commit('loader/endLoading');
+                errorCallback(this.camelObjectKeys(data));
+            });
     }
 
     denyAccessUnlessGranted()

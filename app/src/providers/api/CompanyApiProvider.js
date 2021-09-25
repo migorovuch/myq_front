@@ -36,7 +36,7 @@ export default class CompanyApiProvider extends ApiProvider {
         );
     }
 
-    uploadLogo(id, logo, successCallback, failCallback) {
+    uploadLogo(id, logo, successCallback, failCallback, errorCallback) {
         let formData = new FormData();
         formData.append(`logo`, logo, logo.name);
         this.request(
@@ -46,7 +46,8 @@ export default class CompanyApiProvider extends ApiProvider {
                 body: formData,
             },
             successCallback,
-            failCallback
+            failCallback,
+            errorCallback
         );
     }
 }

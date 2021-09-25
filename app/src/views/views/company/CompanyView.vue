@@ -4,17 +4,17 @@
       <div class="row">
         <div class="col-2" v-if="getCompany().logo">
           <div class="comapny-logo">
-            <img :src="'http://q.localhost/media/'+getCompany().logo" alt="Company logo">
+            <img :src="logoPreview" alt="Company logo">
           </div>
         </div>
         <div class="col">
           <h1>{{getCompany().name}}</h1>
         </div>
       </div>
-      <div class="row">
-        <div class="col form-group" v-if="getCompany().phone"><a :href="'tel:'+getCompany().phone">{{ getCompany().phone }}</a></div>
-        <div class="col form-group" v-if="getCompany().email"><a :href="'mailto:'+getCompany().email">{{ getCompany().email }}</a></div>
-        <div class="col form-group" v-if="getCompany().address">
+      <div class="row pt-3 pb-3">
+        <div class="col" v-if="getCompany().phone"><a :href="'tel:'+getCompany().phone">{{ getCompany().phone }}</a></div>
+        <div class="col" v-if="getCompany().email"><a :href="'mailto:'+getCompany().email">{{ getCompany().email }}</a></div>
+        <div class="col" v-if="getCompany().address">
           <a :href="getCompany().addressLink" v-if="getCompany().addressLink" target="_blank">{{ getCompany().address }}</a>
           <span v-else>{{ getCompany().address }}</span>
         </div>
@@ -70,10 +70,13 @@ export default {
   name: "CompanyView",
   components: {CreateBooking, CompanyCalendar},
   data () {
+    let dt = new Date();
+    dt.setHours(dt.getHours() + 1);
     return {
       selectedSchedule: null,
-      bookingStart: null,
-      queryTime: null
+      bookingStart: dt,
+      queryTime: null,
+      logoPreview: null
     };
   },
   created() {
@@ -89,6 +92,7 @@ export default {
             }
           }
         });
+        this.logoPreview = process.env.VUE_APP_API_URL.replaceAll('\'', '') + '/media/' + this.getCompany().logo;
       }
     });
   },

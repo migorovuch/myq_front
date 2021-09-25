@@ -180,8 +180,23 @@
             if (logo && Object.keys(logo).length !== 0) {
               this.uploadCompanyLogo({
                 id: data.id,
-                data: logo
-              });
+                data: logo,
+                successCallback: (data) => {
+                  this.$root.$bvToast.toast(this.$t('views_company.Logo successfully saved'), {
+                    toaster: 'b-toaster-bottom-left',
+                    appendToast: true,
+                    autoHideDelay: 4000
+                  });
+                },
+                failCallback: (data) => {
+                  this.$root.$bvToast.toast(this.$t('views_company.Upload logo error! Try to use a smaller one'), {
+                    toaster: 'b-toaster-bottom-left',
+                    variant: 'danger',
+                    appendToast: true,
+                    autoHideDelay: 4000
+                  });
+                }
+            });
             }
             this.$root.$bvToast.toast(this.$t('views_company.Successfully saved'), {
               toaster: 'b-toaster-bottom-left',
