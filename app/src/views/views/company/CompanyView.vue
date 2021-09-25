@@ -70,9 +70,11 @@ export default {
   name: "CompanyView",
   components: {CreateBooking, CompanyCalendar},
   data () {
+    let dt = new Date();
+    dt.setHours(dt.getHours() + 1);
     return {
       selectedSchedule: null,
-      bookingStart: null,
+      bookingStart: dt,
       queryTime: null,
       logoPreview: null
     };
