@@ -164,7 +164,9 @@
         "Account misunderstanding": "Невизначений акаунт",
         "Looks like you already have an account! Do you want to login and continue as existing user or book as new client?": "Схоже, що у вас вже є акаунт! Ви хочете увійти і продовжити як існуючий користувач чи бронювати як новий клієнт?",
         "Sign in": "Увійти",
-        "Continue as new client": "Продовжити як новий клієнт"
+        "Continue as new client": "Продовжити як новий клієнт",
+        "Logo successfully saved": "Лого успішно збережено",
+        "Upload logo error! Try to use a smaller one": "Помилка завантаження логотипу! Спробуйте менший"
     },
     "views_schedule": {
         "Name:": "Назва",
