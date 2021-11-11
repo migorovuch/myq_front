@@ -21,7 +21,7 @@ export default class ApiProvider {
     }
 
     asyncRequest(url, options = {}) {
-        let apiUrl = process.env.VUE_APP_API_URL.replaceAll("'", '');
+        let apiUrl = process.env.VUE_APP_API_URL;
         if (!apiUrl.includes(window.location.origin)) {
             url = apiUrl + url;
         }

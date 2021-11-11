@@ -92,7 +92,7 @@ export default {
             }
           }
         });
-        this.logoPreview = process.env.VUE_APP_API_URL.replaceAll('\'', '') + '/media/' + this.getCompany().logo;
+        this.logoPreview = process.env.VUE_APP_API_URL + '/media/' + this.getCompany().logo;
       }
     });
   },

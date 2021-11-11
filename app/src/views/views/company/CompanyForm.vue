@@ -77,7 +77,7 @@
       companyModel (newValue) {
         this.formModel.model = newValue;
         if (!newValue.logoFormModel && typeof newValue.logo === 'string') {
-          this.previewUrl = process.env.VUE_APP_API_URL.replaceAll("'", '') + '/media/' + newValue.logo + '?' + Date.now();
+          this.previewUrl = process.env.VUE_APP_API_URL + '/media/' + newValue.logo + '?' + Date.now();
         }
       }
     },
