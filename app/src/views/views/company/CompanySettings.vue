@@ -19,6 +19,7 @@
           name: '',
           email: '',
           phone: '',
+          slug: '',
           logo: null,
           logoFormModel: null,
           address: '',

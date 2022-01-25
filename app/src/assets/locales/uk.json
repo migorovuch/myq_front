@@ -160,13 +160,16 @@
         "Access token": "Токен доступу",
         "Copy access token": "Копіювати токен доступу",
         "Access token copied to clipboard": "Токен доступу скопійовано до буферу обміну",
-        "Google map link": "Посилання Google map",
+        "Google map link (Share)": "Посилання Google map (Поширити)",
         "Account misunderstanding": "Невизначений акаунт",
         "Looks like you already have an account! Do you want to login and continue as existing user or book as new client?": "Схоже, що у вас вже є акаунт! Ви хочете увійти і продовжити як існуючий користувач чи бронювати як новий клієнт?",
         "Sign in": "Увійти",
         "Continue as new client": "Продовжити як новий клієнт",
         "Logo successfully saved": "Лого успішно збережено",
-        "Upload logo error! Try to use a smaller one": "Помилка завантаження логотипу! Спробуйте менший"
+        "Upload logo error! Try to use a smaller one": "Помилка завантаження логотипу! Спробуйте менший",
+        "Url slug:": "Url slug:",
+        "The slug should consist of letters, numbers or hyphens": "Slug повинен містити літери латиницею, цифри або дефіс",
+        "Part of company page url": "Частина URL сторінки компанії"
     },
     "views_schedule": {
         "Name:": "Назва",

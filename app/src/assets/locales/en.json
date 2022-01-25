@@ -160,13 +160,16 @@
         "Access token": "Access token",
         "Copy access token": "Copy access token",
         "Access token copied to clipboard": "Access token copied to clipboard",
-        "Google map link": "Google map link",
+        "Google map link (Share)": "Google map link (Share)",
         "Account misunderstanding": "Account misunderstanding",
         "Looks like you already have an account! Do you want to login and continue as existing user or book as new client?": "Looks like you already have an account! Do you want to login and continue as existing user or book as new client?",
         "Sign in": "Sign in",
         "Continue as new client": "Continue as new client",
         "Logo successfully saved": "Logo successfully saved",
-        "Upload logo error! Try to use a smaller one": "Upload logo error! Try to use a smaller one"
+        "Upload logo error! Try to use a smaller one": "Upload logo error! Try to use a smaller one",
+        "Url slug:": "Url slug:",
+        "The slug should consist of letters, numbers or hyphens": "The slug should consist of letters, numbers or hyphens",
+        "Part of company page url": "Part of company page url"
     },
     "views_schedule": {
         "Name:": "Name:",

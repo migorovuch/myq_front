@@ -87,7 +87,7 @@
                       ></b-form-input>
                       <div class="invalid-feedback" v-if="(inputName in appFormModel.errors)">{{appFormModel.errors[inputName]}}</div>
                       <b-tooltip v-if="input.title" :target="'input-'+inputName" triggers="hover">
-                        {{input.title}}
+                        <span v-html="input.title"></span>
                       </b-tooltip>
                   </b-form-group>
                 </slot>

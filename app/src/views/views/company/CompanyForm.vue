@@ -5,6 +5,25 @@
         @onFormSubmit="onSubmit"
         @onFormReset="onReset"
     >
+      <template v-slot:slug>
+        <b-form-group
+            id='slug-input-group'
+            :label="formModel.form.slug.label"
+            label-for="input-slug"
+        >
+          <b-form-input
+              id="input-slug"
+              v-model="formModel.model.slug"
+              :type="formModel.form.slug.type"
+              :class="('slug' in formModel.errors?'is-invalid':'')"
+              :placeholder="((formModel.form.slug.placeholder !== '')?formModel.form.slug.placeholder:formModel.form.slug.label)"
+          ></b-form-input>
+          <div class="invalid-feedback" v-if="('slug' in formModel.errors)">{{formModel.errors.slug}}</div>
+          <b-tooltip target="input-slug" triggers="hover">
+            {{companyUrl}}
+          </b-tooltip>
+        </b-form-group>
+      </template>
       <template v-slot:logoFormModel>
         <div class="row">
           <div class="col-12 col-sm-6">
@@ -38,7 +57,10 @@
               <b-input-group class="mb-2">
                 <b-form-input type="text" id="access-token-input" :value="formModel.model.accessToken" :placeholder='$t("views_company.Access token")'></b-form-input>
                 <b-input-group-append>
-                  <b-button @click="copyAccessToken" :title='$t("views_company.Copy access token")'><b-icon icon="front"></b-icon></b-button>
+                  <b-button @click="copyAccessToken" id="copy-access-token-btn" :title='$t("views_company.Copy access token")'><b-icon icon="front"></b-icon></b-button>
+                  <b-tooltip target="copy-access-token-btn" triggers="hover">
+                    {{$t("views_company.Copy access token")}}
+                  </b-tooltip>
                 </b-input-group-append>
               </b-input-group>
             </b-form-group>
@@ -63,10 +85,11 @@
 <script>
   import AppFormModel from "@/models/AppFormModel";
   import AppFormInput from "@/models/AppFormInput";
-  import {required, email} from "vuelidate/lib/validators";
+  import {required, email, helpers} from "vuelidate/lib/validators";
   import AppForm from "@/views/components/AppForm";
   import {mapActions, mapGetters} from "vuex";
   import AppFormPhone from "../../../models/AppFormPhone";
+  import SlugHelper from "../../../helpers/SlugHelper";
 
   export default {
     name: "CompanyForm",
@@ -79,6 +102,29 @@
         if (!newValue.logoFormModel && typeof newValue.logo === 'string') {
           this.previewUrl = process.env.VUE_APP_API_URL + '/media/' + newValue.logo + '?' + Date.now();
         }
+      },
+      nameWatch(newValue, oldValue) {
+        let oldSlug = SlugHelper.slug(oldValue);
+        if (!this.formModel.model.slug || this.formModel.model.slug === oldSlug) {
+          this.formModel.model.slug = SlugHelper.slug(newValue);
+        }
+      }
+    },
+    computed: {
+      nameWatch() {
+        return this.formModel.model.name;
+      },
+      companyUrl() {
+        let id = this.formModel.model.id;
+        if ('slug' in this.formModel.model) {
+          id = this.formModel.model.slug;
+        }
+        let companyRoute = this.$router.resolve({
+          name: 'company_vue',
+          params: {id},
+        });
+
+        return process.env.VUE_APP_API_URL + companyRoute.href;
       }
     },
     components: {AppForm},
@@ -94,6 +140,15 @@
                   this.$t('views_company.Enter company name'),
                   {
                     required: this.$t('views_company.This value should not be blank'),
+                  },
+                  {wrapClass: 'col-lg-3'}
+              ),
+              slug: new AppFormInput(
+                  "text",
+                  this.$t('views_company.Url slug:'),
+                  this.$t('views_company.Part of company page url'),
+                  {
+                    regex: this.$t('views_company.The slug should consist of letters, numbers or hyphens'),
                   },
                   {wrapClass: 'col-lg-3'}
               ),
@@ -129,7 +184,7 @@
                   this.$t('views_company.Enter address link'),
                   {},
                   {wrapClass: 'col-lg-3'},
-                  this.$t('views_company.Google map link'),
+                  this.$t('views_company.Google map link (Share)'),
               ),
               logoFormModel: new AppFormInput(
                   "file",
@@ -148,6 +203,13 @@
             }, null, {
               model: {
                 name: {required,},
+                slug: {regex: value => {
+                    if (typeof value === 'undefined' || value === null || value === '') {
+                      return true
+                    }
+                    return /^[a-z0-9]+(-?[a-z0-9]+)*$/i.test(value)
+                  }
+                },
                 email: {required, email},
               }
             }
@@ -209,13 +271,15 @@
           if (!this.getCompany()) {
             this.createCompany({
               data: formModel.model,
-              successCallback: successCallback
+              successCallback: successCallback,
+              failCallback: (data) => {formModel.handleResponseErrors(data);}
             });
           } else {
             this.updateCompany({
               id: this.getCompany().id,
               data: formModel.model,
-              successCallback: successCallback
+              successCallback: successCallback,
+              failCallback: (data) => {formModel.handleResponseErrors(data);}
             });
           }
 
@@ -241,7 +305,7 @@
         }
 
         window.getSelection().removeAllRanges()
-      }
+      },
     },
     mounted() {
 
