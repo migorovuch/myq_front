@@ -56,7 +56,7 @@ export default {
         },
         loadPublicOne(context, {id, successCallback, failCallback}) {
             companyApiProvider.getPublicCompanyList(
-                {id: id},
+                {id: id, slug: id, condition: 'or'},
                 (data) => {
                     if ('data' in data && data.data.length) {
                         context.commit('loadOne', data.data[0]);

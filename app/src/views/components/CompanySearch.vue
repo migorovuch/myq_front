@@ -13,7 +13,7 @@
     <div>
       <b-collapse id='company-search-drop-down' :visible="visible">
         <div v-for="(company, key) in getCompanies()" :key="key" class="p-2">
-          <router-link :to="{name: 'company_vue', params:{id: company.id}}">{{ company.name }}</router-link>
+          <router-link :to="{name: 'company_vue', params:{id: company.slug ? company.slug : company.id}}">{{ company.name }}</router-link>
         </div>
       </b-collapse>
     </div>
