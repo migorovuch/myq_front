@@ -305,7 +305,17 @@
         "Clients": "Clients",
         "Telegram bot": "Telegram bot",
         "What is this?": "What is this?",
-        "Key features": "Key features"
+        "Key features": "Key features",
+        "A tool for business whose processes are tied to a time frame / schedule, which will help respond to your customers in real time on issues such as: your work schedule, available booking time and contacts, and will provide an opportunity book time for your service, in other words - your personal Time Manager": "A tool for business whose processes are tied to a time frame / schedule, which will help respond to your customers in real time on issues such as: your work schedule, available booking time and contacts, and will provide an opportunity book time for your service, in other words - your personal Time Manager",
+        "Value for business": "Value for business",
+        "Automate the filling of working time": "Automate the filling of working time",
+        "Keep a list of your customers and their visit / service schedule in one place": "Keep a list of your customers and their visit / service schedule in one place",
+        "Move the routine with the organization of the work schedule to the place created for this purpose and save in a convenient and consistent format": "Move the routine with the organization of the work schedule to the place created for this purpose and save in a convenient and consistent format",
+        "For your customers": "For your customers",
+        "It will give you the opportunity to learn the details / work schedule at a time convenient for them without contacting the manager, track your work schedule and book your service time only by providing contact information for feedback": "It will give you the opportunity to learn the details / work schedule at a time convenient for them without contacting the manager, track your work schedule and book your service time only by providing contact information for feedback",
+        "Ability to receive online reservations": "Ability to receive online reservations",
+        "Keep a list of your customers and their contacts in a convenient format": "Keep a list of your customers and their contacts in a convenient format",
+        "Set up a personal telegram bot that will inform you about new bookings": "Set up a personal telegram bot that will inform you about new bookings"
     },
     "components_search": {
         "Find service": "Find service"

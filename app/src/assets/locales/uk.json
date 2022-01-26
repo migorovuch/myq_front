@@ -305,7 +305,17 @@
         "Clients": "Клієнти",
         "Telegram bot": "Телеграм бот",
         "What is this?": "Що це?",
-        "Key features": "Ключові особливості"
+        "Key features": "Ключові особливості",
+        "A tool for business whose processes are tied to a time frame / schedule, which will help respond to your customers in real time on issues such as: your work schedule, available booking time and contacts, and will provide an opportunity book time for your service, in other words - your personal Time Manager": "Інструмент для бізнесу, процеси якого прив'язані до часових рамок/графіку, яка допоможе відповісти вашим клієнтам в режимі реального часу на такі питання як: ваш графік роботи, доступний для бронювання час та контакти, а також дасть можливість забронювати час вашого сервісу, іншими словами - ваш особистий Менеджер Часу",
+        "Value for business": "Значення для бізнесу",
+        "Automate the filling of working time": "Автоматизуйте наповнення робочого часу",
+        "Keep a list of your customers and their visit / service schedule in one place": "Зберігайте список своїх клієнтів і графік їх відвідування/обслуговування в одному місці",
+        "Move the routine with the organization of the work schedule to the place created for this purpose and save in a convenient and consistent format": "Перенесіть рутину з організацією графіку роботи в місце яке було створено для цього та зберігайте у зручному і консистентному форматі",
+        "For your customers": "Для ваших клієнтів",
+        "It will give you the opportunity to learn the details / work schedule at a time convenient for them without contacting the manager, track your work schedule and book your service time only by providing contact information for feedback": "Дасть можливість дізнавайтесь деталі/графік роботи в зручний для них час без контактування з менеджером, відслідковувати ваш робочий графік і самостійно бронювати час вашого сервісу лише вказавши контактні дані для зворотного зв'язку",
+        "Ability to receive online reservations": "Можливість отримувати онлайн бронювання",
+        "Keep a list of your customers and their contacts in a convenient format": "Зберігайте список своїх клієнтів і їх контакти в зручному форматі",
+        "Set up a personal telegram bot that will inform you about new bookings": "Налаштуйте особисти телеграм бот, який буде інформувати вас про нові бронювання"
     },
     "components_search": {
         "Find service": "Знайти сервіс"

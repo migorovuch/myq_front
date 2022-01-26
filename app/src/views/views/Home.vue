@@ -4,10 +4,7 @@
       <div class="general-description pt-5 pb-3">
         <div class="h1">{{ $t('views_home.What is this?') }}</div>
         <p>
-          Інструмент для бізнесу, процеси якого прив'язані до часових рамок/графіку,
-          яка допоможе відповісти вашим клієнтам в режимі реального часу
-          на такі питання як: ваш графік роботи, доступний для бронювання час та контакти, а також дасть можливість
-          забронювати час вашого сервісу, іншими словами - ваш особистий Менеджер Часу
+          {{ $t('views_home.A tool for business whose processes are tied to a time frame / schedule, which will help respond to your customers in real time on issues such as: your work schedule, available booking time and contacts, and will provide an opportunity book time for your service, in other words - your personal Time Manager')}}
         </p>
       </div>
 
@@ -19,10 +16,10 @@
 
       <div class="row featurette pt-4">
         <div class="col-md-7">
-          <h2 class="featurette-heading mb-5">Значення для бізнесу</h2>
-          <p>Автоматизуйте наповнення робочого часу</p>
-          <p>Зберігайте список своїх клієнтів і графік їх відвідування/обслуговування в одному місці</p>
-          <p>Перенесіть рутину з організацією графіку роботи в місце яке було створено для цього та зберігайте у зручному і консистентному форматі</p>
+          <h2 class="featurette-heading mb-5">{{ $t('views_home.Value for business') }}</h2>
+          <p>{{ $t('views_home.Automate the filling of working time') }}</p>
+          <p>{{ $t('views_home.Keep a list of your customers and their visit / service schedule in one place') }}</p>
+          <p>{{ $t('views_home.Move the routine with the organization of the work schedule to the place created for this purpose and save in a convenient and consistent format') }}</p>
         </div>
         <div class="col-md-5">
           <img class="featurette-image img-fluid mx-auto" src="@/assets/img/home/business-value.jpeg" alt="Business value">
@@ -33,9 +30,9 @@
 
       <div class="row featurette pt-4">
         <div class="col-md-7 order-md-2">
-          <h2 class="featurette-heading mb-5">Для ваших клієнтів</h2>
+          <h2 class="featurette-heading mb-5">{{ $t('views_home.For your customers') }}</h2>
           <p class="lead">
-            Дасть можливість дізнавайтесь деталі/графік роботи в зручний для них час без контактування з менеджером, відслідковувати ваш робочий графік і самостійно бронювати час вашого сервісу лише вказавши контактні дані для зворотного зв'язку
+            {{ $t('views_home.It will give you the opportunity to learn the details / work schedule at a time convenient for them without contacting the manager, track your work schedule and book your service time only by providing contact information for feedback') }}
           </p>
         </div>
         <div class="col-md-5 order-md-1">
@@ -47,27 +44,27 @@
 
       <!-- Three columns of text below the carousel -->
       <h2 class="text-center">{{ $t('views_home.Key features') }}</h2>
-      <div class="row pt-4">
+      <div class="row pt-4 text-center">
         <div class="col-sm-4">
-          <div class="text-center">
+          <div>
             <img src="@/assets/img/home/icons/online-booking.svg" alt="Generic placeholder image" width="140" height="140">
             <h2>{{ $t('views_home.Booking') }}</h2>
           </div>
-          <p>Можливість отримувати онлайн бронювання</p>
+          <p>{{ $t('views_home.Ability to receive online reservations') }}</p>
         </div><!-- /.col-lg-4 -->
         <div class="col-sm-4">
-          <div class="text-center">
+          <div>
             <img src="@/assets/img/home/icons/clients.svg" alt="Generic placeholder image" width="140" height="140">
             <h2>{{ $t('views_home.Clients') }}</h2>
           </div>
-          <p>Зберігайте список своїх клієнтів і їх контакти в зручному форматі</p>
+          <p>{{ $t('views_home.Keep a list of your customers and their contacts in a convenient format') }}</p>
         </div><!-- /.col-lg-4 -->
         <div class="col-sm-4">
-          <div class="text-center">
+          <div>
             <img src="@/assets/img/home/icons/telegram.svg" alt="Generic placeholder image" width="140" height="140">
             <h2>{{ $t('views_home.Telegram bot') }}</h2>
           </div>
-          <p>Налаштуйте особисти телеграм бот, який буде інформувати вас про нові бронювання</p>
+          <p>{{ $t('views_home.Set up a personal telegram bot that will inform you about new bookings') }}</p>
         </div><!-- /.col-lg-4 -->
       </div><!-- /.row -->
 
