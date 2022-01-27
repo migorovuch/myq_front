@@ -18,7 +18,7 @@
                           <b-dropdown-item :to="{name: 'company_bookings'}">{{$t('layouts_main.Bookings')}}</b-dropdown-item>
                           <b-dropdown-item :to="{name: 'company_clients'}">{{$t('layouts_main.Clients')}}</b-dropdown-item>
                         </b-nav-item-dropdown>
-                        <b-nav-item v-else v-b-modal.modal-login>{{$t('layouts_main.Company')}}</b-nav-item>
+                        <b-nav-item v-else @click="companyShowLogin">{{$t('layouts_main.Company')}}</b-nav-item>
                         <b-nav-item-dropdown :text="isUserLogged()?getUserData().fullName:$t('layouts_main.Account')" menu-class="mt-lg-2" >
                           <b-dropdown-item :to="{name: 'my_bookings'}">{{$t('layouts_main.My bookings')}}</b-dropdown-item>
                           <b-dropdown-item :to="{name: 'favorite_companies'}">{{$t('layouts_main.Favorite services')}}</b-dropdown-item>
@@ -52,7 +52,7 @@
     import ResetPasswordForm from "../../views/auth/ResetPasswordForm";
     import RegistrationForm from "../../views/auth/RegistrationForm";
     import LoginForm from "../../views/auth/LoginForm";
-    import {mapActions, mapGetters} from "vuex";
+    import {mapActions, mapGetters, mapMutations} from "vuex";
     import Hamburger from "../../components/Hamburger";
     import LanguageSelect from "../../components/LanguageSelect";
     import authMiddleware from "../../../plugins/router/authMiddleware";
@@ -86,7 +86,8 @@
       },
       methods: {
         ...mapActions('account', {
-          logout: 'logout'
+          logout: 'logout',
+          setAfterLoginRedirect: 'setAfterLoginRedirect'
         }),
         ...mapGetters('account', {
           isUserLogged: 'isUserLogged',
@@ -105,9 +106,12 @@
             }
           }
         },
-        showLoginForm()
-        {
+        showLoginForm() {
           this.$root.$emit('bv::show::modal', 'modal-login');
+        },
+        companyShowLogin() {
+          this.setAfterLoginRedirect({data:{name: 'company'}});
+          this.showLoginForm();
         },
         showRegistrationForm()
         {

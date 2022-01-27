@@ -29,6 +29,9 @@ export default {
         getUserData(state, getters, rootState, rootGetters) {
             return rootGetters.getUserData;
         },
+        getAfterLoginRedirect(state, getters, rootState, rootGetters) {
+            return rootGetters.getAfterLoginRedirect;
+        },
     },
     actions: {
         login(context, {data, successCallback, failCallback}) {
@@ -54,6 +57,9 @@ export default {
         },
         logout(context) {
             context.commit('setUserToken', null, { root: true })
+        },
+        setAfterLoginRedirect(context, {data}) {
+            context.commit('setAfterLoginRedirect', data, { root: true })
         },
         requestPassword(context, {data, successCallback, failCallback}) {
             accountApiProvider.requestPassword(data, successCallback, failCallback);

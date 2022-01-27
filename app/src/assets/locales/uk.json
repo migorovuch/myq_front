@@ -35,7 +35,7 @@
         "Sign up": "Реєстрація",
         "Name:": "Ім'я",
         "Enter name": "Введі Ім'я",
-        "Account successfully registered": "Акаунт успішно зареєстровано",
+        "Account successfully registered, we have sent an email with an account confirmation link on your email": "Акаунт успішно зареєстровано, ми надіслали електронний лист із посиланням для підтвердження на вашу електронну пошту",
         "Change password": "Змінити пароль",
         "Repeat password:": "Повторіть пароль:",
         "Repeat password": "Повторіть пароль",

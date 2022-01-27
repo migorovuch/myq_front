@@ -96,10 +96,10 @@
                     password: "",
                     roles: ["ROLE_USER"]
                   }
-                  this.$root.$bvToast.toast(this.$t('views_auth.Account successfully registered'), {
+                  this.$root.$bvToast.toast(this.$t('views_auth.Account successfully registered, we have sent an email with an account confirmation link on your email'), {
                     toaster: 'b-toaster-bottom-left',
                     appendToast: true,
-                    autoHideDelay: 4000
+                    autoHideDelay: 40000
                   });
                   this.$root.$emit('bv::hide::modal', 'modal-registration');
                 },

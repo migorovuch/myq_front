@@ -9,6 +9,7 @@
                 <template v-slot:formFooter>
                     <b-button type="submit" variant="success">{{$t("views_auth.Sign in")}}</b-button>
                     <a href="#" class="ml-2 forgot-password-link" @click.stop.prevent="showLoginForm=false;">{{$t('views_auth.Forgot password?')}}</a>
+                    <b-button @click="showRegistrationForm" class="float-right" variant="success">{{$t("views_auth.Sign up")}}</b-button>
                 </template>
             </AppForm>
         </div>
@@ -111,10 +112,12 @@
           requestPassword: 'requestPassword',
         }),
         ...mapMutations('account', {
-          resetAfterLoginActions: 'resetAfterLoginActions'
+          resetAfterLoginActions: 'resetAfterLoginActions',
         }),
+        ...mapGetters(['getAfterLoginRedirect']),
         ...mapGetters('account', {
-          getAfterLoginActions: 'getAfterLoginActions'
+          getAfterLoginActions: 'getAfterLoginActions',
+          getAfterLoginRedirect: 'getAfterLoginRedirect'
         }),
         ...mapActions('client', {
           updateClients: 'updateClients',
@@ -136,6 +139,9 @@
                         afterLoginAction.func(afterLoginAction.url, afterLoginAction.options, afterLoginAction.successCallback, afterLoginAction.failCallback, afterLoginAction.errorCallback);
                       }
                       this.resetAfterLoginActions();
+                    }
+                    if (this.getAfterLoginRedirect() !== null) {
+                      this.$router.push(this.getAfterLoginRedirect());
                     }
                     let clients = clientLocalStorageProvider.getClientIdList();
                     this.updateClients({
@@ -179,6 +185,11 @@
         },
         onResetRequest() {
 
+        },
+        showRegistrationForm()
+        {
+          this.$root.$emit('bv::hide::modal', 'modal-login');
+          this.$root.$emit('bv::show::modal', 'modal-registration');
         },
       }
     }

@@ -36,4 +36,12 @@ export default class AccountLocalStorageProvider {
     isUserLogged() {
         return null !== this.getUserToken();
     }
+
+    getAfterLoginRedirect() {
+        return JSON.parse(localStorage.getItem("afterLoginRedirect"));
+    }
+
+    setAfterLoginRedirect(afterLoginRedirect) {
+        localStorage.afterLoginRedirect = JSON.stringify(afterLoginRedirect);
+    }
 }

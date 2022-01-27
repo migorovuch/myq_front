@@ -20,7 +20,8 @@ export default new Vuex.Store({
     state: {
         userToken: accountLocalStorageProvider.getUserToken(),
         userData: accountLocalStorageProvider.getUserData(),
-        isUserLogged: accountLocalStorageProvider.isUserLogged()
+        isUserLogged: accountLocalStorageProvider.isUserLogged(),
+        afterLoginRedirect: accountLocalStorageProvider.getAfterLoginRedirect()
     },
     modules: {
         specialHours,
@@ -38,6 +39,7 @@ export default new Vuex.Store({
         isUserLogged: state => state.isUserLogged,
         getUserToken: state => state.userToken,
         getUserData: state => state.userData,
+        getAfterLoginRedirect: state => state.afterLoginRedirect,
     },
     mutations: {
         setUserToken(state, userToken) {
@@ -48,6 +50,10 @@ export default new Vuex.Store({
         setUserData(state, data) {
             accountLocalStorageProvider.setUserData(data);
             state.userData = data;
+        },
+        setAfterLoginRedirect(state, payload) {
+            accountLocalStorageProvider.setAfterLoginRedirect(payload);
+            state.afterLoginRedirect = payload;
         }
     }
 });
