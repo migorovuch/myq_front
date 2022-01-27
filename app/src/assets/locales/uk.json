@@ -15,7 +15,10 @@
         "Reset password": "Скинути пароль",
         "Account": "Аккаунт",
         "Admin panel": "Адмін панель",
-        "Favorite services": "Улюблені сервіси"
+        "Favorite services": "Улюблені сервіси",
+        "Back to top": "Повернутись на гору",
+        "Privacy": "Конфіденційність",
+        "Terms": "Умиви"
     },
     "views_auth": {
         "Sign in": "Увійти",

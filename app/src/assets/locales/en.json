@@ -15,7 +15,10 @@
         "Reset password": "Reset password",
         "Account": "Account",
         "Admin panel": "Admin panel",
-        "Favorite services": "Favorite services"
+        "Favorite services": "Favorite services",
+        "Back to top": "Back to top",
+        "Privacy": "Privacy",
+        "Terms": "Terms"
     },
     "views_auth": {
         "Sign in": "Sign in",
