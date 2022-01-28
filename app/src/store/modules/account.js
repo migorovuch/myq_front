@@ -6,9 +6,11 @@ export default {
     namespaced: true,
     state: {
         afterLoginActions: [],
+        showApproveMessage: 0
     },
     getters: {
         getAfterLoginActions: state => state.afterLoginActions,
+        getShowApproveMessage: state => state.showApproveMessage,
         isUserLogged(state, getters, rootState, rootGetters) {
             return rootGetters.isUserLogged;
         },
@@ -74,6 +76,9 @@ export default {
     mutations: {
         addAfterLoginActions(state, payload) {
             state.afterLoginActions.push(payload);
+        },
+        setShowApproveMessage(state, payload) {
+            state.showApproveMessage = payload;
         },
         resetAfterLoginActions(state) {
             state.afterLoginActions = [];

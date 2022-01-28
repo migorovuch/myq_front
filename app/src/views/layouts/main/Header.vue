@@ -76,11 +76,34 @@
         userLogged () {
           return this.isUserLogged();
         },
+        showApproveMessage () {
+          return this.getShowApproveMessage();
+        },
       },
       watch: {
         userLogged (newValue) {
           if (!newValue) {
             this.showLoginForm();
+          }
+        },
+        showApproveMessage (newValue) {
+          if (newValue === 1) {
+            this.$root.$emit('bv::show::modal', 'modal-login');
+            this.$root.$bvToast.toast(this.$t('views_auth.Your account was successfully approved'), {
+              toaster: 'b-toaster-bottom-left',
+              appendToast: true,
+              autoHideDelay: 4000,
+              variant: 'success'
+            });
+            this.setShowApproveMessage(0);
+          } else if (newValue === 2) {
+            this.$root.$bvToast.toast(this.$t('views_auth.Account approval issue'), {
+              toaster: 'b-toaster-bottom-left',
+              appendToast: true,
+              autoHideDelay: 4000,
+              variant: 'danger'
+            });
+            this.setShowApproveMessage(0);
           }
         }
       },
@@ -92,7 +115,11 @@
         ...mapGetters('account', {
           isUserLogged: 'isUserLogged',
           getUserData: 'getUserData',
-          isAdmin: 'isAdmin'
+          isAdmin: 'isAdmin',
+          getShowApproveMessage: 'getShowApproveMessage'
+        }),
+        ...mapMutations('account', {
+          setShowApproveMessage: 'setShowApproveMessage'
         }),
         logoutAction() {
           this.logout();
