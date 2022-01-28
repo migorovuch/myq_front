@@ -389,7 +389,8 @@ export default {
           this.$root.$bvToast.toast(this.$t('views_booking.Successfully saved'), {
             toaster: 'b-toaster-bottom-left',
             appendToast: true,
-            autoHideDelay: 4000
+            autoHideDelay: 4000,
+            variant: 'success'
           });
         },
         failCallback: (data) => {

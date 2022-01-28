@@ -99,7 +99,8 @@
                   this.$root.$bvToast.toast(this.$t('views_auth.Account successfully registered, we have sent an email with an account confirmation link on your email'), {
                     toaster: 'b-toaster-bottom-left',
                     appendToast: true,
-                    autoHideDelay: 40000
+                    autoHideDelay: 40000,
+                    variant: 'success'
                   });
                   this.$root.$emit('bv::hide::modal', 'modal-registration');
                 },

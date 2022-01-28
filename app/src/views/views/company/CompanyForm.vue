@@ -247,7 +247,8 @@
                   this.$root.$bvToast.toast(this.$t('views_company.Logo successfully saved'), {
                     toaster: 'b-toaster-bottom-left',
                     appendToast: true,
-                    autoHideDelay: 4000
+                    autoHideDelay: 4000,
+                    variant: 'success'
                   });
                 },
                 failCallback: (data) => {
@@ -263,7 +264,8 @@
             this.$root.$bvToast.toast(this.$t('views_company.Successfully saved'), {
               toaster: 'b-toaster-bottom-left',
               appendToast: true,
-              autoHideDelay: 4000
+              autoHideDelay: 4000,
+              variant: 'success'
             });
           };
           formModel.model.timezoneoffset = new Date().getTimezoneOffset() * 60;
@@ -297,7 +299,8 @@
             this.$root.$bvToast.toast(this.$t('views_company.Access token copied to clipboard'), {
               toaster: 'b-toaster-bottom-left',
               appendToast: true,
-              autoHideDelay: 4000
+              autoHideDelay: 4000,
+              variant: 'success'
             });
           }
         } catch (err) {

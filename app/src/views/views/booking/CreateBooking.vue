@@ -324,7 +324,8 @@ export default {
             this.$root.$bvToast.toast(this.$t('views_booking.Booking successfully created'), {
               toaster: 'b-toaster-bottom-left',
               appendToast: true,
-              autoHideDelay: 4000
+              autoHideDelay: 4000,
+              variant: 'success'
             });
             this.$root.$emit('bv::hide::modal', 'modal-booking');
           },

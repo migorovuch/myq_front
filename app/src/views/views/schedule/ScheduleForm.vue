@@ -324,7 +324,8 @@
               this.$root.$bvToast.toast(this.$t('views_schedule.Successfully saved'), {
                 toaster: 'b-toaster-bottom-left',
                 appendToast: true,
-                autoHideDelay: 4000
+                autoHideDelay: 4000,
+                variant: 'success'
               });
             },
             failCallback: (data) => {
@@ -346,7 +347,8 @@
               this.$root.$bvToast.toast(this.$t('views_schedule.Successfully saved'), {
                 toaster: 'b-toaster-bottom-left',
                 appendToast: true,
-                autoHideDelay: 4000
+                autoHideDelay: 4000,
+                variant: 'success'
               });
             },
             failCallback: (data) => {

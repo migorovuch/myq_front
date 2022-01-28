@@ -185,7 +185,8 @@ export default {
             this.$root.$bvToast.toast(this.$t('view_user_dashboard.Successfully saved'), {
               toaster: 'b-toaster-bottom-left',
               appendToast: true,
-              autoHideDelay: 4000
+              autoHideDelay: 4000,
+              variant: 'success'
             });
             this.$root.$emit('bv::hide::modal', 'modal-login');
           },
