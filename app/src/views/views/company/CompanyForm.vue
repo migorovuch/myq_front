@@ -228,7 +228,7 @@
       ...mapActions('schedule', {
         loadScheduleList: 'load'
       }),
-      loadPreview(event){
+      loadPreview(event) {
         const file = event.target.files[0];
         this.previewUrl = URL.createObjectURL(file);
       },
@@ -259,8 +259,9 @@
                     autoHideDelay: 4000
                   });
                 }
-            });
+              });
             }
+            this.$emit('onFormSubmit', formModel);
             this.$root.$bvToast.toast(this.$t('views_company.Successfully saved'), {
               toaster: 'b-toaster-bottom-left',
               appendToast: true,

@@ -1,6 +1,6 @@
 <template>
   <b-container class="pt-3">
-      <CompanyForm :companyModel="companyModel"/>
+      <CompanyForm :companyModel="companyModel" @onFormSubmit="onCompanySubmit"/>
       <ScheduleList />
   </b-container>
 </template>
@@ -40,9 +40,22 @@
         }
       });
     },
+    mounted() {
+      if (!this.getCompany()) {
+        this.$root.$bvToast.toast(this.$t("views_company.You haven't configured your company yet, fill the properties and press the Save button"), {
+          toaster: 'b-toaster-bottom-right',
+          variant: 'info',
+          appendToast: true,
+          autoHideDelay: 40000
+        });
+      }
+    },
     methods: {
       ...mapMutations('schedule', {
         selectSchedule: 'loadOne',
+      }),
+      ...mapGetters('schedule', {
+        getScheduleList: 'getList'
       }),
       ...mapMutations('company', {
         selectCompany: 'loadP',
@@ -56,6 +69,16 @@
       ...mapActions('schedule', {
         loadScheduleList: 'load'
       }),
+      onCompanySubmit(formModel) {
+        if (!this.getScheduleList().length) {
+          this.$root.$bvToast.toast(this.$t('views_company.Now you can create a schedule, just press the "Add Schedule" button'), {
+            toaster: 'b-toaster-bottom-right',
+            variant: 'info',
+            appendToast: true,
+            autoHideDelay: 40000
+          });
+        }
+      }
     }
   }
 </script>

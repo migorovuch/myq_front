@@ -350,6 +350,13 @@
                 autoHideDelay: 4000,
                 variant: 'success'
               });
+              this.$root.$bvToast.toast(this.$t('views_schedule.Now you can configure your availability'), {
+                toaster: 'b-toaster-bottom-right',
+                variant: 'info',
+                appendToast: true,
+                autoHideDelay: 40000
+              });
+              this.$root.$emit('bv::show::modal', 'modal-specal-hours');
             },
             failCallback: (data) => {
               formModel.handleResponseErrors(data);
