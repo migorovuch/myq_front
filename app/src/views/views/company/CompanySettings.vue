@@ -36,19 +36,16 @@
           if (Object.keys(data).length !== 0) {
             this.companyModel = data;
             this.loadScheduleList({filter:{company: data.id}});
+          } else {
+            this.$root.$bvToast.toast(this.$t("views_company.You haven't configured your company yet, fill the properties and press the Save button"), {
+              toaster: 'b-toaster-bottom-right',
+              variant: 'info',
+              appendToast: true,
+              autoHideDelay: 40000
+            });
           }
         }
       });
-    },
-    mounted() {
-      if (!this.getCompany()) {
-        this.$root.$bvToast.toast(this.$t("views_company.You haven't configured your company yet, fill the properties and press the Save button"), {
-          toaster: 'b-toaster-bottom-right',
-          variant: 'info',
-          appendToast: true,
-          autoHideDelay: 40000
-        });
-      }
     },
     methods: {
       ...mapMutations('schedule', {

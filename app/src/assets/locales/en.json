@@ -57,7 +57,9 @@
         "Successfully saved": "Successfully saved",
         "This field should be the same as New password": "This field should be the same as New password",
         "Your email": "Your email",
-        "After email change your account will be deactivated! A confirmation account email will be sent to you": "After email change your account will be deactivated! A confirmation account email will be sent to you"
+        "After email change your account will be deactivated! A confirmation account email will be sent to you": "After email change your account will be deactivated! A confirmation account email will be sent to you",
+        "Your account was successfully approved": "Your account was successfully approved",
+        "Account approval issue": "Account approval issue"
     },
     "views_booking": {
         "User name": "User name",
@@ -172,7 +174,9 @@
         "Upload logo error! Try to use a smaller one": "Upload logo error! Try to use a smaller one",
         "Url slug:": "Url slug:",
         "The slug should consist of letters, numbers or hyphens": "The slug should consist of letters, numbers or hyphens",
-        "Part of company page url": "Part of company page url"
+        "Part of company page url": "Part of company page url",
+        "You haven't configured your company yet, fill the properties and press the Save button": "You haven't configured your company yet, fill the properties and press the Save button",
+        "Now you can create a schedule, just press the \"Add Schedule\" button": "Now you can create a schedule, just press the \"Add Schedule\" button"
     },
     "views_schedule": {
         "Name:": "Name:",
@@ -218,7 +222,8 @@
         "Advance booking in minutes": "Advance booking in minutes",
         "Preset specific booking duration or define time range and customer can select duration themself": "Preset specific booking duration or define time range and customer can select duration themself",
         "Who can book your time? You can accept booking from all app users or only from registered with approved email": "Who can book your time? You can accept booking from all app users or only from registered with approved email",
-        "Time between bookings in minutes (eg - you need to prepare your work place)": "Time between bookings in minutes (eg - you need to prepare your work place)"
+        "Time between bookings in minutes (eg - you need to prepare your work place)": "Time between bookings in minutes (eg - you need to prepare your work place)",
+        "Now you can configure your availability": "Now you can configure your availability"
     },
     "views_specialHours": {
         "Extended configuration": "Extended configuration",

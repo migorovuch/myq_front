@@ -416,6 +416,12 @@ export default {
           this.selectedPeriodKey = this.periodKeyFromSpecialHours(firstSpecialHours);
           this.specialHoursForCurrentView = this.specialHoursToPeriods(this.specialHours);
           this.$emit('form:save', this.specialHours);
+          this.$root.$bvToast.toast(this.$t('views_company.Successfully saved'), {
+            toaster: 'b-toaster-bottom-left',
+            variant: 'success',
+            appendToast: true,
+            autoHideDelay: 4000
+          });
         }
       });
     },

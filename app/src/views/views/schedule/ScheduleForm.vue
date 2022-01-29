@@ -110,10 +110,11 @@
     <CompanyCalendar
         v-if="idSchedule"
         :with-events="false"/>
-    <b-modal id="modal-specal-hours"
-             v-if="idSchedule"
-             hide-footer :title="$t('views_schedule.Availability')">
-      <SpecialHoursForm :id-schedule="idSchedule" v-on:form:save="refreshAvailability"></SpecialHoursForm>
+    <b-modal
+        id="modal-specal-hours"
+        hide-footer
+        :title="$t('views_schedule.Availability')">
+      <SpecialHoursForm v-if="idSchedule" :id-schedule="idSchedule" v-on:form:save="refreshAvailability"></SpecialHoursForm>
     </b-modal>
   </b-container>
 </template>
