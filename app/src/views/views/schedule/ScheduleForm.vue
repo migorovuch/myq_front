@@ -1,5 +1,5 @@
 <template>
-  <b-container class="pt-3">
+  <div class="form-group">
     <AppForm
         :formModel="formModel"
         @onFormSubmit="onSubmit"
@@ -116,7 +116,7 @@
         :title="$t('views_schedule.Availability')">
       <SpecialHoursForm v-if="idSchedule" :id-schedule="idSchedule" v-on:form:save="refreshAvailability"></SpecialHoursForm>
     </b-modal>
-  </b-container>
+  </div>
 </template>
 
 <script>
@@ -133,24 +133,19 @@
   export default {
     name: "ScheduleForm",
     components: {AppForm, CompanyCalendar, SpecialHoursForm},
+    props: {
+      scheduleModel: Object
+    },
+    watch: {
+      scheduleModel(newValue) {
+        Vue.set(this.formModel, 'model', newValue);
+      }
+    },
     data() {
       return {
         definedDuration: true,
         formModel: new AppFormModel(
-            {
-              company: null,
-              acceptBookingCondition: 0,
-              available: false,
-              bookingCondition: 0,
-              bookingDuration: 30,
-              description: "",
-              enabled: true,
-              maxBookingTime: 0,
-              minBookingTime: 0,
-              name: "",
-              acceptBookingTime: 0,
-              timeBetweenBookings: 0,
-            },
+            this.scheduleModel,
             {
               name: new AppFormInput(
                   "text",
@@ -261,34 +256,6 @@
         idSchedule: this.$route.params.id
       };
     },
-    created() {
-      if (this.idSchedule && this.idSchedule != 0) {
-        this.loadSchedule({
-          id: this.idSchedule,
-          successCallback: (data) => {
-            this.definedDuration = data.bookingDuration !== 0 && data.bookingDuration > 0 && data.maxBookingTime > data.minBookingTime;
-            data.company = data.company.id;
-            Vue.set(this.formModel, 'model', data);
-            let breadcrumbItems = this.getBreadcrumbItems();
-            breadcrumbItems.push({text: data.name});
-            this.setBreadcrumbItems(breadcrumbItems);
-          }
-        });
-      } else if (this.getCompany()) {
-        let data = this.formModel.model;
-        data.company = this.getCompany().id;
-        Vue.set(this.formModel, 'model', data);
-        let breadcrumbItems = this.getBreadcrumbItems();
-        breadcrumbItems.push({text: this.$t('views_schedule.New schedule')});
-        this.setBreadcrumbItems(breadcrumbItems);
-      } else {
-        if (this.isAdmin()) {
-          this.$router.push({name: 'dashboard_companies'});
-        } else {
-          this.$router.push({name: 'my_company'});
-        }
-      }
-    },
     methods: {
       ...mapGetters('account', {
         isAdmin: 'isAdmin'
@@ -300,7 +267,6 @@
         getCompany: 'getModel',
       }),
       ...mapActions('schedule', {
-        loadSchedule: 'loadMyOne',
         updateSchedule: 'update',
         createSchedule: 'create',
       }),
@@ -310,13 +276,8 @@
       ...mapGetters('availability', {
         getCalendarCurrentView: 'getCalendarCurrentView'
       }),
-      ...mapGetters('dashboard', {
-        getBreadcrumbItems: 'getBreadcrumbItems'
-      }),
-      ...mapMutations('dashboard', {
-        setBreadcrumbItems: 'setBreadcrumbItems',
-      }),
       onSubmit(formModel) {
+        this.$emit('onFormSubmit', formModel);
         if (this.idSchedule && this.idSchedule != 0) {
           this.updateSchedule({
             id: this.idSchedule,

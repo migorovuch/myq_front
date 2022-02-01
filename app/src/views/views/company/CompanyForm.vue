@@ -119,12 +119,16 @@
         if ('slug' in this.formModel.model) {
           id = this.formModel.model.slug;
         }
-        let companyRoute = this.$router.resolve({
-          name: 'company_vue',
-          params: {id},
-        });
+        let href = '';
+        if (id != '') {
+          let companyRoute = this.$router.resolve({
+            name: 'company_vue',
+            params: {id},
+          });
+          href = companyRoute.href;
+        }
 
-        return process.env.VUE_APP_API_URL + companyRoute.href;
+        return process.env.VUE_APP_API_URL + href;
       }
     },
     components: {AppForm},

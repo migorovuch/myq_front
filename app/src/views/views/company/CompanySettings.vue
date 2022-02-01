@@ -16,6 +16,7 @@
     data() {
       return {
         companyModel: {
+          id: '',
           name: '',
           email: '',
           phone: '',

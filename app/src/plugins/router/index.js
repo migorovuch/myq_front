@@ -22,7 +22,7 @@ const routes = [
       {path: 'companies', name: 'dashboard_companies', component: () => import('../../views/views/company/DashboardCompanyList'), meta: {middleware: [adminMiddleware]}},
       {path: 'companies/:id', name: 'dashboard_companies_edit', component: () => import('../../views/views/company/DashboardCompanyEdit'), meta: {middleware: [adminMiddleware]}},
       {path: 'schedules', name: 'dashboard_schedules', component: () => import('../../views/views/schedule/DashboardScheduleList'), meta: {middleware: [adminMiddleware]}},
-      {path: 'schedules/:id', name: 'dashboard_schedule_edit', component: () => import('../../views/views/schedule/ScheduleForm'), meta: {middleware: [adminMiddleware]}},
+      {path: 'schedules/:id', name: 'dashboard_schedule_edit', component: () => import('../../views/views/schedule/DashboardScheduleEdit'), meta: {middleware: [adminMiddleware]}},
       {path: 'bookings', name: 'dashboard_bookings', component: () => import('../../views/views/booking/DashboardBookings'), meta: {middleware: [adminMiddleware]}},
       {path: 'clients', name: 'dashboard_clients', component: () => import('../../views/views/client/DashboardClientsList'), meta: {middleware: [adminMiddleware]}},
     ]
@@ -71,7 +71,7 @@ const routes = [
       },
       {path: 'bookings', name: 'my_bookings', component: () => import('../../views/views/booking/MyBookings')},
       {path: 'company/schedule', name: 'company_schedule', component: () => import('../../views/views/schedule/ScheduleList')},
-      {path: 'company/schedule/:id', name: 'company_schedule_item', component: () => import('../../views/views/schedule/ScheduleForm'),meta: {
+      {path: 'company/schedule/:id', name: 'company_schedule_item', component: () => import('../../views/views/schedule/ScheduleSettings'),meta: {
           middleware: [
             authMiddleware
           ]
