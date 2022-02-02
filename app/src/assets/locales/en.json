@@ -175,8 +175,9 @@
         "Url slug:": "Url slug:",
         "The slug should consist of letters, numbers or hyphens": "The slug should consist of letters, numbers or hyphens",
         "Part of company page url": "Part of company page url",
-        "You haven't configured your company yet, fill the properties and press the Save button": "You haven't configured your company yet, fill the properties and press the Save button",
-        "Now you can create a schedule, just press the \"Add Schedule\" button": "Now you can create a schedule, just press the \"Add Schedule\" button"
+        "You have not configured your company yet, fill the properties and press the Save button": "You haven't configured your company yet, fill the properties and press the Save button",
+        "Now you can create a schedule, just press the Add Schedule button": "Now you can create a schedule, just press the 'Add Schedule' button",
+        "This access token will help you use messenger bot": "This access token will help you use messenger bot"
     },
     "views_schedule": {
         "Name:": "Name:",
@@ -223,7 +224,9 @@
         "Preset specific booking duration or define time range and customer can select duration themself": "Preset specific booking duration or define time range and customer can select duration themself",
         "Who can book your time? You can accept booking from all app users or only from registered with approved email": "Who can book your time? You can accept booking from all app users or only from registered with approved email",
         "Time between bookings in minutes (eg - you need to prepare your work place)": "Time between bookings in minutes (eg - you need to prepare your work place)",
-        "Now you can configure your availability": "Now you can configure your availability"
+        "Now you can configure your availability": "Now you can configure your availability",
+        "Schedules list": "Schedules list",
+        "You can create multiple schedules if you needed (example: restaurant tables - each table will have own schedule)": "You can create multiple schedules if you needed (example: restaurant tables - each table will have own schedule)"
     },
     "views_specialHours": {
         "Extended configuration": "Extended configuration",

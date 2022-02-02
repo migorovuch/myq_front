@@ -31,14 +31,13 @@
       };
     },
     created() {
-      // this.selectSchedule(null);
       this.loadMyCompany({
         successCallback: (data) => {
           if (Object.keys(data).length !== 0) {
             this.companyModel = data;
             this.loadScheduleList({filter:{company: data.id}});
           } else {
-            this.$root.$bvToast.toast(this.$t("views_company.You haven't configured your company yet, fill the properties and press the Save button"), {
+            this.$root.$bvToast.toast(this.$t("views_company.You have not configured your company yet, fill the properties and press the Save button"), {
               toaster: 'b-toaster-bottom-right',
               variant: 'info',
               appendToast: true,
@@ -69,7 +68,7 @@
       }),
       onCompanySubmit(formModel) {
         if (!this.getScheduleList().length) {
-          this.$root.$bvToast.toast(this.$t('views_company.Now you can create a schedule, just press the "Add Schedule" button'), {
+          this.$root.$bvToast.toast(this.$t("views_company.Now you can create a schedule, just press the Add Schedule button"), {
             toaster: 'b-toaster-bottom-right',
             variant: 'info',
             appendToast: true,

@@ -28,15 +28,16 @@
         <div class="row">
           <div class="col-12 col-sm-6">
             <b-form-group
-                :id="'logo-input-group'"
+                id="logo-input-group"
                 :label="formModel.form.logoFormModel.label"
                 :label-for="'input-logo'"
                 :key="'form-group-logo'"
+                class="w-100"
             >
               <label>
                 <b-form-file
                     v-show="!previewUrl"
-                    :id="'input-logo'"
+                    id="input-logo"
                     accept="image/jpeg, image/png"
                     v-model="formModel.model.logoFormModel"
                     :class="('logo' in formModel.errors?'is-invalid':'')"
@@ -63,6 +64,9 @@
                   </b-tooltip>
                 </b-input-group-append>
               </b-input-group>
+              <b-tooltip target="access-token-input" triggers="hover">
+                {{$t("views_company.This access token will help you use messenger bot")}}
+              </b-tooltip>
             </b-form-group>
           </div>
         </div>
@@ -145,7 +149,7 @@
                   {
                     required: this.$t('views_company.This value should not be blank'),
                   },
-                  {wrapClass: 'col-lg-3'}
+                  {wrapClass: 'col-lg-3 col-sm-6'}
               ),
               slug: new AppFormInput(
                   "text",
@@ -154,7 +158,7 @@
                   {
                     regex: this.$t('views_company.The slug should consist of letters, numbers or hyphens'),
                   },
-                  {wrapClass: 'col-lg-3'}
+                  {wrapClass: 'col-lg-3 col-sm-6'}
               ),
               email: new AppFormInput(
                   "email",
@@ -164,7 +168,7 @@
                     required: this.$t('views_company.This value should not be blank'),
                     email: this.$t('views_company.Value is not valid')
                   },
-                  {wrapClass: 'col-lg-3'}
+                  {wrapClass: 'col-lg-3 col-sm-6'}
               ),
               phone: new AppFormPhone(
                   "phone",
@@ -173,21 +177,21 @@
                   {
                     phone: this.$t('views_company.Phone number is not valid'),
                   },
-                  {wrapClass: 'col-lg-3'}
+                  {wrapClass: 'col-lg-3 col-sm-6'}
               ),
               address: new AppFormInput(
                   "text",
                   this.$t('views_company.Address:'),
                   this.$t('views_company.Enter address'),
                   {},
-                  {wrapClass: 'col-lg-3'}
+                  {wrapClass: 'col-lg-3 col-sm-6'}
               ),
               addressLink: new AppFormInput(
                   "text",
                   this.$t('views_company.Address link:'),
                   this.$t('views_company.Enter address link'),
                   {},
-                  {wrapClass: 'col-lg-3'},
+                  {wrapClass: 'col-lg-3 col-sm-6'},
                   this.$t('views_company.Google map link (Share)'),
               ),
               logoFormModel: new AppFormInput(

@@ -175,8 +175,9 @@
         "Url slug:": "Url slug:",
         "The slug should consist of letters, numbers or hyphens": "Slug повинен містити літери латиницею, цифри або дефіс",
         "Part of company page url": "Частина URL сторінки компанії",
-        "You haven't configured your company yet, fill the properties and press the Save button": "Ви ще не налаштували вашу компанію, заповніть поля і натисніть кнопку Зберегти",
-        "Now you can create a schedule, just press the \"Add Schedule\" button": "Тепер ви можете створити графік, просто натисніть кнопку \"Додати графік\""
+        "You have not configured your company yet, fill the properties and press the Save button": "Ви ще не налаштували вашу компанію, заповніть поля і натисніть кнопку Зберегти",
+        "Now you can create a schedule, just press the Add Schedule button": "Тепер ви можете створити графік, просто натисніть кнопку 'Додати графік'",
+        "This access token will help you use messenger bot": "Цей токен доступу дасть вам змогу використовувати месенджер бот"
     },
     "views_schedule": {
         "Name:": "Назва",
@@ -223,7 +224,9 @@
         "Advance booking in minutes": "Попереднє бронювання у хвилинах",
         "Time between bookings in minutes (eg - you need to prepare your work place)": "Час між бронюваннями у хвилинах (для прикладу - вам потрібно підготувати робоче місце)",
         "Who can book your time? You can accept booking from all app users or only from registered with approved email": "Хто може бронювати ваш час? Ви можуту приймати бронювання відусіх користувачів системи або тільки від зареєстрованих з перевіреним email",
-        "Now you can configure your availability": "Тепер ви можете налаштувати вашу дооступність"
+        "Now you can configure your availability": "Тепер ви можете налаштувати вашу дооступність",
+        "Schedules list": "Список графіків",
+        "You can create multiple schedules if you needed (example: restaurant tables - each table will have own schedule)": "Ви можете створити декілька графіків якщо потрібно (наприклаж: столики в ресторані - кожен столик може мати власний графік)"
     },
     "views_specialHours": {
         "Extended configuration": "Розширені налаштування",

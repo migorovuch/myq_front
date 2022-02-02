@@ -1,13 +1,21 @@
 <template>
   <div>
-    <div class="text-right form-group" v-if="getCompany()">
-      <b-button
-          type="submit"
-          variant="success"
-          :to="{name: 'company_schedule_item', params: {id: 0}}">
-        <b-icon icon="calendar2-plus" aria-hidden="true"></b-icon>
-        {{$t("views_schedule.Add schedule")}}
-      </b-button>
+    <div class="row form-group" v-if="getCompany()">
+      <div class="col-lg-10 col-12 text-center" id="schedule-list-title">
+        <h4>{{$t("views_schedule.Schedules list")}}</h4>
+        <b-tooltip target="schedule-list-title" triggers="hover">
+          {{$t("views_schedule.You can create multiple schedules if you needed (example: restaurant tables - each table will have own schedule)")}}
+        </b-tooltip>
+      </div>
+      <div class="col-lg-2 col-12 text-right ">
+        <b-button
+            type="submit"
+            variant="success"
+            :to="{name: 'company_schedule_item', params: {id: 0}}">
+          <b-icon icon="calendar2-plus"  class="mr-1" aria-hidden="true"></b-icon>
+          {{$t("views_schedule.Add schedule")}}
+        </b-button>
+      </div>
     </div>
     <b-table
         striped
