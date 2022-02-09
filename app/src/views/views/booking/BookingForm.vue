@@ -3,13 +3,15 @@
     <div class="form-group">
       <div class="row">
         <div class="col-12">
-          {{ $t("views_booking.User name") }}: {{ 'pseudonym' in selectedBooking.client ? `${selectedBooking.client.pseudonym}(${selectedBooking.client.name})` : selectedBooking.client.name }}
+          <b>{{ $t("views_booking.User name") }}:</b> {{ 'pseudonym' in selectedBooking.client && selectedBooking.client.pseudonym != selectedBooking.client.name ? `${selectedBooking.client.pseudonym}(${selectedBooking.client.name})` : selectedBooking.client.name }}
         </div>
         <div class="col-12">
-          {{ $t("views_booking.User phone") }}: <a :href="'tel:'+selectedBooking.client.phone">{{ selectedBooking.client.phone }}</a>
+          <b>{{ $t("views_booking.User phone") }}:</b> <a :href="'tel:'+selectedBooking.client.phone">{{ selectedBooking.client.phone }}</a>
         </div>
       </div>
-      {{selectedBooking.customerComment}}
+      <div v-if="selectedBooking.customerComment !== ''">
+        <b>{{ $t("views_booking.Customer comment") }}:</b> {{selectedBooking.customerComment}}
+      </div>
     </div>
     <AppForm
         :formModel="formModel"

@@ -72,7 +72,7 @@
         "This value should not be blank": "Це значення не повинно бути порожнім",
         "Schedule": "Гріфік",
         "Status": "Статус",
-        "Date start": "Час початку",
+        "Date start": "Дата початку",
         "Time end": "Час завершення",
         "Subject": "Об'єкт",
         "Client": "Клієнт",
@@ -90,7 +90,7 @@
         "List": "Список",
         "Calendar": "Календар",
         "Per page": "На сторінку",
-        "Booking form": "Бронювання від",
+        "Booking form": "Форма бронювання",
         "Event time": "Час події",
         "User": "Користувач",
         "Ascending": "Зростання",
@@ -119,7 +119,8 @@
         "Booking successfully created": "Бронювання успішно створено",
         "You have no bookings or try to sign in!": "У вас немає бронювань або спробуйте увійти",
         "Time start": "Час початку",
-        "Company": "Компанія"
+        "Company": "Компанія",
+        "Customer comment": "Коментар клієнта"
     },
     "views_client": {
         "Enter client pseudonym": "Введіть псевдонім клієнта",

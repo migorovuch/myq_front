@@ -119,7 +119,8 @@
         "Booking successfully created": "Booking successfully created",
         "You have no bookings or try to sign in!": "You have no bookings or try to sign in!",
         "Time start": "Time start",
-        "Company": "Company"
+        "Company": "Company",
+        "Customer comment": "Customer comment"
     },
     "views_client": {
         "Enter client pseudonym": "Enter client pseudonym",
