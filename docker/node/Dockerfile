@@ -1,5 +1,5 @@
 FROM node:12 AS prod
-
+COPY ./app/. /app
 WORKDIR /app
 
 FROM prod AS dev
