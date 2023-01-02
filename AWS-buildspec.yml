@@ -7,8 +7,9 @@ phases:
     runtime-versions:
       nodejs: 16
   pre_build:
-    - sh AWS-ssm.sh
-    - npm i
+    commands:
+      - sh AWS-ssm.sh
+      - npm i
   build:
     commands:
       - echo Build started on `date`
