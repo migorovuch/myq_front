@@ -4,8 +4,7 @@ phases:
   pre_build:
     commands:
       - sh AWS-ssm.sh
-      - cd ./app
-      - npm install --omit=dev
+      - cd ./app && npm install --omit=dev
   build:
     commands:
       - echo Build started on `date`
