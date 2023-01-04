@@ -4,17 +4,16 @@ phases:
   pre_build:
     commands:
       - sh AWS-ssm.sh
-      - npm install --prefix ./app --omit=dev
+      - cd ./app && npm install --omit=dev
   build:
     commands:
       - echo Build started on `date`
       - echo Install dependencies
-      - cd ./app
-      - npm run webpack:build
+      - cd ./app && npm run webpack:build
   post_build:
     commands:
-      - aws s3 cp --recursive --acl public-read ./dist s3://myq-front-prod/
-      - aws s3 cp --acl public-read --cache-control="max-age=0, no-cache, no-store, must-revalidate" ./dist/index.html s3://myq-front-prod/
+      - cd ./app && aws s3 cp --recursive --acl public-read ./dist s3://myq-front-prod/
+      - cd ./app && aws s3 cp --acl public-read --cache-control="max-age=0, no-cache, no-store, must-revalidate" ./dist/index.html s3://myq-front-prod/
       - echo Build completed on `date`
 artifacts:
   files:

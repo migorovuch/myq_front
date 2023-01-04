@@ -18,7 +18,7 @@ myService=/myq/front/prod
 #         "Value": "324546JYHBERGYTUDHGsANEFRGW5cerhuwdfshd"
 #     }
 # ]
-aws ssm get-parameters-by-path --profile maxsprinter_myq --with-decryption --path $myService --query "Parameters[*].{Name:Name,Value:Value}" | sed 's,'"$myService/"',,' > env.json
+aws ssm get-parameters-by-path --with-decryption --path $myService --query "Parameters[*].{Name:Name,Value:Value}" | sed 's,'"$myService/"',,' > env.json
 
 
 # Convert JSON array to variable statements using jq (https://stedolan.github.io/jq/) command line JSON utility tool
