@@ -5,7 +5,7 @@ phases:
     commands:
       - sh AWS-ssm.sh
       - echo Install dependencies
-      - cd ./app && npm install --omit=dev
+      - cd ./app && npm install
   build:
     commands:
       - npm run webpack:build
