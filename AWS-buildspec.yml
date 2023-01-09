@@ -1,11 +1,16 @@
 version: 0.2
 
 phases:
+  install:
+    commands:
+      - cd ./app && npm i npm@latest -g
+      - pip install --upgrade pip
+      - pip install --upgrade awscli
   pre_build:
     commands:
       - sh AWS-ssm.sh
       - echo Install dependencies
-      - cd ./app && npm install
+      - npm install
   build:
     commands:
       - npm run webpack:build
