@@ -1,18 +1,15 @@
 version: 0.2
 
 phases:
-  install:
+  build:
     commands:
       - cd ./app && npm i npm@latest -g
+      - npm install -g @vue/cli
       - pip install --upgrade pip
       - pip install --upgrade awscli
-  pre_build:
-    commands:
       - sh ../AWS-ssm.sh
       - echo Install dependencies
       - npm install
-  build:
-    commands:
       - npm run webpack:build
   post_build:
     commands:
