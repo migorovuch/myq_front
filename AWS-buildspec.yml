@@ -8,7 +8,7 @@ phases:
       - pip install --upgrade awscli
   pre_build:
     commands:
-      - sh AWS-ssm.sh
+      - sh ../AWS-ssm.sh
       - echo Install dependencies
       - npm install
   build:
