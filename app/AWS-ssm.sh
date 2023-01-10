@@ -28,5 +28,5 @@ aws ssm get-parameters-by-path --with-decryption --path $myService --query "Para
 
 #WITH QUOTES
 #jq -jr '.[]|.Name,"='"'"'",.Value,"'"'"'\n"' < env.json >> .env.local
-jq -jr '.[]|.Name,"=",.Value,"\n"' < env.json >> ./app/.env.local
+jq -jr '.[]|.Name,"=",.Value,"\n"' < env.json >> ./.env.local
 rm env.json
