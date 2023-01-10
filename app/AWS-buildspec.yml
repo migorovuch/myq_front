@@ -2,18 +2,17 @@ version: 0.2
 
 phases:
   install:
-    commands:
-      - cd ./app && npm i npm@latest -g
-      - pip install --upgrade pip
-      - pip install --upgrade awscli
+    runtime-versions:
+      nodejs: 12
   pre_build:
     commands:
-      - sh ../AWS-ssm.sh
+      - sh AWS-ssm.sh
       - echo Install dependencies
       - npm install
   build:
     commands:
       - npm run webpack:build
+    on-failure: ABORT
   post_build:
     commands:
       - aws s3 cp --recursive --acl public-read ./dist s3://myq-front-prod/
