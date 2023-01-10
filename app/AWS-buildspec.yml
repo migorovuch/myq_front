@@ -6,7 +6,7 @@ phases:
       nodejs: 12
   pre_build:
     commands:
-      - sh AWS-ssm.sh
+      - sh ./AWS-ssm.sh
       - echo Install dependencies
       - npm install
   build:
