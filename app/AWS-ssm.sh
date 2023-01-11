@@ -18,7 +18,7 @@ myService=/myq/front/prod
 #         "Value": "324546JYHBERGYTUDHGsANEFRGW5cerhuwdfshd"
 #     }
 # ]
-aws ssm get-parameters-by-path --with-decryption --path $myService --query "Parameters[*].{Name:Name,Value:Value}" | sed 's,'"$myService/"',,' > ./app/env.json
+aws ssm get-parameters-by-path --with-decryption --path $myService --query "Parameters[*].{Name:Name,Value:Value}" | sed 's,'"$myService/"',,' > ./env.json
 
 
 # Convert JSON array to variable statements using jq (https://stedolan.github.io/jq/) command line JSON utility tool
@@ -28,5 +28,5 @@ aws ssm get-parameters-by-path --with-decryption --path $myService --query "Para
 
 #WITH QUOTES
 #jq -jr '.[]|.Name,"='"'"'",.Value,"'"'"'\n"' < env.json >> .env.local
-jq -jr '.[]|.Name,"=",.Value,"\n"' < ./app/env.json >> ./app/.env.local
-rm ./app/env.json
+jq -jr '.[]|.Name,"=",.Value,"\n"' < ./env.json >> ./.env.local
+rm ./env.json
