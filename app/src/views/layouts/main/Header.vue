@@ -11,7 +11,7 @@
                 <b-collapse id="nav-collapse" is-nav>
                     <b-navbar-nav  class="ml-auto text-right">
                         <b-nav-item v-if="isAdmin()" :to="{name: 'dashboard_home'}">{{$t("layouts_main.Admin panel")}}</b-nav-item>
-                        <b-nav-item :to="{name: 'home'}">{{$t("layouts_main.Home")}}</b-nav-item>
+                        <b-nav-item :to="{name: 'home'}">{{$t("layouts_main.Home")}}---</b-nav-item>
                         <b-nav-item-dropdown :text="$t('layouts_main.Company')" v-if="isUserLogged()" menu-class="mt-lg-2" >
                           <b-dropdown-item :to="{name: 'my_company'}">{{$t('layouts_main.My Company')}}</b-dropdown-item>
                           <b-dropdown-item :to="{name: 'company'}">{{$t('layouts_main.Edit Company')}}</b-dropdown-item>
