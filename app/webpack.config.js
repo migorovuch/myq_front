@@ -3,8 +3,8 @@ const path = require("path");
 const { VueLoaderPlugin } = require("vue-loader");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const htmlWebpackPlugin = require("html-webpack-plugin");
-const webpack = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
     entry: {
@@ -90,13 +90,7 @@ module.exports = {
             favicon: "./public/favicon.ico",
         }),
         new CleanWebpackPlugin(),
-        new webpack.EnvironmentPlugin([
-            'NODE_ENV',
-            'VUE_APP_I18N_LOCALE',
-            'VUE_APP_I18N_FALLBACK_LOCALE',
-            'VUE_APP_I18N_SUPPORTED_LOCALE',
-            'VUE_APP_API_URL'
-        ])
+        new Dotenv({path: './.env.local',})
     ],
     resolve: {
         alias: {
