@@ -16,3 +16,6 @@ artifacts:
   files:
     - "**/*"
   base-directory: app/dist
+cache:
+  paths:
+    - 'app/node_modules/**/*'
