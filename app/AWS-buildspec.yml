@@ -12,11 +12,6 @@ phases:
   build:
     commands:
       - npm run webpack:build
-    on-failure: ABORT
-  post_build:
-    commands:
-      - aws s3 sync ./dist $S3_BUCKET
-      - echo Build completed on `date`
 artifacts:
   files:
     - "app/dist/*"
