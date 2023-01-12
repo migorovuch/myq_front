@@ -14,5 +14,5 @@ phases:
       - npm run webpack:build
 artifacts:
   files:
-    - "app/dist/*"
-    - "app/dist/**/*"
+    - "**/*"
+  base-directory: app/dist
